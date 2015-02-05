@@ -1,0 +1,183 @@
+/*!CK:981530834!*//*1375706833,173213491*/
+
+.fbEmuMainBody .firstPassiveName{font-weight:bold}
+.fbEmuPremium .fbEmuStreamAttachment{margin-bottom:3px}
+.fbEmuStreamStory .fbEmuStreamAttachment.fbEmuStreamOGAction{border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;padding-top:6px;padding-bottom:6px;margin-bottom:5px}
+.fbEmuStreamStory .fbEmuStreamAttachment.fbEmuStreamLinkStory{border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;margin-bottom:5px;margin-right:4px}
+.fbEmuStreamStory .fbEmuStreamAttachment.fbEmuStreamLinkStory .centeredImageWrapper{border-right:1px solid #e5e7eb;display:table-cell;vertical-align:middle}
+.fbEmuMarketplace .fbEmuStreamAttachment.fbEmuStreamLinkStory .centeredImageWrapper{height:58px;width:50px}
+.fbEmuPremium .fbEmuStreamAttachment.fbEmuStreamLinkStory .centeredImageWrapper{height:87px;width:74px}
+.fbEmuStreamStory .fbEmuStreamAttachment.fbEmuStreamLinkStory .centeredImageWrapper img{margin:0 auto}
+.fbEmuPremium .fbEmuStreamAttachment.fbEmuStreamLinkStory .centeredImageWrapper img{max-height:87px;max-width:74px}
+.fbEmuMarketplace .fbEmuStreamAttachment.fbEmuStreamLinkStory .centeredImageWrapper img{max-height:58px;max-width:50px}
+.fbEmuStreamStory .whitespaceLink{display:inline}
+.fbEmuStreamStory .whitespaceLink:hover
+.fbEmuStreamAttachment.fbEmuStreamOGAction{border-top:1px solid #c4cde1;border-bottom:1px solid #c4cde1}
+.fbEmuStreamStory.fbEmuStreamAttachment.fbEmuStreamLinkStory:hover{border-top:1px solid #c4cde1;border-bottom:1px solid #c4cde1;border-left:1px solid #c4cde1;border-right:1px solid #c4cde1}
+.fbEmuStreamStory .fbEmuStreamAttachment.fbEmuStreamLinkStory:hover .centeredImageWrapper{border-right:1px solid #c4cde1}
+.fbEmuStreamStory .fbEmuStreamAttachment.fbEmuStreamOGAction .fbEmuStreamTitle{margin-top:4px}
+.fbEmuPremium .fbEmuStreamAttachment.fbEmuStreamPhotoStory{margin-bottom:2px}
+.fbEmuStreamAttachment.fbEmuStreamEventStory a.fbEmuStreamTitle, .fbEmuPicStory a.fbEmuStreamTitle, .fbEmuLikeMessage{color:gray}
+.fbEmuPremium .fbEmuStreamAttachment.fbEmuStreamOGAction img, .fbEmuPremium .fbEmuStreamAttachment.fbEmuStreamEventStory img{max-height:75px;max-width:75px}
+.fbEmuMarketplace .fbEmuStreamAttachment.fbEmuStreamEventStory img, .fbEmuStreamStory .fadPageAttachment img{max-height:50px;max-width:50px}
+.fbEmuStreamAttachment.fbEmuStreamLinkStory ._24x{margin-right:5px}
+.fbEmuPicStory a.fbEmuStreamTitle, .fbEmuStreamAttachment.fbEmuStreamEventStory .fbEmuStreamAttachmentBlock a{font-weight:normal}
+.fbEmuStreamAttachment.fbEmuStreamLinkStory .fbEmuStreamTitle{font-weight:bold;padding-top:4px}
+.fbEmuMarketplace .fbEmuStreamAttachment.fbEmuStreamPhotoStory img, .fbEmuMarketplace .fbEmuStreamAttachment.fbEmuStreamPhotoStory i{max-height:90px;max-width:118px}
+.fbEmuPremium .fbEmuStreamAttachment.fbEmuStreamPhotoStory img, .fbEmuPremium .fbEmuStreamAttachment.fbEmuStreamPhotoStory i{max-height:128px;max-width:168px}
+.fbEmuStreamStory .uiVideoThumb.fbEmuLargeThumb{margin-right:0}
+.fbEmuMarketplace .uiVideoThumb.fbEmuLargeThumb img{display:-moz-inline-box;display:block;height:72px;max-height:72px;max-width:128px}
+.fbEmuPremium .uiVideoThumb.fbEmuLargeThumb img{height:104px;display:block;max-height:104px;max-width:185px}
+.fbEmuStreamStory .uiStreamMessage{font-weight:normal}
+.fbEmuStreamStory .fbEmuStreamTitle{display:block;font-weight:bold}
+.fbEmuStreamStory .fbEmuStreamBody{color:#666}
+.fbEmuStreamStory .uiPhotoThumb{display:inline-block}
+.fbEmuStreamStory .whitespaceLink:hover .fbEmuStreamOGAction, .fbEmuStreamStory .fbEmuStreamLinkStory:hover{text-decoration:underline}
+.fbEmuStreamStory .whitespaceLink:hover{cursor:pointer}
+.fbEmuStreamStory .messageBody .whitespaceLink:hover, .fbEmuStreamStory .whitespaceLink:hover .fbEmuStreamOGAction, .fbEmuStreamStory .whitespaceLink:hover .fbEmuLikeMessage{background-color:#eceff5}
+.fbEmuStreamStory .fbEmuStreamLinkStory:hover{background-color:#f6f7f9}
+.fbEmuStreamStory .whitespaceLink:hover a.uiBlingBox{text-decoration:none}
+.fbEmuStreamStory .whitespaceLink:hover .uiBlingBox{background-color:#eceff5}
+.fbEmuStreamStory .fbEmuStreamPhotoStory:hover .uiPhotoThumb{border:1px solid #3b5998}
+.fbEmuStreamStory .uiVideoThumb{display:inline-block;margin-right:5px}
+.fbEmuStreamStory .uiVideoThumb img{height:auto}
+.fbEmuStreamStory .uiVideoThumb.fbEmuSmallThumb img{max-width:60px}
+.fbEmuStreamStory .fbEmuStreamAttachment .uiPhotoThumb img{margin:3px}
+.fbEmuStreamStory .textOnly{word-wrap:break-word}
+.fbEmuStreamStory .textWithMedia{word-wrap:break-word}
+.fbEmuStreamAttachmentOffset{border-left:2px solid #ccc;padding-left:4px}
+.fbEmuStreamAttachmentOffset .fbEmuPicStory, .fbEmuStreamStory .fbEmuStreamAttachmentOffset .textOnly{border-left:0;padding-left:0}
+.fbEmuStreamStory .uiUfi .ufiItem{padding:3px 3px 2px}
+.fbEmuStreamStory .uiBlingBox .text{line-height:normal}
+.fbEmuStreamStory .uiBlingBox{margin-right:-1px;margin-left:-1px}
+.fbEmuStreamStory .uiBlingBox .img{margin-top:-1px}
+.fbEmuStreamStory .fbTimelineFeedbackComments{float:left;padding-right:3px}
+.fbEmuStreamStory .fbTimelineFeedbackLikes{float:left;padding-right:3px}
+.fbFeedTickerStory .fbEmuStreamStory .fbEmuStreamAttachment img{width:32px;height:32px}
+.fbFeedTickerStory .fbEmuStreamAttachment .fbEmuStreamAttachmentBlock{height:32px}
+.fbEmuStreamStoryAttachment{padding-left:32px}
+.fbEmuStream .title{font-weight:bold;line-height:13px;margin-right:20px}
+.fbEmuStream .fbEmuContext{margin-bottom:2px}
+.fbEmuStream .action{margin:2px 0 1px 0}
+.fbEmuStream .body{line-height:13px}
+.fbEmuStreamBlockQuote{border-left:2px solid #ccc;padding:0 0 3px 8px}
+.fbEmuStream .text_exposed_link{padding:0 0 0 5px}
+.fbEmuStreamAttribution{color:gray}
+.bassLike{margin-top:2px}
+.fbEmuStreamStory{padding-top:1px}
+.fbEmuComboList .fbEmuComboListHeader{background-color:#ccc;border-top:1px solid #ccc;margin:13px 0 8px 0;padding:0;position:relative}
+.fbEmuComboList .fbEmuComboListHeader .fbEmuComboListHeaderText{background-color:#fff;color:#999;font-size:9px;font-weight:bold;left:0;margin-left:32px;padding:0 8px;position:absolute;top:-6px}
+.fbEmuStreamStory .tickerStoryBlock .uiStreamMessage .passiveName, .fbEmuStreamStory .uiStreamMessage .actorName.firstName, .fbEmuStreamStory .uiStreamMessage .passiveName.firstName{font-weight:bold}
+.fbEmuStreamStory .uiStreamMessage .actorName, .fbEmuStreamStory .uiStreamMessage .passiveName{font-weight:normal}
+.fbCalendarListView #fbCalendarListWrapper{min-height:1200px}
+.fbCalendarListView .fbCalendarList, .fbCalendarListView .fbCalendarPager{width:673px}
+.fbCalendarListView .fbCalendarList .fbCalendarItemContent{width:568px}
+.fbCalendarList .fbCalendarLabel{width:90px}
+.fbCalendarList .fbCalendarItem .fbCalendarHoverElement{visibility:hidden}
+.fbCalendarList .fbCalendarItem:hover .fbCalendarHoverElement{visibility:visible}
+.fbCalendarList .fbCalendarActionList{display:inline-block}
+.fbCalendarItemContent .fbCalendarActions .fbCalendarJoinIcon, .fbCalendarItemContent .fbCalendarActions .fbCalendarInviteIcon{margin-top:2px}
+.fbCalendarItem .fbCalendarSuggestedEventPhoto{opacity:.5}
+.fbCalendarItem:hover .fbCalendarSuggestedEventPhoto{opacity:1}
+.fbCalendarItem .fbCalendarSuggestedEventLabel{color:gray}
+.fbCalendarItem:hover .fbCalendarSuggestedEventLabel{color:#333}
+.fbCalendarList .fbCalendarHideButton{position:relative;top:-17px}
+.fbCalendarList .fbCalendarInlineHideButton{position:relative;top:-2px;display:block;width:16px;margin-left:5px}
+.fbCalendarList .fbCalendarHideButton .uiLoadingIndicatorAsync, .fbCalendarList .fbCalendarInlineHideButton .uiLoadingIndicatorAsync{margin-top:4px}
+.fbCalendarList .fbCalendarItem .async_saving{visibility:visible}
+.fbCalendarList .async_saving .uiCloseButton{display:none}
+.fbCalendarList .fbCalendarItemContent{width:402px}
+.fbCalendarList .fbCalendarHappyBirthdayer{width:300px}
+.fbCalendarLocationPhoto .photoWrap{width:388px;height:298px}
+.fbCalendarList .fbHiddenCalendarItem{display:none}
+._4kdq #chatFriendsOnline._5d12{display:block}
+#chatFriendsOnline._5d12{padding-bottom:0;padding-top:0}
+#chatFriendsOnline._5d12 .uiHeader{padding-bottom:0;padding-top:0}
+._5d12 .uiClearableTypeahead .clear, ._5d12 .uiTypeaheadDisabled .selected .clear{display:none}
+._5d12 .fbFriendsOnlineFacepileItem a:after{background-image:url(/rsrc.php/v2/y_/r/BORmTFyvaAB.png);background-repeat:no-repeat;background-size:auto;background-position:0 -470px;content:'';height:32px;left:0;position:absolute;top:0;width:32px}
+._5d12 .fbFriendsOnlineFacepile .fbFriendsOnlineFacepileItem{margin:3px 3px 0 0}
+._5d12 ._562v{margin:0 -3px 0 -1px;padding:12px 0}
+._5df5{background-image:url(/rsrc.php/v2/y_/r/BORmTFyvaAB.png);background-repeat:no-repeat;background-size:auto;background-position:-203px -447px;height:12px;left:8px;position:absolute;top:9px;width:12px}
+._5d12 .inputsearch{background-image:none;padding-left:26px}
+._5d12 .uiTypeahead{border:solid 1px #d3d6db;border-radius:2px;box-shadow:0 1px 1px rgba(0, 0, 0, .06) inset;height:30px;line-height:30px;width:277px}
+._5d12 .uiTypeahead .wrap{border:0}
+._5d12 .DOMControl_placeholder{color:#a9a9a9}
+._5d12 .textInput::-webkit-input-placeholder{color:#ddd}
+._5d12 .textInput:-moz-placeholder{color:#ddd}
+._5d12 .textInput::-moz-placeholder{color:#ddd}
+._5d12 .textInput:-ms-input-placeholder{color:#ddd}
+._5d12 .typeaheadContainer{margin-bottom:4px}
+#chatFriendsOnline._5d12 .fbChatTypeaheadView li{margin-right:0}
+.sidebarMode #chatFriendsOnline{display:none}
+#chatFriendsOnline .chatGoOnlineLink span{background:url(/rsrc.php/v2/yW/r/AebrcwrBeG6.png) no-repeat right 3px;padding:0 12px 0 2px}
+#chatFriendsOnline .chatGoOnlineLink, #chatFriendsOnline .chatGoOnlineLink:hover, #chatFriendsOnline .chatReconnectLink, #chatFriendsOnline .chatReconnectLink:hover{margin:3px 0 0 7px;text-decoration:none}
+#chatFriendsOnline .fbChatReconnecting{display:inline-block}
+#chatFriendsOnline .chatReconnectLink .img{margin-top:7px;background-image:url(/rsrc.php/v2/y_/r/BORmTFyvaAB.png);background-repeat:no-repeat;background-size:auto;background-position:-38px -631px;height:13px;width:14px}
+#chatFriendsOnline .fbChatOfflineMessage, #chatFriendsOnline .fbChatDisconnectedMessage{padding:0 5px 0 1px}
+#chatFriendsOnline.disconnected .fbFriendsOnlineFacepileItem .img{opacity:.3}
+#chatFriendsOnline .typeaheadContainer td:first-child{width:100%}
+#chatFriendsOnline .sidebarBtn{display:none;margin-left:3px}
+.sidebarCapable #chatFriendsOnline .sidebarBtn{display:inline-block}
+#chatFriendsOnline .fbChatTypeaheadView li{margin-right:5px;padding-right:3px}
+._5alt{margin-top:0}
+._7ee .fbReminders{padding:8px 0}
+._7ee .fbReminders:empty{padding:0}
+._7ee .fbReminders .fbRemindersStory{margin:0 -12px;padding:4px 12px 3px}
+._7ee .fbReminders .fbRemindersStory:hover{background-color:#f2f3f3}
+._7ee .fbReminders .fbRemindersStory .fbRemindersRemove{margin-top:-1px}
+._7ee .fbReminders .fbRemindersStory .fbRemindersRemove .fbRemindersCloseButton{margin-right:-7px}
+._7ee .fbReminders .fbRemindersStory._8_8{padding-left:11px}
+._7ee .fbReminders .fbRemindersStory em, ._7ee .fbReminders .fbRemindersStory .fbRemindersTitle{color:#232b37}
+._7ee .img{margin-right:8px}
+.ego_image .img{vertical-align:bottom}
+.ego_image_tiny .img{height:32px;width:32px}
+.ego_image_small .img{height:50px;width:50px}
+.ego_image_medium .img{width:80px}
+._52gq{float:right;opacity:0}
+._52gr{padding-left:6px}
+._52gr li{margin-bottom:8px;padding-right:4px}
+._52gr .showAll{text-align:center}
+._52gr li + li{border-top:1px solid #e9e9e9;padding-top:8px}
+._52gr li:hover ._52gq{opacity:1}
+._52gs{font-weight:bold;margin-top:1px}
+._5eel{display:block;margin-bottom:3px;width:300px}
+._5b21 .showAll{text-align:center}
+._5bqs{display:block;margin-bottom:10px;text-align:center}
+._5cqd{margin-bottom:5px;margin-top:-6px}
+._5cqe{margin-bottom:5px}
+._5cqf{margin-bottom:8px;padding-left:6px;padding-right:4px}
+._502j div{overflow:hidden}
+._502k{padding-right:5px;text-align:right}
+
+.fbReminders .fbRemindersStory{padding:3px 5px}
+.fbReminders .fbRemindersStory .fbRemindersRemove{margin-top:-1px;display:none}
+.fbReminders .fbRemindersStory .fbRemindersRemove.openMenu{display:block}
+.fbReminders .celebrationStory .fbRemindersRemove{display:block;visibility:hidden}
+.fbReminders .celebrationStory:hover .fbRemindersRemove{visibility:visible}
+.fbReminders .fbRemindersStory:hover{background-color:#eceff5;cursor:pointer}
+.fbReminders .fbRemindersStory:hover a{text-decoration:none}
+.fbReminders .fbRemindersStory:hover .fbRemindersRemove{display:block}
+.fbReminders .fbRemindersStory .fbRemindersTitle{color:#3b5998}
+.fbRemindersContent .fbRemindersFooter{text-align:center}
+.fbRemindersContent .fbCalendarList .fbCalendarLabel{width:60px}
+.fbRemindersContent .fbCalendarList .fbCalendarItemContent{width:330px}
+.fbRemindersContent .fbRemindersPokeBack{white-space:nowrap}
+.fbRemindersContent .uiScrollableArea .jewelHeader{background-color:#fff}
+.fbRemindersContent .fbRequestList, .fbRemindersContent .jewelHeader, .fbRemindersContent .friendBrowserForm{margin-right:10px}
+.fbBirthdayRemindersContent .uiScrollableAreaWithShadow.contentBefore:before{box-shadow:0 1px 2px rgba(0,0,0,0.2);top:-2px}
+.fbBirthdayRemindersContent .uiScrollableAreaWithShadow.contentAfter:after{background-color:#fff;box-shadow:0 -1px 2px rgba(0,0,0,0.3);height:6px}
+.fbBirthdayRemindersContent .fbRemindersTitleSeeAll{color:#627aad}
+.fbBirthdayRemindersContent .fbRemindersSubtitleActionList{color:#adb2bb}
+.fbBirthdayRemindersContent .fbRemindersSubtitleAgeText{color:#6a7180}
+.fbBirthdayRemindersContent .fbRemindersTodayHeader, .fbBirthdayRemindersContent .fbRemindersSublistHeader{color:gray;font-size:11px}
+.fbBirthdayRemindersContent
+.fbRemindersBirthdayList
+.fbRemindersBirthdayListItem{border-color:#e9eaed}
+._43ql{border:solid #fff;border-width:1px 0 0 1px;bottom:0;height:5px;position:absolute;right:0;width:5px}
+._5d12 ._43ql{border:none;height:8px;width:8px}
+.chatOnline ._43ql{background:#84ca5a;background:-moz-linear-gradient(#88cc5f, #7bc64d)}
+._5d12 .chatOnline ._43ql{background-image:url(/rsrc.php/v2/y_/r/BORmTFyvaAB.png);background-repeat:no-repeat;background-size:auto;background-position:-211px -518px;z-index:1}
+.chatOffline ._43ql, .chatIdle ._43ql, .chatMobile ._43ql{border:none}
+
+#bootloader_MgjiX { height: 42px; }
+.bootloader_MgjiX { display:block !important; }

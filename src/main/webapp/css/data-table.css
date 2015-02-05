@@ -1,0 +1,61 @@
+.one {
+    position: relative
+}
+
+.one .bsa_it_ad {
+    display: block;
+    padding: 15px;
+    border: 1px solid #e1e1e1;
+    background: #f9f9f9;
+    font-family: helvetica, arial, sans-serif;
+    line-height: 100%;
+    position: relative
+}
+
+.one .bsa_it_ad a {
+    text-decoration: none
+}
+
+.one .bsa_it_ad a:hover {
+    text-decoration: none
+}
+
+.one .bsa_it_ad .bsa_it_t {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #212121;
+    line-height: 125%;
+    padding: 0 0 5px 0
+}
+
+.one .bsa_it_ad .bsa_it_d {
+    display: block;
+    font-size: 11px;
+    color: #434343;
+    font-size: 12px;
+    line-height: 135%
+}
+
+.one .bsa_it_ad .bsa_it_i {
+    float: left;
+    margin: 0 15px 10px 0
+}
+
+.one .bsa_it_p {
+    display: block;
+    text-align: right;
+    position: absolute;
+    bottom: 10px;
+    right: 15px
+}
+
+.one .bsa_it_p a {
+    font-size: 10px;
+    color: #666;
+    text-decoration: none
+}
+
+.one .bsa_it_ad .bsa_it_p a:hover {
+    font-style: italic
+}

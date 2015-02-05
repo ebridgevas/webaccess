@@ -1,0 +1,52 @@
+/*!CK:1688938231!*//*1375796955,173203239*/
+
+._5eo5{-moz-box-sizing:border-box;padding:10px 14px}
+._51it{margin-right:1px}
+._51iu{padding-bottom:1px;padding-top:1px}
+._5789 ._51it{display:block}
+._51it, ._570z .uiButtonText{display:none}
+._51iv ._51iw{margin-top:2px}
+html ._51iv ._51it ._570z .itemIcon, html ._51iv ._51it ._570z .defaultIcon{margin:1px 0 1px -2px}
+._6nw ._5786, ._5786{background-image:url(/rsrc.php/v2/yr/r/IVrvAWdjJqL.png);background-repeat:no-repeat;background-size:auto;background-position:right -114px;background-color:transparent;border-color:#bdc7d8;box-shadow:none;color:#777;font-size:11px;font-weight:normal;padding-left:3px;position:relative;text-align:left;width:244px}
+._5786:hover, ._5786._58pg{background-image:url(/rsrc.php/v2/yH/r/GYmiAKr-fuu.png);background-repeat:no-repeat;background-size:auto;background-position:-352px -348px;background-color:#eee;border-color:#999;box-shadow:0 1px 0 rgba(0, 0, 0, .1);color:#333}
+.openToggler ._5786, .openToggler ._5786:hover, .openToggler ._5786:active{background-color:#6d84b4;background-image:none;border-color:#3b5998;color:#fff}
+._5786 ._5788{display:none;position:absolute;right:7px;top:7px}
+.openToggler ._5788, ._58pg ._5788, ._5786:hover ._5788{display:block}
+.relConnector{display:none}
+.relStatus_2 .relConnector_2,
+.relStatus_3 .relConnector_3,
+.relStatus_4 .relConnector_4,
+.relStatus_5 .relConnector_5,
+.relStatus_6 .relConnector_6,
+.relStatus_10 .relConnector_10,
+.relStatus_11 .relConnector_11{display:inline}
+.relationshipWarning .statusChange,
+.relationshipWarning .statusSingle{background-color:#edeff4;border:1px solid #d8dfea;margin-bottom:5px}
+.relationSelector{height:22px;margin-top:0}
+.uiProgressiveDatepicker .period{position:relative;white-space:nowrap}
+.uiProgressiveDatepicker .periodSelected{white-space:normal}
+.uiProgressiveDatepicker .periodMenu{left:0;opacity:0;top:-4px;position:absolute}
+.uiProgressiveDatepicker .periodMenu:focus{opacity:1}
+.uiProgressiveDatepicker .periodSelected .periodMenu{opacity:1;position:static}
+.uiProgressiveDatepicker .periodSelected .periodLabel{display:none}
+.uiProgressiveDatepicker .periodFocus .periodLabel{opacity:0}
+.uiProgressiveDatepicker .periodLabel{margin-left:8px;zoom:1}
+.uiProgressiveDatepicker .period:hover .periodLabel{text-decoration:underline}
+.uiProgressiveDatepicker .period:hover .periodMenu{cursor:pointer}
+.uiProgressiveDatepicker .periodSelected:hover .periodMenu{cursor:default}
+.uiProgressiveDatepicker .period{margin-left:1px;display:none}
+.uiProgressiveDatepicker .periodYear{margin-left:0}
+.uiProgressiveDatepicker .periodYear, .uiProgressiveDatepickerSelected-year .periodMonth, .uiProgressiveDatepickerSelected-month .periodDay, .uiProgressiveDatepickerSelected-day .periodHour, .uiProgressiveDatepickerSelected-hour .periodMinute{display:inline}
+.uiProgressiveDatepickerRange .toPresentText,
+.uiProgressiveDatepickerRangeCurrent .toText,
+.uiProgressiveDatepickerRange .futLabel,
+.uiProgressiveDatepickerRangeFuture span.toPresentText,
+.uiProgressiveDatepickerRangeFuture .currentLabel{display:none}
+.uiProgressiveDatepickerRangeCurrent .endDate{visibility:hidden}
+.uiProgressiveDatepickerRange .startDate,
+.uiProgressiveDatepickerRangeCurrent .toPresentText{display:inline}
+.uiProgressiveDatepickerRangeFuture .futLabel{display:block}
+.uiProgressiveDatepickerRange div.futLabel{margin-top:0}
+
+#bootloader_AUlvZ { height: 42px; }
+.bootloader_AUlvZ { display:block !important; }

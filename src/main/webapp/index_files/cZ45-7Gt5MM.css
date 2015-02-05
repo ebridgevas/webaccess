@@ -1,0 +1,169 @@
+/*!CK:1773843063!*//*1375796948,173214301*/
+
+
+.profile .app_tab{position:relative;zoom:1;overflow:hidden}
+.pagelet_app_runner_centered{text-align:center}
+._w8_{padding:3px 3px 1px}
+._w90 ._w8_, ._1f8g ._w8_{padding:0}
+._w90 ._1g2x{margin:0 0 -2px}
+html ._w8_ .fbTimelineFriendsBoxLarge{margin:0 0 1px}
+._w8_ .fbTimelineFriendsBoxLarge .friendsBoxInner{padding-top:0}
+html ._4se3{background:#f6f7f8;font-family:'Helvetica Neue', Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;line-height:21px;padding:20px 20px 22px}
+html ._4se3:hover{background:#e9eaed}
+._51r4{float:left;margin:5px 9px 0 0}
+._51r5{overflow:hidden}
+._w8_ ._5etr{border:1px solid #ccc}
+._54j8{background-color:#d2d6dc;border-bottom:1px solid #adb3bc;border-top:1px solid #adb3bc;margin:-4px 0 3px -3px;width:321px}
+._54j9{padding:12px 12px 8px}
+._54ja{border-top:1px solid #c8ccd3;color:#6a7180;display:block;font-size:12px;height:20px;padding:12px;position:relative}
+._54ja:hover{background-color:#dadde2;color:#4e5665;text-decoration:none}
+html ._122{border-collapse:separate;border-spacing:3px;margin:-13px 0 -15px -18px}
+._122 .uiScaledImageContainer{height:98px;width:98px}
+._4lh ._122 .uiScaledImageContainer{height:103px;width:103px}
+._55-w{border-bottom:1px solid #eee;padding:10px 15px}
+._55-w .uiIconText .img{margin-top:1px}
+._55-x{display:block;overflow:hidden}
+html .timelineReportContainer .timelineReportContent .timelineUnitContainer._503z{border:0;margin:0 auto;padding:2px 0 0;width:321px}
+._5bkn{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAVAgMAAADgAIwZAAAACVBMVEUAAACOjo6Pj4+P/BUbAAAAAnRSTlMATX7+8BUAAAAXSURBVAgdY2AQaGBgYOAQABKNQEwzLgCtAAggRYiIYgAAAABJRU5ErkJggg==);background-repeat:repeat-y;background-size:auto;background-position:0 0;border-radius:50%;bottom:2px;margin:0;position:absolute;right:-2px;top:0;visibility:hidden;width:13px}
+._5bkm{cursor:move;position:relative}
+._5bkm:hover, ._5bkm.drag{background-color:#f6f6f6}
+._5bkm:hover{z-index:1}
+._5bkm.drag{z-index:2}
+._5bkm.drag ._5bkn, ._5bkm:hover ._5bkn{visibility:visible}
+._4_uf{border-bottom:1px solid #e9eaed;font-size:11px;margin:0 12px;padding:10px 0}
+._5bko:last-child ._4_uf{border-bottom:none}
+._4_vp{display:inline-block;width:275px}
+._558a ._4_vp{width:255px}
+._4_ug{color:#6a7480;font-weight:bold}
+._4_uh{margin-top:2px}
+._4_uh, ._4_uh a{color:#adb3bc}
+._513w{margin-top:1px}
+html ._51iw{margin-right:6px}
+._56m_, ._56n0{visibility:hidden}
+._4_uf:hover ._56m_, ._4_uf:hover ._56n0{visibility:visible}
+._56n0{display:inline-block;height:10px;padding:4px;width:10px}
+._57qo{border-bottom:1px solid #eee;padding:10px 15px}
+._57qp{padding-bottom:5px}
+._57qq{color:#999}
+._57qr{margin-left:5px;vertical-align:middle}
+._56n0:hover ._56n1{background-image:url(/rsrc.php/v2/yX/r/wwa6MsulqLt.png);background-repeat:no-repeat;background-size:auto;background-position:-14px -86px}
+._56n0:hover{background:#3b5998}
+._56n1{background-image:url(/rsrc.php/v2/yX/r/wwa6MsulqLt.png);background-repeat:no-repeat;background-size:auto;background-position:-14px -75px;display:block;height:10px;width:10px}
+html ._2wp{margin:-13px -23px 0 0;padding:7px 0 3px}
+html ._2yh{margin:-10px -25px 0 0}
+._2wp ._2yg{background:#fff;position:absolute;width:427px}
+html ._2wp._2yh ._2wr{background-image:url(/rsrc.php/v2/yH/r/GYmiAKr-fuu.png);background-repeat:no-repeat;background-size:auto;background-position:-308px -53px;left:7px;height:9px;top:27px;width:16px}
+._2wp._2wq ._2-s{display:none}
+._2wp._2wq{width:300px}
+._2wp.uiComposerOpen{width:427px}
+._2wq.uiComposerOpen{width:300px}
+._2wp.uiComposerOpen ul.fbTimelineComposerAttachments{padding-left:0;float:right}
+div._2wp.fbTimelineComposer .attachmentLoader{left:-15px;right:auto}
+._2wp ._2yg, ._2wp .uiComposerMetaContainer{border:1px solid #8c8c8c;border-bottom:1px solid #666;box-shadow:0 3px 8px rgba(0, 0, 0, .3);left:2px;margin-top:1px}
+._2wp .fbTimelineComposerAttachments .uiComposerAttachment .nub{background-image:url(/rsrc.php/v2/yH/r/GYmiAKr-fuu.png);background-repeat:no-repeat;background-size:auto;background-position:-308px -53px;height:9px;top:27px;width:16px}
+._2wp .attachmentLifeEvents .typesMenuSelected{margin-right:-48px}
+._2wq .attachmentLifeEvents .typesMenuSelected{margin-right:-5px;width:126px}
+._2wq .attachmentLink .attachmentName, .fbTimelineStickyHeaderHidden .fbTimelineStickyHeaderComposer{display:none}
+.fbTimelineFriendsBoxLarge{width:409px;margin:-16px 0 -12px -18px}
+.fbTimelineFriendsBoxLarge .timelineReportHeader{border-bottom:1px solid #e5e5e5}
+.fbTimelineFriendsBoxLarge .friendsBoxInner{padding-top:3px}
+.fbTimelineFriendsBoxLarge .friendListing{margin:3px 0 0 3px}
+.fbTimelineFriendsBoxLarge .friendHovercard{display:block;position:relative}
+.fbTimelineFriendsBoxLarge .friendHovercard:hover{text-decoration:none}
+.fbTimelineFriendsBoxLarge .fbTimelineBoxCountPostsdouble, .fbTimelineFriendsBoxLarge .friendPhoto{display:block;height:98px;width:98px}
+.fbTimelineFriendsBoxLarge .fbTimelineBoxCountPostsdouble{line-height:98px}
+.fbTimelineFriendsBoxLarge .friendListingWider .friendPhoto{width:99px}
+.fbTimelineFriendsBoxLarge .friendName{background:#000;background:-moz-linear-gradient(transparent, rgba(0, 0, 0, .7));bottom:0;color:#fff;display:block;left:0;padding-top:5px;position:absolute;width:100%;word-wrap:break-word}
+.timelineReportContainer .seeAll{margin:17px 12px 0 0}
+.fbTimelineFriendsBoxLarge.timelineReportContainer .timelineReportContent .timelineUnitContainer{margin-top:2px}
+.fbTimelineFriendsBoxLarge.timelineReportContainer .timelineUnitContainer .aboveUnitContent{margin-top:-12px}
+._5cf{display:inline-block;height:10px;padding:4px;width:10px}
+._4__6{margin-right:6px;position:relative}
+._5cf, ._513e{visibility:hidden}
+.highContrast ._5cf, .highContrast ._513e{visibility:visible}
+._5cg{display:block;height:10px;width:10px}
+._4__6._4__4 ._513e, .openToggler ._5cf, .fbTimelineUnit:hover ._5cf, ._4__6._4__4{visibility:visible}
+._513e{bottom:-9px;left:2px;position:absolute}
+._4__8{background-image:url(/rsrc.php/v2/yX/r/wwa6MsulqLt.png);background-repeat:no-repeat;background-size:auto;background-position:0 -107px}
+._4__6:hover ._4__8{background-image:url(/rsrc.php/v2/yX/r/wwa6MsulqLt.png);background-repeat:no-repeat;background-size:auto;background-position:-10px -97px}
+._4__6._4__4 ._4__8{background-image:url(/rsrc.php/v2/yX/r/wwa6MsulqLt.png);background-repeat:no-repeat;background-size:auto;background-position:0 -97px}
+._4__7{background-image:url(/rsrc.php/v2/yX/r/wwa6MsulqLt.png);background-repeat:no-repeat;background-size:auto;background-position:-14px -75px}
+.openToggler > ._5cf ._4__7, ._5cf:hover ._4__7{background-image:url(/rsrc.php/v2/yX/r/wwa6MsulqLt.png);background-repeat:no-repeat;background-size:auto;background-position:-14px -86px}
+.uiPopover ._5cf:hover, .openToggler > ._5cf{background:#3b5998}
+.fbTimelineScrubber{background-color:#e7ebf2;padding:8px 0 8px 1px;top:38px;width:122px;z-index:1}
+body.hasViewasChromeBar .fbTimelineScrubber{padding-top:45px}
+.fbTimelineScrubber a, .fbTimelineScrubber .selected ul a{border-left:5px solid #c8d1e2;color:#94a0c1;display:block;font-weight:normal;outline:none;padding:4px 0 4px 6px}
+.fbTimelineScrubber li{margin-bottom:1px}
+.fbTimelineScrubber a:hover, .fbTimelineScrubber a:focus{border-left-color:#a7b4d1;text-decoration:underline}
+.fbTimelineScrubber .selected a, .fbTimelineScrubber .selected ul a{border-left-color:#627aad}
+.fbTimelineScrubber ul li{border:0;margin:0}
+.fbTimelineScrubber .selected a{color:#627aad;font-weight:bold}
+.fbTimelineScrubber ul{display:none}
+.fbTimelineScrubber .selected ul.loaded{display:block}
+.fbTimelineScrubber ul{margin-top:-4px}
+.fbTimelineScrubber ul a{padding:1px 0 1px 12px !important}
+.fbTimelineScrubber .selected .selected a{color:#627aad;font-weight:normal}
+.fbTimelineScrubber ul ul{display:none !important}
+div.fbTimelineInlineSectionHeader{background:none;border:0;height:40px;text-align:center}
+.fbTimelineTimePeriod div.fbTimelineInlineSectionHeader{padding-top:0}
+.fbTimelineInlineSectionHeader .uiHeaderTitle{color:#1c2a47}
+.fbTimelineTabHeader{background:none;margin:0 10px 20px}
+.fbTimelineTabHeader h4{font-size:16px;width:400px}
+.fbTimelineAboutMeHeader{margin:0 0 15px;background:none}
+.fbTimelineTabSection .fbTimelineAboutMeHeader, .fbTimelineCompactSection .fbTimelineAboutMeHeader{margin:15px 15px 15px 22px}
+.timelineLayout .fbTimelineAboutMeHeader h4{font-size:16px}
+.fbTimelineAboutMeHeader h4 a{color:#333}
+.fbTimelineContentHeader h3.uiHeaderTitle, .fbTimelineInlineSectionHeader h3.uiHeaderTitle{background:#a9b5d3;border-radius:3px;color:#fff;display:inline-block;font-size:14px;font-weight:normal;margin:0;padding:6px 11px;word-wrap:normal}
+.fbTimelineContentHeader h3 a{color:#8897bd}
+.fbTimelineContentHeader{margin-bottom:15px;text-align:center}
+.fbTimelinePermalink .fbTimelineSection .fbTimelineContentHeader{margin-bottom:0}
+.fbTimelineContentHeader .headerPlus{border-left:1px solid #e5e5e5;display:inline-block;height:28px;margin:-7px -12px 0 0;text-align:center;width:37px}
+.fbTimelineAboutMeHeader .iconImg{margin-top:2px}
+.fbTimelineContentHeader .headerPlus .img{margin-top:9px}
+.fbTimelineStickyHeader{top:38px;z-index:250}
+.tinyViewport .fbTimelineStickyHeader, .collapsedHead .fbTimelineStickyHeaderHidden{display:none}
+.tinyViewport .collapsedHead .fbTimelineStickyHeader{display:block}
+body.hasVoiceBar .fbTimelineStickyHeader{padding-top:27px}
+body.hasVoiceBar.hasSmurfbar .fbTimelineStickyHeader{padding-top:25px}
+body.hasViewasChromeBar .fbTimelineStickyHeader{padding-top:37px}
+body.hasViewasChromeBar.hasSmurfbar .fbTimelineStickyHeader{padding-top:35px}
+.fbTimelineStickyHeaderHidden{height:0;overflow:hidden}
+.fbTimelineStickyHeaderAnimating{height:auto;overflow:visible}
+.collapsedHead{box-shadow:none}
+.collapsedHead #fbProfileCover{height:47px;margin-bottom:-1px}
+.collapsedHead #fbProfileCover h2{margin-top:14px;margin-left:63px;margin-bottom:10px;font-size:17px;white-space:nowrap}
+.collapsedHead #fbProfileCover .coverNoImage, .collapsedHead #fbProfileCover .coverWrap{height:0}
+.collapsedHead #fbProfileCover .profilePicThumb{background:transparent;box-shadow:none;left:11px;margin-top:2px}
+.collapsedHead #fbProfileCover .profilePic{height:32px;width:32px}
+.collapsedHead #fbProfileCover .leftPic, .collapsedHead #fbProfileCover .rightPic{visibility:hidden;width:0}
+.collapsedHead .fbTimelineNavigationPagelet, .collapsedHead #fbProfileCover .fbProfileCoverPhotoSelector, .collapsedHead #fbProfileCover .alternate_name, .collapsedHead #fbProfileCover .presenceIndicator{display:none}
+.fbTimelineStickyHeader .stickyHeaderWrap{position:absolute;width:851px}
+.fbTimelineStickyHeader .back, .fbTimelineStickyHeader .actions, .fbTimelineStickyHeader .name{position:relative}
+.fbTimelineStickyHeader .back{background-color:#fff;border:1px solid #c4cde0;border-radius:0 0 2px 2px;border-top:0;height:47px;position:absolute;width:849px}
+.fbTimelineStickyHeader .actions{float:right;padding:12px 25px 7px 16px}
+.fbTimelineStickyHeader .name{padding:9px 14px 7px 16px;display:block;float:left;text-overflow:ellipsis;white-space:nowrap}
+.ogAppTab .fbStickyHeaderRightLeft{width:819px}
+.fbStickyHeaderBreadcrumb{margin-top:3px;margin-left:10px}
+html #globalContainer .fbStickyHeaderBreadcrumb .uiButton .uiButtonText, html #globalContainer .fbStickyHeaderBreadcrumb .uiButton input{font-size:13px;line-height:18px;padding-top:0}
+.fbStickyHeaderBreadcrumb .uiButton{height:19px;line-height:19px}
+.fbStickyHeaderBreadcrumb .nameButton .uiButtonText{max-width:190px !important;overflow:hidden;text-overflow:ellipsis}
+.fbTimelineStickyHeader .name .profileThumb{display:block;float:left;height:32px;margin-top:-1px}
+.fbTimelineStickyHeader .name .profileThumb .img{display:inline-block;height:32px;width:32px}
+#fbProfileCover .fbTimelineStickyHeader .fbTimelineConnectButtonGroup .uiButtonConfirm{background-color:#6d84b4;border-color:#3b5998}
+._5c74{position:relative;right:8px;top:2px}
+.async_saving ._5c75{display:none}
+.fbTimelineUnit ._5amy.timelineReportContainer{padding:0;width:auto}
+._5amz{margin:0 auto;min-height:30px;padding:0;width:321px}
+._5an6{background-color:rgba(255, 255, 255, .5);height:100%;left:0;position:absolute;right:0;top:0;width:100%}
+._5an7{left:50%;margin-left:-8px;margin-top:-8px;position:absolute;top:50%}
+._5an8{background:#d8dfea;padding:7px 14px}
+._5an9 ._5an8{margin:0}
+._5ana ._5an8{margin:0 3px}
+._5anb{margin-top:1px}
+._5an9 ._5anc{max-width:250px}
+._5ana ._5anc{max-width:330px}
+._5and{margin-right:0;margin-top:1px}
+._5ane{text-align:center}
+
+#bootloader_QdYms { height: 42px; }
+.bootloader_QdYms { display:block !important; }

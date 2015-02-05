@@ -1,0 +1,138 @@
+/*
+ *  eBridge Navigator Core Style
+ */
+
+.ebridgenav_button { position: relative; display: block; vertical-align: middle; float: right; padding: 0 0 0 0; line-height: 32px; cursor: pointer; }
+.ebridge_send_button { position: relative; display: block; vertical-align: middle; float: left; padding: 0 0 0 0; line-height: 32px; cursor: pointer; }
+
+.ebridgenav_menu  .ebridgenav_menutxt { display: block; line-height: 32px; float: left; }
+
+/* button icon style */
+.ebridgenav_menu .ebridgenav_icon { float: right; margin: 0 0 0 0; }
+.ebridgenav_menu .ebridgenav_no-text { margin: 0 }
+
+.ebridgenav_menu .ebridgenav_icon-bar { display: block; width: 24px; height: 0.125em;margin-top: 10px; -webkit-border-radius: 1px; -moz-border-radius: 1px; border-radius: 1px; -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25); }
+.ebridgenav_button .ebridgenav_icon-bar + .ebridgenav_icon-bar { margin-top: 0.188em }
+
+/* ebridgenav_nav */
+.ebridgenav_nav { clear: both }
+.ebridgenav_nav ul,
+.ebridgenav_nav li { display: inline-block }
+.ebridgenav_nav .ebridgenav_arrow { font-size: 0.8em; margin: 0 0 0 0.4em; }
+.ebridgenav_nav .ebridgenav_item { display: block; cursor: pointer; }
+.ebridgenav_nav a { display: block }
+.ebridgenav_nav .ebridgenav_item a { display: inline }
+.ebridgenav_menu:before,
+.ebridgenav_menu:after { content: " "; display: table; }
+.ebridgenav_menu:after { clear: both }
+/* IE6/7 support */
+.ebridgenav_menu { *zoom: 1 }
+
+/* 
+    User Default Style
+    Change the following styles to modify the appearance of the menu.
+*/
+
+.ebridgenav_menu {
+	font-size:16px;
+}
+
+/* Button icon */
+.ebridgenav_button {
+	margin: 0px 0px 6px;
+	text-decoration:none;	
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);	
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;  
+	background-color: #4c4c4c;
+}
+
+/* Button Text */
+.ebridgenav_menu  .ebridgenav_menutxt {
+	color: #FFF;
+	font-weight: bold;	
+	text-shadow: 0 1px 3px #000;	
+}
+/* Button Lines */
+.ebridgenav_menu .ebridgenav_icon-bar {
+  background-color: #f5f5f5;
+}
+.ebridgenav_menu {
+	background:#4c4c4c;
+    /*background: none;*/
+    /*background: -moz-linear-gradient(top, rgba(125,185,232,1) 24px, rgba(30,87,153,0) 154px); *//* FF3.6+ */
+
+}
+.ebridgenav_nav {
+	color:#fff;
+	margin:0;	
+	padding:0;
+	font-size:12px;
+}
+.ebridgenav_nav, .ebridgenav_nav ul {
+	list-style: none;
+	overflow:hidden;
+}
+.ebridgenav_nav ul {
+	padding:0;
+	margin:0 0 0 20px;
+}
+.ebridgenav_nav .ebridgenav_item {
+	padding:5px 10px;
+	margin:2px 5px;
+}
+.ebridgenav_nav a{
+	padding:5px 10px;
+	margin:2px 5px;
+	text-decoration:none;
+	color:#fff;
+}
+.ebridgenav_nav .ebridgenav_item a {
+	padding:0;
+	margin:0;
+}
+.ebridgenav_nav .ebridgenav_item:hover {
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	background:#ccc;
+	color:#fff;	
+}
+.ebridgenav_nav a:hover{
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	background:#ccc;
+	color:#222;
+}
+.ebridgenav_nav .ebridgenav_txtnode {
+     margin-left:15px;   
+}
+
+/* Send button  */
+.ebridge_send_button {
+    margin: 0px 0px 6px;
+    text-decoration:none;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    width: 92px;
+    height: 32px;
+    /*background-color: #4c4c4c;*/
+}
+
+.button-font {
+    color: grey;
+    display: block;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-right: 5px;
+}
+
+#message-composer {
+    margin-left: 32px;
+    height: 32px;
+    margin-top: 4px;
+}

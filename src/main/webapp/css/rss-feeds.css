@@ -1,0 +1,52 @@
+.livestats {
+    clear: both;
+    position: relative;
+    overflow: hidden;
+    width: 320px;
+    margin: 0 0 16px;
+    padding: 8px 8px 8px;
+    background: #ededed;
+}
+
+.livestats .livestats-header {
+    font-size: 24px;
+    font-size: 1.846em;
+    font-weight: bold;
+    letter-spacing: -0.05em;
+    line-height: 24px;
+    text-indent: -1px;
+    padding: 0;
+}
+
+.blq-js .livestats-tabbed .tab {
+    float: left;
+    display: inline;
+    top: 0;
+    padding: 7px 16px 6px 8px;
+    cursor: pointer;
+}
+
+.livestats .tab {
+    padding: 9px 16px 10px 0;
+    position: relative;
+    background: transparent;
+    z-index: 100;
+    font-size: 1.231em;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.blq-js .livestats-tabbed div.open {
+    position: relative;
+    margin-right: -320px;
+    right: 320px;
+    opacity: 1;
+    -webkit-transition: opacity .2s ease-in;
+}
+
+.blq-js .livestats-tabbed .panel {
+    float: right;
+    display: inline;
+    clear: right;
+    margin-top: 32px;
+}

@@ -1,0 +1,52 @@
+/* GENERAL BOOTSTRAP EDITS */
+
+
+/* FORMS */
+input.form-control {background: transparent;border: 3px solid #fff;color: #fff;}
+
+/* ALERTS */
+.alert {font-size: 10pt; line-height: 15pt; border-radius:5px;}
+.alert-notice {background:rgba(0,0,0,0.2);}
+.alert-notice .icon, .alert-notice {color:#fff;}
+label {font-size: 80%;}
+
+/* TABLE */
+.table thead {color:#fff; font-size:95%;}
+.table thead > tr > th {padding:13px;}
+.table tbody {font-size:90%;}
+.table tbody > tr > td {padding:12px;}
+.table-striped > tbody > tr > td {background-color:transparent;}
+.table-striped > tbody > tr:nth-child(odd) > td {background-color:#fefefe;}
+
+/* TABS */
+.nav-tabs {border-radius:0; border-left:1px solid #fff;}
+.nav-tabs  li{border-radius:0; border-right:1px solid #fff; border-top:1px solid #fff; border-bottom:1px solid #fff;}
+.nav-tabs > li > a {border-radius:0;}
+.tabbable .nav-tabs > li > a {background:#transparent; color:#fff ; padding:10px 30px;}
+.tabbable .nav-tabs > li.active > a {color:#555 ; background:#fff; border: 1px solid #fff;}
+.tabbable .tab-content > .active, .pill-content > .active {background:#transparent; padding:20px 25px; padding-bottom:0;}
+.tabbable .tab-content > .active p {color: #4a4a4a !important;}
+
+.tab-content {border:0 !important;}
+
+.tabbable .nav-tabs > li.active > a:hover,
+.tabbable .nav-tabs > li.active > a:focus {opacity:1; color:#555; background: #fff !important; border: 1px solid #fff;}
+
+.tab-content {border-top: 4px solid #f8862c;}
+.nav-tabs {border-bottom: 0px solid #dddddd;}
+
+.tabbable .nav-tabs > li > a:hover,
+.tabbable .nav-tabs > li > a:focus {color: #555555; opacity:1; background: #ffffff; border: 1px solid #fff; }
+
+/* BARS */
+.progress {border-radius:35px; height: 20px; margin-top:5px; margin-bottom: 15px; /*box-shadow: 5px 8px 0px 0px rgba(1, 1, 1, 0.1);*/}
+.progress-bar-warning {background-color: #f8862c;}
+/* SMALL FIXES */
+.bg-green:active,
+.bg-green.active {background-image:none; background-color: #72b99c; border-color: #72b99c;}
+
+.well {background: rgba(0,0,0,0.2);border:0;border-radius: 10px;}
+
+@media (min-width: 1200px) {
+  .container {max-width: 1020px;}
+ }

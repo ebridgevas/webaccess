@@ -1,0 +1,45 @@
+/*1374482660,173205807*/
+
+._51nc{margin:0 -12px}
+.timelineRecentActivityStories{margin:-4px 0 -12px 0}
+.recentActivityContainer .recentActivityUnit .timelineReportHeader{background:#f1f1f1;border-bottom:1px solid #d3d3d3;font-size:11px;font-weight:normal;margin:-12px -12px 7px;padding:5px 0 5px 12px}
+.recentActivityContainer div.timelineRecentActivityPagerWrapper{margin:0 -12px}
+.recentActivityContainer .timelineRecentActivityPagerWrapper a.timelineRecentActivityPager, .recentActivityContainer .timelineRecentActivityPagerWrapper .uiMorePagerLoader{border:none;padding:9px 5px 8px}
+.fbTimelineUnit .ogItemHide{float:right;opacity:0}
+.ogListItem:hover .ogItemHide{opacity:1}
+.recentActivityContainer .recentActivityUnit .timelineRecentActivityLightHeader{margin:-15px -15px 4px}
+.timelineRecentActivityStory{margin:0 -12px}
+.timelineRecentActivityStory::after{background:#000;content:'';display:block;height:1px;margin-top:-1px;opacity:.1}
+.timelineRecentActivityStory:hover{background:#edeff4}
+.timelineRecentActivityThumb{background:#f6f7f9}
+.fbTimelineRecentActivityThumbWrap{height:58px;overflow:hidden;position:absolute;width:98px}
+.timelineRecentActivityStory .fbTimelineRecentActivityAppWrap{bottom:2px;position:absolute;left:4px}
+.timelineRecentActivityStory .fbTimelineRecentActivityAppWrapText{bottom:0;left:0;padding:8px 3px 4px}
+.timelineRecentActivityStory:hover .fbTimelineRecentActivityAppWrapText{background:url(/rsrc.php/v2/y7/r/4haj41DucMJ.png) repeat-x bottom left}
+.fbTimelineRecentActivityAppWrap .overlayAppName{color:#fff;display:inline-block;text-shadow:0 0 5px #000;width:71px}
+.fbTimelineRecentActivityAppWrap:hover .overlayAppName{text-decoration:underline}
+.timelineRecentActivityTextBlock{min-height:58px;padding:0 12px 0 8px;margin-left:98px;position:relative;width:284px}
+.timelineRecentActivityStory .cutoffActionListItems{visibility:hidden}
+.timelineRecentActivityStory:hover .cutoffActionListItems, .timelineRecentActivityStory .cutoffActionListItems .openToggler{visibility:visible}
+.timelineRecentActivityTextBlock .timelineRecentActivityHideSelector{position:absolute;right:0;top:0;visibility:visible}
+.timelineRecentActivityStory .timelineRecentActivityHideSelector .uiSelectorButton{opacity:0}
+.timelineRecentActivityStory:hover .timelineRecentActivityHideSelector .uiSelectorButton, .timelineRecentActivityStory .timelineRecentActivityHideSelector .uiSelectorButton:focus, .timelineRecentActivityStory .timelineRecentActivityHideSelector .openToggler .uiSelectorButton{opacity:1}
+.timelineRecentActivityStory .timelineRecentActivityStoryFooter{color:#999;line-height:1.8}
+.timelineRecentActivityStory .recentActivityUFI{margin:0 -10px 0 0;width:282px}
+.timelineRecentActivityStory .storyPrivacy{left:2px;position:relative;top:-1px}
+.timelineRecentActivityStory .uiStreamPrivacy{left:5px;top:3px}
+.recentActivityContainer .timelineRecentActivityStories .timelineRecentActivityStory .onlyMeBorder{background-position:0 7px;margin:0}
+.recentActivityContainer .timelineRecentActivityStories .timelineRecentActivityStory .onlyMeBorderBottom{background-position:0 -8px;margin-bottom:1px}
+.timelineReportCol{display:inline-block;vertical-align:middle}
+.timelineReportCol.titleWithSubtitle{height:32px;margin-bottom:-1px}
+.timelineReportCol .img{display:block;margin:0 auto;vertical-align:middle}
+.timelineReportContainer .timelineReportHeader{background-color:#f1f1f1;color:#555;font-size:11px;font-weight:normal;margin:0 3px;padding:5px 0 5px 12px}
+.timelineReportHeader .date, .timelineReportHeader .date a{color:gray;font-weight:normal}
+.timelineReportHeader .icon{margin-right:5px;text-align:center;line-height:16px}
+.timelineReportHeader .logo{line-height:32px;margin-right:8px}
+.timelineReportHeader .title{max-width:300px;word-wrap:break-word;color:#3b5998}
+.timelineReportContainer .repositionButton{visibility:hidden}
+.timelineReportContainer:hover .repositionButton{visibility:visible}
+._3t4o{margin-bottom:4px;margin-top:-4px}
+
+#bootloader_Klv5X { height: 42px; }

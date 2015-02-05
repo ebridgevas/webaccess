@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<posSaleVer01 xsi:noNamespaceSchemaLocation="posSaleEjb.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actH01>
+        <uiD01>
+            <userId>POS025200</userId>
+            <deviceId></deviceId>
+            <txUserId>testm</txUserId>
+            <posId>POS025200</posId>
+        </uiD01>
+        <transData01>
+            <actionType>4504</actionType>
+            <isFinancial>true</isFinancial>
+            <docDate>1407938457616</docDate>
+            <docNo>710842</docNo>
+            <isCredit>true</isCredit>
+            <isCashType>false</isCashType>
+        </transData01>
+        <seqD01>
+            <audit>710842</audit>
+            <finProcPer>
+                200509
+            </finProcPer>
+            <branchCode>252</branchCode>
+            <grpCode>1~1~1</grpCode>
+        </seqD01>
+        <posD01>
+            <audit>710842</audit>
+            <userId>POS025200</userId>
+            <posId>POS025200</posId>
+            <deviceId></deviceId>
+            <isRedundant>false</isRedundant>
+            <refAudit>0</refAudit>
+        </
+                posD01>
+    </actH01>
+    <saleAttr01>
+        <sperson>testm</sperson>
+        <salesPersonId>testm</salesPersonId>
+        <taxExempt>false</taxExempt>
+        <exchange>false</exchange>
+        <returnSalesPersonId>testm</returnSalesPersonId>
+        <returnSalesAuthorityId>testm
+        </returnSalesAuth
+                orityId>
+        <returnReceiptPresented>false</returnReceiptPresented>
+        <crossChannelCustomerID>83650</crossChannelCustomerID>
+        <crossChannelCustomerIDType></crossChannelCustomerIDType>
+        <crossChannelAnonymousCustomer>false
+        </crossChannelAnonymousCust
+                omer>
+        <crossChannelNewCustomer>false</crossChannelNewCustomer>
+        <crossChannelUpdatedCustomer>false</crossChannelUpdatedCustomer>
+        <crossChannelOfflineCustomer>false</crossChannelOfflineCustomer>
+        <crossChannelTranRefID>-1
+        </crossChannelTranRefI
+                D>
+        <crossChannelExtTranRefID>-1</crossChannelExtTranRefID>
+    </saleAttr01>
+    <saleSkuData01>
+        <skuTran>707926</skuTran>
+        <skuLine>127948</skuLine>
+        <origLineId>-1</origLineId>
+        <lineNo>1</lineNo>
+        <fuelSaleId>0</fuelSaleId>
+        <pumpId>0</pumpId>
+        <nozzId>0
+        </n
+                ozzId>
+        <sku>9509901000009</sku>
+        <ean>9509901000009</ean>
+        <qty>-1.0</qty>
+        <moveQty>1.0</moveQty>
+        <packQty>1.0</packQty>
+        <cost>0.01</cost>
+        <tranCost>0.01</tranCost>
+        <extdTranCost>0.01</extdTranCost>
+        <finCost>0.01</finCost>
+        <priceValue01>
+            <price>-60.
+                0
+            </price>
+            <taxData01>
+                <ctryCde>GB</ctryCde>
+                <stateCde>GB</stateCde>
+                <taxCde>S</taxCde>
+                <taxIsIncl>true</taxIsIncl>
+                <taxPcnt>20.0</taxPcnt>
+                <taxAmt>-10.0</taxAmt>
+            </taxData01>
+        </priceValue01>
+        <locId>-1</locId>
+        <promoDiscount01>
+            <promoId>0</promoId>
+            <
+                    discountValue01>
+                <type></type>
+                <discount>0.0</discount>
+                <taxData01>
+                    <ctryCde>GB</ctryCde>
+                    <stateCde>GB</stateCde>
+                    <taxCde>S</taxCde>
+                    <taxIsIncl>true</taxIsIncl>
+                    <taxPcnt>20.0</taxPcnt>
+                    <taxAmt>0.0</taxAmt>
+                </taxData01>
+            </discountValue01>
+        </promoDis
+                count01>
+        <sperson>testm</sperson>
+        <revSign>false</revSign>
+        <recmRsp>0.01</recmRsp>
+        <recmRspTax>0.0</recmRspTax>
+        <skuType>HPA</skuType>
+        <spivValue>0.0</spivValue>
+        <hireAgreement01>
+            <agreementNo>51101556</agreementNo>
+            <packagePrice>60.0
+            </packagePr
+                    ice>
+            <adwAmount>0.0</adwAmount>
+            <collectionDate>1409266800000</collectionDate>
+            <refundReason>11</refundReason>
+            <agreementFound>true</agreementFound>
+        </hireAgreement01>
+    </saleSkuData01>
+    <docPriceData01>
+        <totPriceAmt>-60.0</totPriceAmt>
+        <totPriceT
+                ax>-10.0
+        </totPriceTax>
+        <totDiscAmt>0.0</totDiscAmt>
+        <totDiscTax>0.0</totDiscTax>
+    </docPriceData01>
+    <tenderData01>
+        <tenderType>11</tenderType>
+        <tenderAmt>-60.0</tenderAmt>
+        <transactingForexCode></transactingForexCode>
+        <transactingForexRate>0.0
+        </
+                transactingForexRate>
+        <transactingForexAmount>0.0</transactingForexAmount>
+        <tenderTypeReason></tenderTypeReason>
+        <voucher01>
+            <voucherCde>710842252990215</voucherCde>
+            <activationDate>1407938457654</activationDate>
+            <expiryDate>0</expiryDate>
+            <re
+                    deemDate>0
+            </redeemDate>
+            <value>60.0</value>
+            <refAudId>710842</refAudId>
+            <issBranch>252</issBranch>
+            <active>true</active>
+            <subType>V1</subType>
+            <tenderType>0</tenderType>
+            <redeemValue>0.0</redeemValue>
+            <voucherComms>false</voucherComms>
+        </voucher
+                01>
+    </tenderData01>
+    <tenderHistData01>
+        <tenderType>10</tenderType>
+        <tenderAmt>66.5</tenderAmt>
+        <transactingForexCode></transactingForexCode>
+        <transactingForexRate>0.0</transactingForexRate>
+        <transactingForexAmount>0.0</transactingForexAmount>
+        <
+                tenderTypeReason></tenderTypeReason>
+        <creditkrd>
+            <refNo>0045</refNo>
+            <expiryDate>0</expiryDate>
+        </creditkrd>
+    </tenderHistData01>
+    <tenderHistData01>
+        <tenderType>1</tenderType>
+        <tenderAmt>53.5</tenderAmt>
+        <transactingForexCode></transactingForexCo
+                de>
+        <transactingForexRate>0.0</transactingForexRate>
+        <transactingForexAmount>0.0</transactingForexAmount>
+        <tenderTypeReason></tenderTypeReason>
+    </tenderHistData01>
+    <docValueData01>
+        <account>0</account>
+        <transAmt>-60.0</transAmt>
+        <transTax>-10.0
+        </transTax>
+    </docValueData01>
+    <customerDetails01>
+        <firstNames>Natasha</firstNames>
+        <surname>Futtingah</surname>
+        <idNo></idNo>
+        <physicalAddress>null
+            34 OAKWOOD AVENUE
+            null
+            null
+            CR4 3DP
+        </physicalAddress>
+        <phoneNumber></phoneNumber>
+        <cellPhoneNumber>+447789968858</cellPhoneNumber>
+        <postalCode>CR4 3DP</postalCode>
+        <email>Natasha.Futtingah@gmail.com</email>
+        <promoCode></promoCode>
+        <consent>false</consent>
+    </customerDeta
+            ils01>
+</posSaleVer01>
+
+        select
+        case when     Audit.id_doc_ext like '%-%' then left (Audit.id_doc_ext, len(Audit.id_doc_ext) -2) else Audit.id_doc_ext end AS SaleDocumentNo,id_doc_ext,
+        Audit.id_bsn_un AS SaleBranchNo,
+        Audit.id_bsn_un +case when    Audit.id_doc_ext like '%-%' then left (Audit.id_doc_ext, len(Audit.id_doc_ext) -2) else Audit.id_doc_ext end as Transactionno,
+        RetailTransaction.id_ct AS CustomerID ,ts_aud_org
+        from dbo.tenant Tenant
+        JOIN dbo.tr_trn on (tr_trn.tenant_id = Tenant.tenant_id)
+        JOIN dbo.tr_rtl  AS RetailTransaction on (RetailTransaction.tenant_id = Tenant.tenant_id AND RetailTransaction.id_trn = tr_trn.id_trn AND RetailTransaction.rowstatus =0)
+        JOIN dbo.audit AS Audit on (Audit.tenant_id= Tenant.tenant_id AND Audit.id_trn= tr_trn.id_trn AND Audit.rowstatus=0)
+        JOIN dbo.tr_ltm_rtl_trn  AS SaleLineRetailTransactionLineItem on (SaleLineRetailTransactionLineItem.tenant_id = RetailTransaction.tenant_id AND SaleLineRetailTransactionLineItem.id_trn = RetailTransaction.id_trn AND SaleLineRetailTransactionLineItem.rowstatus =0)
+        JOIN dbo.tr_ltm_sls_rtn AS  SaleReturnLineItem on (SaleReturnLineItem.tenant_id =SaleLineRetailTransactionLineItem.tenant_id AND SaleReturnLineItem.id_trn =SaleLineRetailTransactionLineItem.id_trn AND SaleReturnLineItem.ai_ln_itm =SaleLineRetailTransactionLineItem.ai_ln_itm AND SaleReturnLineItem.rowstatus = 0)
+        JOIN dbo.tr_ltm_sls_rtn_tx AS SaleReturnTaxLineItem on (SaleReturnTaxLineItem.tenant_id =  SaleReturnLineItem.tenant_id AND SaleReturnTaxLineItem.id_trn =  SaleReturnLineItem.id_trn AND SaleReturnTaxLineItem.ai_ln_itm =  SaleReturnLineItem.ai_ln_itm AND SaleReturnTaxLineItem.rowstatus =0)
+        JOIN dbo.tr_ltm_rtl_trn  AS TenderRetailTransactionLineItem on (TenderRetailTransactionLineItem.tenant_id = RetailTransaction.tenant_id AND TenderRetailTransactionLineItem.id_trn = RetailTransaction.id_trn AND TenderRetailTransactionLineItem.rowstatus =0)
+        JOIN dbo.tr_ltm_tnd AS TenderLineItem  on (TenderLineItem.tenant_id = TenderRetailTransactionLineItem.tenant_id AND TenderLineItem.id_trn = TenderRetailTransactionLineItem.id_trn AND TenderLineItem.ai_ln_itm = TenderRetailTransactionLineItem.ai_ln_itm AND TenderLineItem.rowstatus =0 )
+        LEFT OUTER JOIN dbo.co_azn_tnd AS TenderAuthorization on (TenderAuthorization.tenant_id =  TenderLineItem.tenant_id AND TenderAuthorization.id_trn =  TenderLineItem.id_trn AND TenderAuthorization.ai_ln_itm =  TenderLineItem.ai_ln_itm AND TenderAuthorization.rowstatus =0)
+        LEFT OUTER JOIN dbo.tr_ltm_crdb_crd_tn AS CreditDebitCardTenderLineItem on (CreditDebitCardTenderLineItem.tenant_id =  TenderLineItem.tenant_id AND CreditDebitCardTenderLineItem.id_trn =  TenderLineItem.id_trn AND CreditDebitCardTenderLineItem.ai_ln_itm =  TenderLineItem.ai_ln_itm AND CreditDebitCardTenderLineItem.rowstatus =0)
+        LEFT OUTER JOIN dbo.tr_ltm_chk_tnd AS CheckTenderLineItem on (CheckTenderLineItem.tenant_id =  TenderLineItem.tenant_id AND CheckTenderLineItem.id_trn =  TenderLineItem.id_trn AND CheckTenderLineItem.ai_ln_itm =  TenderLineItem.ai_ln_itm AND CheckTenderLineItem.rowstatus =0)
+        LEFT OUTER JOIN dbo.tr_ltm_gf_cf_tnd AS GiftCertificateTenderLineItem on (GiftCertificateTenderLineItem.tenant_id =  TenderLineItem.tenant_id AND GiftCertificateTenderLineItem.id_trn =  TenderLineItem.id_trn AND GiftCertificateTenderLineItem.ai_ln_itm =  TenderLineItem.ai_ln_itm AND GiftCertificateTenderLineItem.rowstatus =0)
+        LEFT OUTER JOIN dbo.tr_ltm_gf_crd_tn AS GiftCardTenderLineItem on (GiftCardTenderLineItem.tenant_id =  TenderLineItem.tenant_id AND GiftCardTenderLineItem.id_trn =  TenderLineItem.id_trn AND GiftCardTenderLineItem.ai_ln_itm =  TenderLineItem.ai_ln_itm AND GiftCardTenderLineItem.rowstatus =0)
+        LEFT OUTER JOIN dbo.do_cf_gf AS GiftCertificate on (GiftCertificate.tenant_id = GiftCertificateTenderLineItem.tenant_id AND GiftCertificate.id_nmb_srz_gf_cf = GiftCertificateTenderLineItem.id_nmb_srz_gf_cf AND GiftCertificate.rowstatus =0)
+        LEFT OUTER JOIN dbo.as_itm AS Item on (Item.tenant_id = Tenant.tenant_id AND Item.id_itm=SaleReturnLineItem.id_itm AND Item.rowstatus=0)
+        LEFT OUTER JOIN dbo.co_mdfr_rtl_prc  AS RetailPriceModifier on (RetailPriceModifier.tenant_id = Tenant.tenant_id  AND RetailPriceModifier.id_trn = tr_trn.id_trn AND RetailPriceModifier.ai_ln_itm=SaleReturnLineItem.ai_ln_itm AND RetailPriceModifier.rowstatus=0)
+        WHERE  Tenant.tenant_id = 300 --and      tr_trn.ts_trn_bgn between '2014-07-20 00:00' and '2014-07-26 23:59' --and right(Audit.id_doc_ext,1) ='R'
+        --     order by tr_trn.id_ws , Audit.id_doc_ext
+        and ts_aud_org > getdate()-14 and RetailTransaction.id_ct  is Null
+        order by Audit.id_bsn_un

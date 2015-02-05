@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title></title>
+    <style type="text/css">
+        html, body {margin: 0; border: 0; padding: 0;}
+    </style>
+    <script type="text/javascript">
+        (function () {
+            var W = window, D = document, qs;
+
+            function decodeQP(p) { return decodeURIComponent(p.replace(/\+/g, ' ')); }
+            function encodeQP(p) { return encodeURIComponent(p); }
+
+            function getQP(k) {
+                if (!qs) {
+                    qs = {};
+                    var kvs = W.location.search.substr(1).split('&');
+                    for (var i = 0; i < kvs.length; i++) {
+                        var p = kvs[i].split('=');
+                        qs[decodeQP(p[0])] = decodeQP(p.length == 2 ? p[1] : p[0]);
+                    }
+                }
+                return qs[k];
+            }
+            
+            function postMsg(num) {
+                try {
+                    var loc = getQP('l');
+                    loc && W.top.postMessage(num.toString(), loc);
+                } catch (e) { }
+            }
+
+            function run(p) {
+                var url = '';
+                switch (p) {
+                    case 'ADM':
+                        admatter_account = '50296486-753f-419a-b8f3-ed9745d6ab1e';
+                        admatter_uid = '';
+                        admatter_adtype = 'banner';
+                        admatter_slot = 83;
+                        admatter_width = 728;
+                        admatter_height = 90;
+                        admatter_keyword = getQP('kw');
+                        url = '//wac.edgecastcdn.net/800952/static/js/showads_p.js';
+
+                        W.sendMsg = function (id) {
+                            postMsg(id == 1 ? 0 : 1);
+                            try {
+                                delete W.sendMsg;
+                            } catch (e) { }
+                        };
+
+                        break;
+                    case 'OXOS':
+                        m3_r = Math.floor(Math.random() * 99999999999);
+                        m3_u = 'http://openx.jeetyetmedia.com/www/delivery/ajs.php?zoneid=990&amp;cb=' + m3_r;
+                        m3_u += '&amp;category=' + encodeQP(getQP('cat'));
+                        m3_u += '&amp;loc=' + encodeQP(D.location.href);
+                        if (D.referrer) m3_u += '&amp;referer=' + encodeQP(D.referrer);
+                        if (D.context) m3_u += '&amp;context=' + encodeQP(D.context);
+                        if (D.charset || D.characterSet) m3_u += '&amp;charset=' + encodeQP(D.charset || D.characterSet);
+                        if (!D.MAX_used) D.MAX_used = ',';
+                        if (D.MAX_used != ',') m3_u += '&amp;exclude=' + D.MAX_used;
+                        if (D.mmm_fo) m3_u += '&amp;mmm_fo=1';
+                        url = m3_u;
+                        
+                        W.onload = function () {
+                            postMsg(Math.max(D.body.children.length - 2, 0));
+                        };
+
+                        break;
+                }
+                if (!!url) {
+                    D.write('<scr' + 'ipt type="text/javascript" src="' + url + '">');
+                    D.write('<\/scr' + 'ipt>');
+                }
+            }
+
+            W.run = function (p) {
+                run(p);
+                try {
+                    delete W.run;
+                } catch (e) { }
+            };
+        })()
+    </script>
+</head>
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+    <!-- ID: 264 | GeoID: 1 | GroupID: 21 | ProductID: 14 | Template: BottomBar -->
+    <script type="text/javascript">
+(function () {
+    var providers = [
+        {
+            l: 'ADM',
+            p: 100
+        },
+        {
+            l: 'OXOS',
+            p: 0
+        }
+    ];
+
+    var r = Math.random() * 100;
+    for (var i = 0; i < providers.length; i++) {
+        var p = providers[i];
+        r -= p.p;
+        if (r < 0) return run(p.l);
+    }
+})()
+    </script><script type="text/javascript" src="ancbanner_general_728x90_264_data/showads_p.js"></script><script type="text/javascript" src="ancbanner_general_728x90_264_data/creative.txt"></script><!-- BEGIN JS TAG - A128 - C2071 - Cat - Non Eng - Appnexus - 2x24 - Non-English - 728x90 < - DO NOT MODIFY -->
+<script src="ancbanner_general_728x90_264_data/ttj" type="text/javascript"></script><object id="3723100050259784975" data="ancbanner_general_728x90_264_data/0a0080e37909a1852ead51a2d969768b.swf" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" flashvars="clickTAG=http%3A%2F%2Fams1.ib.adnxs.com%2Fclick%3FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPA_AAAAAAAAAAAAAAAAAAAAAA81-RbFG6szz9-RK8mQpCW5wfxRAAAAAAtnGACTBwAApAYAAAIAAAA6ZVIALSsEAAAAAQBVU0QAVVNEANgCWgCxPQAAxmkAAgUCAQIAAIgAbxTj2wAAAAA.%2Fcnd%3D%2521PwaxOAjqv2EQusrJAhit1hAgAg..%2Freferrer%3Dhttp%253A%252F%252Fcdn.sharedaddomain.com%252Fancbanner_general_728x90_264.htm%253Fcat%253D48%2526clientId%253De8e992ae-fcd2-4f3f-abc1-9be61b5ba1d9%2526l%253Dhttp%25253A%25252F%25252Fwww.goglogo.com%25252Fs.asp%25253Flo%25253DeBridge%2526r%253Dhttp%25253A%25252F%25252Fwww.goglogo.com%25252Fs.asp%25253Flo%25253DeBridge%2526kw%253DGoogle%252520Logo%252520Creator%25252C%252520Personal%252520Search%252520Engine%25252C%252520Funny%252520Search%2Fclickenc%3Dhttp%253A%252F%252Ftrack.adjal.com%252Faff_c%253Foffer_id%253D3562%2526aff_id%253D17840%2526url_id%253D14502%2526aff_sub%253Dams1CM-_x9ySmaTSJRACGI_q5LfR-MbVMyINMTk2LjIuMTI2LjE3MygB" height="90" width="728"><param name="movie" value="http://cdn.adnxs.com/p/0a/00/80/e3/0a0080e37909a1852ead51a2d969768b.swf"><param name="loop" value="true"><param name="menu" value="false"><param name="quality" value="high"><param name="wmode" value="opaque"><param name="bgcolor" value="#FFFFFF"><param name="allowscriptaccess" value="always"><param name="flashvars" value="clickTAG=http%3A%2F%2Fams1.ib.adnxs.com%2Fclick%3FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPA_AAAAAAAAAAAAAAAAAAAAAA81-RbFG6szz9-RK8mQpCW5wfxRAAAAAAtnGACTBwAApAYAAAIAAAA6ZVIALSsEAAAAAQBVU0QAVVNEANgCWgCxPQAAxmkAAgUCAQIAAIgAbxTj2wAAAAA.%2Fcnd%3D%2521PwaxOAjqv2EQusrJAhit1hAgAg..%2Freferrer%3Dhttp%253A%252F%252Fcdn.sharedaddomain.com%252Fancbanner_general_728x90_264.htm%253Fcat%253D48%2526clientId%253De8e992ae-fcd2-4f3f-abc1-9be61b5ba1d9%2526l%253Dhttp%25253A%25252F%25252Fwww.goglogo.com%25252Fs.asp%25253Flo%25253DeBridge%2526r%253Dhttp%25253A%25252F%25252Fwww.goglogo.com%25252Fs.asp%25253Flo%25253DeBridge%2526kw%253DGoogle%252520Logo%252520Creator%25252C%252520Personal%252520Search%252520Engine%25252C%252520Funny%252520Search%2Fclickenc%3Dhttp%253A%252F%252Ftrack.adjal.com%252Faff_c%253Foffer_id%253D3562%2526aff_id%253D17840%2526url_id%253D14502%2526aff_sub%253Dams1CM-_x9ySmaTSJRACGI_q5LfR-MbVMyINMTk2LjIuMTI2LjE3MygB"><object type="application/x-shockwave-flash" data="ancbanner_general_728x90_264_data/0a0080e37909a1852ead51a2d969768b_002.swf" wmode="opaque" allowscriptaccess="always" height="90" width="728"></object></object>
+<!-- END TAG --><script type="text/javascript" src="ancbanner_general_728x90_264_data/i.txt"></script>
+
+</body></html>

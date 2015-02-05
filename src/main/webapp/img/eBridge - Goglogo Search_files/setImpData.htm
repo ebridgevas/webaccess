@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>SetAdImpData</title>
+    <script type="text/javascript" src="setImpData_data/utils.js"></script><style type="text/css"></style>
+    <script type="text/javascript">        
+        var provider = decodeURIComponent(utils.getQueryStringParam("p"));
+        var imps = parseInt(decodeURIComponent(utils.getQueryStringParam("i")));
+        var clientId = decodeURIComponent(utils.getQueryStringParam("c"));
+        var app = decodeURIComponent(utils.getQueryStringParam("a"));
+        var requestingDomain = decodeURIComponent(utils.getQueryStringParam("d"));
+
+        if(provider && imps) {
+            var impsKey = provider+"_imps";            
+            var timeKey = provider+"_time";
+            var recordedImps = parseInt(utils.getLocalStorageItem(impsKey));            
+            var now = new Date().getTime();
+            var then = parseInt(utils.getLocalStorageItem(timeKey));
+            var maxTime = 86400000;
+            
+            if(then && recordedImps) {
+                if( (now - then) > maxTime) {
+                    
+                    var bbMsg = "//jsl.blankbase.com?userDailyAdImps,{0},{1},{2},{3},{4}";
+                    var img = new Image();
+
+                    var date = new Date(then);
+                    var utcTimeTemplate = "{0}/{1}/{2} {3}:{4}:{5}";
+                    var utcTime = utils.format(utcTimeTemplate, date.getUTCMonth() + 1, date.getUTCDate(), date.getUTCFullYear(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+
+                    img.src = utils.format(bbMsg, encodeURIComponent(clientId), encodeURIComponent(utcTime), encodeURIComponent(app), encodeURIComponent(provider), recordedImps);
+
+                    utils.setLocalStorageItem(impsKey,imps);
+                    utils.setLocalStorageItem(timeKey,now);
+                } else {
+                    if(recordedImps) {
+                        imps += recordedImps;
+                    }
+                    utils.setLocalStorageItem(impsKey,imps);
+                }
+            } else {
+                utils.setLocalStorageItem(impsKey,imps);
+                utils.setLocalStorageItem(timeKey,now); 
+            }
+        }
+        if (requestingDomain) {
+            var addEventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+            var removeEventMethod = window.addEventListener ? "removeEventListener" : "detachEvent";
+            var addEventer = window[addEventMethod];
+            var removeEventer = window[removeEventMethod];
+            var messageEvent = addEventMethod == "attachEvent" ? "onmessage" : "message";
+
+            function handleMessageEvent(e) {
+                try {
+                    if (e.origin == requestingDomain) {
+                        if (e.data) {
+                            var newImps = parseInt(e.data);
+                            var recordedImps = parseInt(utils.getLocalStorageItem(impsKey)) || 0;
+                            var totalImps = (recordedImps + newImps) || recordedImps;
+                            utils.setLocalStorageItem(impsKey, totalImps);                        
+                        }
+                    }
+                } catch (ex) { }
+            }
+            addEventer(messageEvent, handleMessageEvent, false);
+        }
+
+
+    </script>
+</head>
+<body>
+
+
+</body></html>

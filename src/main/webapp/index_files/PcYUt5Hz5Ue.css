@@ -1,0 +1,740 @@
+/*!CK:516028674!*//*1375796954,173209403*/
+
+._4k3{margin-top:8px}
+._4k4{margin-top:4px}
+._361, ._4k4{text-align:center}
+._361{margin-top:8px}
+._362 ._363{margin-right:15px}
+#blueBarHolder.slim{height:38px}
+.hasVoiceBar #blueBarHolder.slim{height:65px}
+.hasViewasChromeBar #blueBarHolder.slim{height:77px}
+#blueBar{background-color:#3b5998;border-bottom:1px solid #133783;min-width:981px;position:relative;z-index:300}
+.slim #blueBar{box-shadow:0 2px 2px -2px rgba(0, 0, 0, .52);height:37px}
+.slim #blueBar.fixed_elem{left:0;right:0;top:0}
+.tinyViewport .slim #blueBar.fixed_elem{margin:0;position:relative !important}
+.composerTourInProgress .slim #blueBar.fixed_elem{position:static !important}
+#pageHead{margin:0 auto;width:980px}
+.fbx #pageHead, #blueBar #pageHead{padding-top:6px;width:981px}
+.sidebarMode .fbx #pageHead, .sidebarMode #blueBar #pageHead{padding-right:205px}
+#pageLogo{float:left;margin-left:-7px;padding-right:1px;z-index:5}
+#pageLogo a, #pageLogo a:hover, #pageLogo a:focus, #pageLogo a:active{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:0 -151px;display:block;height:31px;outline:none;overflow:hidden;text-indent:-999px;white-space:nowrap;width:103px}
+#pageLogo a:hover, #pageLogo a:focus, #pageLogo a:active{background-color:#4b67a1}
+#headNav{height:30px;margin-left:176px}
+#pageNav{margin-right:1px}
+#pageNav .navItem, #pageNav #navAccount{float:left}
+#pageNav .navLink, #pageNav #navAccountLink{color:#d8dfea;display:inline-block;font-weight:bold;height:31px;line-height:29px;position:relative;text-decoration:none;vertical-align:top}
+#pageNav .middleItem .navLink, #pageNav .lastItem a, #pageNav #navAccountLink{margin-left:-1px}
+#pageNav .middleItem .navLink, #pageNav .lastItem a{padding:0 8px}
+#pageNav .navLink:hover, #pageNav .navLink:focus, #pageNav .navLink:active{background-color:#4b67a1;color:#fff;outline:none;z-index:1}
+#pageNav .openToggler .navLink:hover{background-color:transparent}
+#pageNav .navLink:after{background:#526da4;content:" ";display:block;height:14px;position:absolute;right:0;top:9px;width:1px}
+#pageNav .navLink:hover:after, #pageNav #navAccountLink:after, #pageNav .lastItem .navLink:after{display:none}
+#pageNav .openToggler .navLink:hover::after{display:block}
+#pageNav .tinyman .headerTinymanPhoto{border:1px solid #294a8f;border-top:1px solid #123682;border-radius:2px;height:23px;margin:3px 5px 3px 3px;width:23px}
+#pageNav .tinyman .headerTinymanName{display:inline-block;max-width:175px;overflow:hidden;padding-right:8px;text-overflow:ellipsis;vertical-align:top;white-space:nowrap}
+.lightNav #pageNav .headerTinymanName{color:#d8dfea;font-weight:bold;line-height:29px}
+#pageNav .voiceBarToggle{display:none}
+.hasVoiceToggle #pageNav .voiceBarToggle{display:inline}
+#navAccount{position:relative}
+.no_js #navAccount:hover, #pageNav #navAccount.openToggler{position:relative;top:1px}
+.no_js #navAccount:hover #navAccountLink, #navAccount.openToggler #navAccountLink{background-color:#fff;border:1px solid #333;border-bottom:0;color:#333;margin:-1px -1px 0 -2px;position:relative;z-index:2}
+.no_js #navAccountLink:hover, #navAccount.openToggler #navAccountLink:hover, #navAccount.openToggler #navAccountLink:focus, #navAccount.openToggler #navAccountLink:active{background-color:#fff}
+.no_js #navAccount:hover #navAccountLink, #pageNav #navAccount.openToggler #navAccountLink{padding-left:0}
+#navAccountLink .menuPulldown{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-57px -118px;height:31px;overflow:hidden;text-indent:-5000px;width:24px}
+#navAccountLink:hover .menuPulldown{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-2px -253px}
+.no_js #navAccount:hover #navAccountLink .menuPulldown, #navAccount.openToggler #navAccountLink .menuPulldown, #navAccount.openToggler #navAccountLink:hover .menuPulldown{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-77px -218px!important;background-color:#fff}
+#navAccount .contextualHelp, #navAccount .navigation{background:#fff;border:1px solid #333;border-bottom:2px solid #333;margin-top:-1px;padding:4px 0;position:absolute;right:-1px;top:100%;z-index:1}
+#navAccount #accountSettingsFlyout .navigation{border:0;margin-top:2px;position:relative;width:200px}
+#navAccount #accountSettingsFlyout{left:-171px;margin-top:-1px;width:202px}
+#pageNav .flyoutMenu #navAccountLink{margin-left:0;margin-right:0}
+#navAccount.flyoutMenu #navAccountLink .menuPulldown{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:0 -317px!important}
+#navAccount.flyoutMenu #navAccountLink:hover .menuPulldown, #navAccount.flyoutMenu.openToggler #navAccountLink .menuPulldown{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-24px -317px!important}
+#navAccount #accountSettingsFlyout .beeperNub{right:10px}
+.no_js #pageNav #navAccount.flyoutMenu #navAccountLink, #pageNav #navAccount.flyoutMenu.openToggler #navAccountLink, .no_js #pageNav #navAccount.flyoutMenu #navAccountLink .menuPulldown, #pageNav #navAccount.openToggler.flyoutMenu #navAccountLink .menuPulldown{background-color:transparent;border:0}
+#navAccount .navigation{display:none;max-width:400px;min-width:200px}
+.no_js #navAccount:hover .navigation, #navAccount.openToggler .navigation{display:block}
+#pageNav .menuDivider{background:#ddd;font-size:0;height:1px;line-height:0;margin:6px 7px}
+#pageNav #navAccount .navSubmenu{border-bottom:1px solid #fff;border-top:1px solid #fff;color:#222;display:block;height:18px;line-height:18px;overflow:hidden;padding:0 22px;text-overflow:ellipsis;white-space:nowrap}
+#pageNav #navAccount .navSubmenu:hover, #pageNav #navAccount .navSubmenu:focus, #pageNav #navAccount .navSubmenu:active, #pageNav #navAccount .selected label.navSubmenu{background:#6d84b4;border-bottom:1px solid #3b5998;border-top:1px solid #3b5998;color:#fff;text-decoration:none}
+#pageNav #navAccount .navSubmenu input{color:#222;display:block;height:18px;margin-top:-1px;padding:0}
+#pageNav #navAccount .navSubmenu:hover input, #pageNav #navAccount .navSubmenu input:focus, #pageNav #navAccount .navSubmenu input:active, #pageNav #navAccount .selected input{color:#fff;text-decoration:none}
+#pageNav #navAccount .navSubmenu img{height:18px;width:18px}
+#pageNav #navAccount .navSubmenu img.uiLoadingIndicatorAsync{width:16px;height:11px;margin-top:4px}
+#navAccount .pagesNavMenuTitle{padding:0 22px 6px 22px}
+#navAccount .uiScrollableArea.contentAfter:after{display:none}
+#navSearch{margin:3px 0 0 4px;position:relative;width:350px}
+#navSearch .uiTypeahead{border:1px solid #294a8f;border-radius:2px;border-top:1px solid #123682}
+#navSearch .uiTypeahead .wrap, #navSearch .uiSearchInput span{border:none}
+#navSearch .uiSearchInput{border:0;border-radius:1px;border-top:1px solid #d9d9d9;padding:0 0 1px}
+#navSearch .uiSearchInput input{padding-top:2px;width:315px}
+._5bl2 .highlightNode{background-color:#e6eeff;background-color:rgba(88, 144, 255, .15);border-bottom:1px solid #cdddff;border-bottom:1px solid rgba(88, 144, 255, .3);padding:0 1px}
+._5bl2 ._53ad .highlightNode{padding:0}
+._5b71 ._5bl2.selected ._53ad .highlightNode{background-color:#abc7ff;background-color:rgba(88, 144, 255, .5);border-bottom:1px solid #8ab1ff;border-bottom:1px solid rgba(88, 144, 255, .7)}
+._5bl2 ._562u .highlightNode, ._5bl2 ._5b_0 .highlightNode, ._5bl2 ._5b-_ .highlightNode{background-color:#cdddff;background-color:rgba(88, 144, 255, .3);border-bottom:1px solid #abc7ff;border-bottom:1px solid rgba(88, 144, 255, .5)}
+._1sdi:hover{color:#777;text-decoration:none}
+._1sdi{color:#aaa;font-weight:normal;padding-right:2px}
+._1sdd:hover, ._1sdd{color:#333;font-weight:bold;padding-right:0}
+._1sdj{margin-left:2px}
+.fbJewel{float:left;margin-right:-1px;position:relative}
+#jewelContainer{float:left;position:relative;z-index:4}
+#jewelContainer .hasNew, #jewelContainer .openToggler{position:relative}
+.fbJewel .jewelCount{border-radius:2px;color:#fff;display:none;font-size:9px;font-weight:bold;overflow:hidden;padding-bottom:1px;position:absolute;right:-1px;top:0;z-index:101}
+#jewelContainer .hasNew .jewelCount{display:block}
+#jewelContainer .openToggler .jewelCount{display:none}
+.fbJewel .jewelCount span{background-color:#f03d25;border:1px solid #d83722;border-bottom:1px solid #c0311e;border-top:1px solid #e23923;border-radius:2px;box-shadow:0 1px 0 rgba(0, 39, 121, .77);display:block;padding:0 1px}
+.fbJewel a.jewelButton{display:block;height:31px;position:relative;text-decoration:none;margin:0 1px;width:24px}
+.fbJewel a.jewelButton .jewelButtonHcm{display:none}
+.highContrast .fbJewel a.jewelButton .jewelButtonHcm{display:block}
+.fbJewel a.jewelButton:active, .fbJewel a.jewelButton:focus, .fbJewel a.jewelButton:hover{background-color:#4b67a1;outline:none;text-decoration:none}
+#jewelContainer .openToggler .jewelButton{background-color:#fff !important;border:1px solid #333;border-bottom:0;margin:0}
+.fbJewelFlyout{background-color:#fff;border:1px solid #333;border-bottom:2px solid #293e6a;left:0;overflow:visible;position:absolute;top:32px;width:330px;z-index:-1}
+.fbJewelFlyout .metadata{padding-top:3px}
+.fbJewelFlyout .jewelItemList{padding:4px 0}
+.fbJewelFlyout .empty, .fbJewelFlyout .jewelHighlight .empty{border:none;color:#757575;padding:4px 8px 10px}
+.fbJewelFlyout .jewelHighlight li a{color:#333;display:block;padding:4px 8px;text-decoration:none}
+.fbJewelFlyout .jewelHighlight li a:hover, .fbJewelFlyout .jewelHighlight li a:active, .fbJewelFlyout .jewelHighlight li a:focus{background-color:#6d84b4 !important;border-bottom:1px solid #3b5998;border-top:1px solid #3b5998;outline:none;padding-top:3px;padding-bottom:3px;text-decoration:none}
+.fbJewelFlyout .jewelHighlight a:hover span, .fbJewelFlyout .jewelHighlight a:active span, .fbJewelFlyout .jewelHighlight a:focus span, .fbJewelFlyout .jewelHighlight a:hover div, .fbJewelFlyout .jewelHighlight a:active div, .fbJewelFlyout .jewelHighlight a:focus div, .fbJewelFlyout .jewelHighlight li.selected a, .fbJewelFlyout .jewelHighlight li.selected .timestamp{color:#fff}
+.fbJewelFlyout .jewelHighlight li{cursor:pointer;border-top:1px solid #e6e6e6}
+.fbJewelFlyout .jewelHighlight li:first-child{border-top:none}
+.fbJewelFlyout li.jewelItemNew{background:#eff1f7}
+.fbJewelFlyout li.jewelItemResponded{background:#fff9d7}
+.fbJewelFlyout .jewelLoading{display:block;margin:10px auto}
+.fbJewelFlyout .jewelNotice{background-color:#fcf5d0;padding:8px;display:none}
+.fbJewelFlyout .jewelHeader{background-color:#fff;padding:7px 8px 7px 8px;border-color:#ddd}
+.fbJewelFlyout .jewelFooter a{background-color:#f7f7f7;border-top:1px solid #e0e0e0;display:block;font-weight:bold;padding:8px;text-align:center}
+.fbJewelFlyout .jewelFooter a:hover, .fbJewelFlyout .jewelFooter a:active, .fbJewelFlyout .jewelFooter a:focus{background-color:#6d84b4;border-top:1px solid #3b5998;color:#fff;outline:none;text-decoration:none}
+.fbJewelFlyout .jewelFooter .seeMoreCount{display:none;font-weight:bold;padding:2px 0 0}
+.fbJewelFlyout .jewelUnread .seeMoreCount{display:block}
+.fbJewelFlyout .jewelFooter a:hover .seeMoreCount, .fbJewelFlyout .jewelFooter a:active .seeMoreCount, .fbJewelFlyout .jewelFooter a:focus .seeMoreCount{color:#e7e7e7}
+.fbJewelFlyout .x_div{position:absolute;right:7px;top:7px;z-index:2}
+#jewelContainer.notifNegativeBase .openToggler .jewelButton{background-color:transparent !important;border-color:transparent;border-top:0}
+.notifNegativeBase .openToggler{z-index:1}
+.notifNegativeBase .fbJewelFlyout, #tinymanNavWrapper .fbJewelFlyout{background-color:#fff;background:rgba(255,255,255,0.98);border:1px solid #c5c5c5;top:36px;box-shadow:0 3px 8px rgba(0, 0, 0, .25);border-radius:3px;border:1px solid rgba(100, 100, 100, .4);background-clip:padding-box}
+.notifNegativeBase .fbJewelFlyout .jewelItemList{padding:0}
+.notifNegativeBase .fbJewelFlyout .uiScrollableAreaContent{padding-bottom:1px}
+.notifNegativeBase .fbJewelFlyout li.jewelItemNew{background-color:transparent}
+.notifNegativeBase .fbJewelFlyout .beeperNub, #tinymanNavWrapper .fbJewelFlyout .beeperNub{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-82px -28px;height:11px;position:absolute;top:-11px;width:20px}
+.notifNegativeBase .timestamp{font-size:11px;color:#999}
+.notifNegativeBase .fbJewelFlyout .jewelHeader, #tinymanNavWrapper .fbJewelFlyout .jewelHeader{border-bottom:solid 1px #ddd;border-bottom:solid 1px rgba(100, 100, 100, .22);background-clip:padding-box;z-index:100;position:relative;padding:8px 8px 6px 8px;background-color:#fff;border-top-left-radius:3px;border-top-right-radius:3px}
+.notifNegativeBase .fbJewelFlyout .jewelFooter a{background-color:#f7f7f7;border-top:1px solid #c5c5c5;border-bottom-left-radius:3px;border-bottom-right-radius:3px;position:relative;z-index:100}
+.notifNegativeBase .fbJewelFlyout .jewelFooter a:hover, .notifNegativeBase .fbJewelFlyout .jewelFooter a:active, .notifNegativeBase .fbJewelFlyout .jewelFooter a:focus{background-color:#f7f7f7;border-top:1px solid #c5c5c5;color:#3b5998;outline:none;text-decoration:underline}
+.notifNegativeBase .fbJewelFlyout .jewelFooter a:hover .seeMoreCount, .notifNegativeBase .fbJewelFlyout .jewelFooter a:active .seeMoreCount, .notifNegativeBase .fbJewelFlyout .jewelFooter a:focus .seeMoreCount{color:gray}
+#fbMessagesJewel a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-56px -50px}
+#fbMessagesJewel a.jewelButton:active, #fbMessagesJewel a.jewelButton:focus, #fbMessagesJewel a.jewelButton:hover{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:0 -185px}
+#fbMessagesJewel.hasNew a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-56px -85px}
+#fbMessagesJewel.openToggler a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-31px -85px!important}
+#fbMessagesFlyout li a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#fbMessagesFlyout .content{display:block;width:auto}
+#fbMessagesFlyout .author{color:#3b5998;font-weight:bold;padding-top:2px;white-space:normal}
+#fbMessagesFlyout .preview{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#fbMessagesFlyout .subject{color:#333}
+#fbMessagesFlyout .time{color:#9d9d9d;font-size:9px}
+#fbMessagesFlyout a:hover .author, #fbMessagesFlyout a:hover .preview, #fbMessagesFlyout a:hover .subject, #fbMessagesFlyout a:hover .time{color:#fff}
+#fbMessagesFlyout .snippetThumbnail{padding-top:3px}
+.notifNegativeBase #fbMessagesFlyout{left:-128px}
+.notifNegativeBase #fbMessagesFlyout .beeperNub{left:130px}
+.notifNegativeBase #fbMessagesJewel.openToggler a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-27px -253px!important}
+.notifNegativeBase #fbMessagesFlyout .author, .notifNegativeBase #fbMessagesFlyout a.messagesContent:hover .author, .notifNegativeBase #fbMessagesFlyout a.messagesContent:hover .author span, .notifNegativeBase #fbMessagesFlyout .subject, .notifNegativeBase #fbMessagesFlyout a.messagesContent:hover .subject{color:#333}
+.notifNegativeBase #fbMessagesFlyout .preview, .notifNegativeBase #fbMessagesFlyout a.messagesContent:hover .preview{color:gray;padding-top:1px}
+.notifNegativeBase #fbMessagesFlyout .time .timestamp, .notifNegativeBase #fbMessagesFlyout a.messagesContent:hover .time .timestamp{color:#9d9d9d;font-size:9px;padding-top:2px;display:block}
+.notifNegativeBase #fbMessagesFlyout .jewelContent li{border-top:0}
+.notifNegativeBase #fbMessagesFlyout .jewelContent li:first-child a.messagesContent, .notifNegativeBase #fbMessagesFlyout .jewelContent li:first-child a.messagesContent:hover, .notifNegativeBase #fbMessagesFlyout .jewelContent li:first-child a.messagesContent:active, .notifNegativeBase #fbMessagesFlyout .jewelContent li:first-child a.messagesContent:focus{border-top:none}
+.notifNegativeBase #fbMessagesFlyout .jewelContent a.messagesContent{border-bottom:1px solid #e9e9e9;border-top:1px solid #e9e9e9;margin-bottom:-1px;padding:4px 20px 4px 8px;position:relative}
+.notifNegativeBase #fbMessagesFlyout .jewelContent a.messagesContent:hover, .notifNegativeBase #fbMessagesFlyout .jewelContent a.messagesContent:active, .notifNegativeBase #fbMessagesFlyout .jewelContent a.messagesContent:focus{background-color:#f4f6f9 !important;border-color:#e3e8f0;position:relative;z-index:1}
+.notifNegativeBase #fbMessagesFlyout li.jewelItemNew a.messagesContent{background-color:#eceff5;background:rgba(237,239,245,0.98);border-color:#d1d8e7;position:relative;z-index:2}
+.notifNegativeBase #fbMessagesFlyout .jewelContent li.jewelItemNew a.messagesContent:hover, .notifNegativeBase #fbMessagesFlyout .jewelContent li.jewelItemNew a.messagesContent:active, .notifNegativeBase #fbMessagesFlyout .jewelContent li.jewelItemNew a.messagesContent:focus{background-color:#e7ebf2 !important;border-color:#d1d8e7}
+.notifNegativeBase .fbJewelFlyout .jewelHighlight a.messagesContent:hover span, .notifNegativeBase .fbJewelFlyout .jewelHighlight a.messagesContent:active span, .notifNegativeBase .fbJewelFlyout .jewelHighlight a.messagesContent:focus span, .notifNegativeBase .fbJewelFlyout .jewelHighlight a.messagesContent:hover div, .notifNegativeBase .fbJewelFlyout .jewelHighlight a.messagesContent:active div, .notifNegativeBase .fbJewelFlyout .jewelHighlight a.messagesContent:focus div{color:gray}
+.notifNegativeBase .fbJewelFlyout .jewelItemList{padding:0}
+#fbNotificationsJewel.west a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-25px -220px}
+#fbNotificationsJewel.west a.jewelButton:active, #fbNotificationsJewel.west a.jewelButton:focus, #fbNotificationsJewel.west a.jewelButton:hover{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-31px -50px}
+#fbNotificationsJewel.west.hasNew a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-25px -185px}
+#fbNotificationsJewel.west.openToggler a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-77px -253px}
+#fbNotificationsJewel.east a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-75px -285px}
+#fbNotificationsJewel.east a.jewelButton:active, #fbNotificationsJewel.east a.jewelButton:focus, #fbNotificationsJewel.east a.jewelButton:hover{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-25px -285px}
+#fbNotificationsJewel.east.hasNew a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-50px -285px}
+#fbNotificationsJewel.east.openToggler a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-52px -253px}
+.notifNegativeBase #fbNotificationsFlyout .blueName{color:#333;font-weight:bold}
+#fbNotificationsFlyout .staticAppIcon{background-position:right;height:16px;width:16px}
+#fbNotificationsFlyout .selected .staticAppIcon{background-position:left}
+#fbNotificationsFlyout .info{max-width:259px;word-wrap:break-word}
+#fbNotificationsFlyout .notif_header{padding-bottom:1px}
+#fbNotificationsFlyout div.notif_x_div, #fbNotificationsFlyout div.confirmingMsg{display:none}
+.notifNegativeBase #fbNotificationsFlyout{left:-153px}
+.notifNegativeBase #fbNotificationsFlyout .beeperNub{left:155px}
+.notifNegativeBase #fbNotificationsFlyout div.notif_x_div, .notifNegativeBase #fbNotificationsFlyout div.confirmingMsg{display:block}
+.notifNegativeBase #fbNotificationsFlyout li a.notif_x{display:block;padding:0}
+.notifNegativeBase #fbNotificationsFlyout li a.notif_x .placeholder{margin:3px 1px 0 0;padding-left:5px;width:11px;height:40px}
+.notifNegativeBase #fbNotificationsFlyout li .notif_x_div{position:absolute;top:7px;right:7px;z-index:2}
+.notifNegativeBase #fbNotificationsFlyout li.notifHover a.notif_x{visibility:visible}
+.notifNegativeBase #fbNotificationsFlyout a.notif_x{visibility:hidden;margin-top:0}
+.notifNegativeBase #fbNotificationsFlyout li div.info{position:relative;max-width:243px;overflow:hidden}
+.notifNegativeBase .fbJewelFlyout li div.confirmingMsg{position:absolute;height:0;top:0;left:0;visibility:visible;opacity:0;padding:0 8px}
+.notifNegativeBase .fbJewelFlyout li.forPushSafety div.confirmingMsg{position:relative;height:0;top:0;left:0;visibility:visible;opacity:0;padding:0 8px}
+.notifNegativeBase .fbJewelFlyout li.notification div.confirmedMsg{position:relative;height:0;top:0;opacity:0;padding:0 8px}
+.notifNegativeBase .fbJewelFlyout li.notification div.firstConfirmedMsg, .notifNegativeBase .fbJewelFlyout li.notification div.spamMsg{padding:6px 8px}
+.notifNegativeBase .fbJewelFlyout td.confirming_table_row{white-space:nowrap}
+.notifNegativeBase .notifMainLink{position:relative;left:0;visibility:visible;opacity:1}
+.notifNegativeBase .async_saving .negative_loading{margin-left:10px}
+.notifNegativeBase .confirmingMsg .async_saving label.uiButton, .notifNegativeBase .async_saving div.link_buttons{display:none}
+.notifNegativeBase #fbNotificationsFlyout li{position:relative}
+.notifNegativeBase #fbNotificationsFlyout a.notifMainLink{border-top:solid 1px #e9e9e9;border-bottom:solid 1px #e9e9e9;color:#333;display:block;padding:7px 20px 7px 8px;text-decoration:none;margin-bottom:-1px;z-index:2;zoom:1}
+.notifNegativeBase #fbNotificationsFlyout li.notifHover a.notifMainLink{border-color:#e3e8f0;background-color:#f4f6f9}
+.notifNegativeBase #fbNotificationsFlyout li.notifHover{position:relative;z-index:2}
+.notifNegativeBase #fbNotificationsFlyout li.jewelItemNew a.notifMainLink{border-bottom:1px solid #d1d8e7;border-top:1px solid #d1d8e7}
+.notifNegativeBase #fbNotificationsFlyout li.jewelItemNew{background-color:#eceff5;background:rgba(237,239,245,0.98);margin-bottom:-1px;z-index:2}
+.notifNegativeBase #fbNotificationsFlyout li.jewelItemNew:hover a.notifMainLink, .notifNegativeBase #fbNotificationsFlyout li.fbJewelBeep:hover a.notifMainLink{background-color:#e7ebf2;border-color:#d1d8e7}
+#fbNotificationsFlyout .beeperArea, #fbNotificationsFlyout.hasBeeps .aggregatedNotifs{display:none}
+#fbNotificationsFlyout.hasBeeps .beeperArea{display:block}
+#fbNotificationsJewel #fbNotificationsFlyout .jewelItemList li:first-child
+a.notifMainLink{border-top:none}
+#fbRequestsJewel a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-50px -220px}
+#fbRequestsJewel a.jewelButton:active, #fbRequestsJewel a.jewelButton:focus, #fbRequestsJewel a.jewelButton:hover{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-50px -185px}
+#fbRequestsJewel.hasNew a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-75px -185px}
+#fbRequestsJewel.openToggler a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:0 -220px!important}
+#fbRequestsFlyout ul.jewelItemList{padding:0}
+#fbRequestsFlyout li{padding:4px 8px}
+#fbRequestsFlyout .jewelHighlight li{padding:0}
+#fbRequestsFlyout .fbRequestMessageWrapper{white-space:nowrap}
+#fbRequestsFlyout .fbRequestMessage{display:inline-block;max-width:169px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#fbRequestsFlyout .jewelHighlight .title{color:#3b5998}
+#fbRequestsFlyout .jewelHighlight .mutualFriends{color:gray}
+#fbRequestsFlyout .jewelHighlight a:hover .title, #fbRequestsFlyout .jewelHighlight a:focus .title, #fbRequestsFlyout .jewelHighlight a:active .title, #fbRequestsFlyout .jewelHighlight a:hover .mutualFriends, #fbRequestsFlyout .jewelHighlight a:focus .mutualFriends, #fbRequestsFlyout .jewelHighlight a:active .mutualFriends{color:#fff}
+#fbRequestsFlyout .jewelRequest .jewelRequestContent{padding-top:5px}
+#fbRequestsFlyout .title{font-size:11px}
+#fbRequestsFlyout .requestLabel{line-height:12px}
+#fbRequestsFlyout .jewelFooter .seeMoreCount{display:block}
+.fbRequestsJewelRelationshipIcon{margin-bottom:-3px;margin-right:5px}
+#fbRequestsFlyout .fbRequestList{padding-top:4px}
+#fbRequestsFlyout .fbMoreRequestList{border-top:1px solid #e9e9e9;padding:0}
+#fbRequestsFlyout .friendBrowserExtraSpacing{margin:0}
+#fbRequestsFlyout .friendBrowserCheckboxContentGrid{padding-top:0}
+#fbRequestsFlyout .uiScrollableAreaContent{padding-bottom:4px}
+#fbRequestsList .uiScrollableArea.contentAfter{border-bottom:1px solid #bbb}
+#fbRequestsList .uiScrollableArea{border-bottom:1px solid #e0e0e0}
+#fbRequestsFlyout .jewelFooter a{border:0}
+#fbRequestsFlyout .jewelFooter a:hover{border-top:1px solid #3b5998}
+.uiScrollableHeaderBox{position:absolute;top:0;width:100%;z-index:1}
+#fbRequestsFlyout .jewelHeader{position:relative;padding-right:10px}
+.notifNegativeBase #fbRequestsJewel.openToggler a.jewelButton{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:0 -285px!important}
+.notifNegativeBase #fbRequestsFlyout{left:-103px}
+.notifNegativeBase #fbRequestsFlyout li{border-top:1px solid #e9e9e9}
+.notifNegativeBase #fbRequestsFlyout li.jewelItemNew{background-color:#eceff5}
+.notifNegativeBase #fbRequestsFlyout .beeperNub{left:105px}
+.notifNegativeBase #fbRequestsFlyout .fbRequestList{padding-top:0}
+.notifNegativeBase #fbRequestsFlyout .fbRequestList li:first-child{border-top:none}
+.notifNegativeBase #fbRequestsFlyout .uiScrollableAreaContent{padding-bottom:0}
+#fbRequestsFlyout #fbRequestsPYMLContainer ul:first-child li:first-child, #fbRequestsFlyout #fbRequestsPYMKContainer ul:first-child li:first-child{border-top:none}
+#fbRequestsFlyout #fbRequestsPYMLContainer{border-top:1px solid #e9e9e9}
+#fbRequestsFlyout #fbRequestsPYMKContainer .seeMoreBox, #fbRequestsFlyout #fbRequestsPYMLContainer .seeMoreBox{margin:8px;text-align:center}
+#fbRequestsFlyout #fbRequestsPYMLContainer #fbSuggestionsPYMLContainer .blockLoaded{border-bottom:1px solid #e9e9e9}
+.notifNegativeBase #fbRequestsFlyout .jewelFooter a:hover{border-top:0}
+.notifNegativeBase #fbRequestsPYMLContainer .jewelHeader, .notifNegativeBase #fbRequestsPYMKContainer .jewelHeader{z-index:1}
+#fbRequestsFlyout .fbRequestList .listGray{background-color:#f7f7f7}
+#fbRequestsFlyout .fbRequestList .noRequestsGrid{height:40px;width:100%}
+#fbRequestsJewel #fbRequestsFlyout .hasPYMK, #fbRequestsJewel #fbRequestsFlyout #fbRequestsJewelManualPager, #fbRequestsJewel #fbRequestsFlyout #fbRequestsJewelLoading #fbRequestsJewelLoadingContent{border-bottom:1px solid #ddd}
+#fbRequestsJewel #fbRequestsFlyout #fbRequestsJewelManualPager a{padding:0;line-height:30px}
+#fbRequestsJewel #fbRequestsFlyout #fbRequestsJewelManualPager a:hover{background-color:#fff}
+#fbRequestsJewel #fbRequestsFlyout #fbRequestsJewelManualPager img{vertical-align:middle}
+#modalMaskOverlay{background-color:#fff;height:100%;opacity:.8;position:fixed;top:0;width:100%;z-index:199}
+._4_37{margin-left:205px}
+._4kdq ._4_37, ._5ap2 ._4_37, ._5bci ._4_37{margin-left:56px}
+.sidebarMode ._5bci ._4_37, .sidebarMode ._5ap2 ._4_37{margin-right:205px}
+._4kdq ._5ap2 ._4_37{margin-right:0}
+._4_l-{z-index:300}
+._5ah-{display:inline-block;max-width:30px;overflow:hidden;-moz-transition:max-width .2s;vertical-align:top}
+._5ahy{max-width:0}
+._5ahz{background:#374f8a;border-radius:2px;box-shadow:inset 0 1px rgba(0, 0, 0, .4), 0 1px rgba(255, 255, 255, .15);display:inline-block;font-size:10px;line-height:16px;margin:5px 0 0 4px;padding:0 3px}
+#navHome:hover ._5ahz{background:#2f477a}
+.megaphone_story_wrapper{margin-bottom:20px}
+.dialog_content .megaphone_story_wrapper{margin-bottom:0}
+.megaphone_story{position:relative;overflow:hidden}
+.megaphone_story .megaphone_content{font-size:11px}
+.megaphone_story .megaphone_hide_link{float:right}
+.megaphone_story_highlighted{background-color:#fcf5d0;border:1px solid #cbb631}
+.megaphone_box{background-color:#f6f7f8;border:1px dashed #ced5e5}
+.hasLeftCol .megaphone_box{border-width:0 0 1px 0;margin-left:-20px;margin-top:-15px}
+#headerArea .megaphone_box{margin-right:-20px;margin-top:-17px}
+.megaphone_location_friends{margin:0}
+.megaphone_location_privacy{margin-left:auto;margin-right:auto;width:760px}
+.timelineLayout .megaphone_location_managed_profile_admin .megaphone_box{border-top:1px dashed #ced5e5}
+._3tn{display:inline}
+._3tn .img{top:0}
+._3tn + ._3tn{margin-left:8px}
+.fbDockChatTabFlyout ._4_wc{font-size:11px;line-height:1.28;padding:5px}
+.bubbles .fbDockChatTabFlyout ._4_wc{margin:5px 3px 6px 4px}
+._51wu{padding:0 10px}
+.MercuryThreadlistIcon{vertical-align:middle}
+.MercuryPhotoIcon i{background-image:url(/rsrc.php/v2/y6/r/Wk7lE1Bji1R.png);background-repeat:no-repeat;background-size:auto;background-position:-51px -118px}
+.MercuryVideoIcon i{background-image:url(/rsrc.php/v2/y6/r/Wk7lE1Bji1R.png);background-repeat:no-repeat;background-size:auto;background-position:-18px -135px}
+.MercuryMusicIcon i{background-image:url(/rsrc.php/v2/y6/r/Wk7lE1Bji1R.png);background-repeat:no-repeat;background-size:auto;background-position:-35px -135px}
+.MercuryVoiceIcon i{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-60px -370px}
+.MercuryTextIcon i{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:0 -396px}
+.MercuryDefaultIcon i{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-17px -396px}
+.MercuryErrorIcon i{background-image:url(/rsrc.php/v2/y6/r/Wk7lE1Bji1R.png);background-repeat:no-repeat;background-size:auto;background-position:-136px -118px}
+.MercuryMSWordIcon i{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-34px -396px}
+.MercuryMSPPTIcon i{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-77px -370px}
+.MercuryMSXLSIcon i{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-43px -370px}
+.MercuryRepliedIndicator.repliedLast{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-47px -429px;display:inline-block;height:9px;width:10px;margin-right:4px}
+.MercuryRepliedIndicator.repliedLast.seenByAll{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-58px -429px}
+.MercuryAttachmentIndicator{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-36px -429px;display:inline-block;height:9px;margin-right:4px;width:10px}
+#blueBarHolder .voiceBarToggle .pagesVoiceTab{background-color:#6d84b4;display:none;background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-82px -40px;height:6px;left:10px;position:relative;top:-3px;width:11px;z-index:1}
+.hasVoiceBar #blueBarHolder .voiceBarToggle .pagesVoiceTab{display:block}
+#blueBarHolder .voiceBarToggle a:hover .pagesVoiceTab, #blueBarHolder .voiceBarToggle a:focus .pagesVoiceTab, #blueBarHolder .voiceBarToggle a:active .pagesVoiceTab{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-76px -338px}
+.pagesVoiceBar{background-color:#6d84b4;border-bottom:solid #3B5998 1px;border-top:solid #1A356E 1px;color:#fff;display:none;height:26px;position:relative;width:100%}
+.hasVoiceBar .pagesVoiceBar{display:block}
+.pagesVoiceBar #pagesVoiceBarContent{margin:0 auto;padding:3px 0;position:relative;width:981px}
+.sidebarMode .pagesVoiceBar #pagesVoiceBarContent{left:-102px}
+.pagesVoiceBar .pagesVoiceBarText{line-height:20px}
+.pagesVoiceBar .pagesVoiceBarText .pagesAltVoiceText, .pagesVoiceBar .pagesVoiceBarText .pagesAltVoiceText a{color:#bfccec;cursor:pointer}
+.pagesVoiceBar .pagesVoiceBarText .vbSwitchListChevron{margin:0 0 2px 5px}
+.pagesVoiceBar #pagesVoiceBarShadow{background:url(/rsrc.php/v2/yE/r/lOjysYeBKNU.png) repeat-x;height:4px;position:absolute;top:27px;width:100%}
+._57bl{z-index:301 !important}
+._6nw ._57bl ._53io{margin-top:1px}
+._8-b ._26y1{background-clip:padding-box;background-color:#fff;border-bottom:1px solid rgba(100, 100, 100, .22);border-radius:3px 3px 0 0;padding:8px 8px 6px;position:relative;z-index:100}
+._26y2{display:block;margin:10px auto}
+._59fb{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-10px -429px;height:9px;margin-top:11px;width:12px}
+._59fc:hover ._59fb, .openToggler ._59fc ._59fb{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-23px -429px}
+.hasSmurfbar ._59fb{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-59px -325px;height:12px;margin-top:8px;width:15px}
+.hasSmurfbar ._59fc:hover ._59fb, .hasSmurfbar .openToggler ._59fc ._59fb{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-11px -357px}
+._d1r{position:relative;right:5px;top:3px}
+._9or, ._9os{height:6px;width:9px}
+._9or{background-image:url(/rsrc.php/v2/yH/r/GYmiAKr-fuu.png);background-repeat:no-repeat;background-size:auto;background-position:-2px -45px}
+._9os{background-image:url(/rsrc.php/v2/yH/r/GYmiAKr-fuu.png);background-repeat:no-repeat;background-size:auto;background-position:-340px -16px}
+#navPrivacy ._8-a{z-index:4}
+._8-a ._8-b{left:-300px;top:36px;z-index:1}
+.hasSmurfbar ._8-a ._8-b{left:-294px;top:38px}
+.hasSmurfbar ._5cop ._8-a ._8-b{left:-306px}
+._8-a ._8-b .beeperNub{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-82px -28px;height:11px;left:301px;position:absolute;top:-11px;width:20px}
+.hasSmurfbar ._8-a ._8-b .beeperNub{left:301px}
+._26y3 ._5cw0, ._26y3 ._5cw1{background-color:#f7f7f7;border-radius:0 0 3px 3px;border-top:1px solid #c5c5c5;font-weight:bold;padding:8px;text-align:center}
+._26y3 ._5cw0{display:block}
+._26y3 ._5cw1{display:none}
+._9ot{cursor:pointer;height:39px;-moz-user-select:none;width:310px}
+._9ot:hover{background-color:#f4f6f9}
+._58a1{display:block}
+._9ou{margin-right:16px;width:41px}
+._9ov{width:224px}
+._9ow{margin-left:15px;width:9px}
+._9ox{background-color:#eceff5;box-shadow:inset 0 8px 8px -8px rgba(0, 0, 0, .15),
+inset 0 -8px 8px -9px rgba(0, 0, 0, .15)}
+._9ot, ._9oy{padding:10px}
+._8-b .uiList > li{border-color:rgba(100, 100, 100, .22);border-style:solid}
+._9oz{margin-right:15px;width:41px}
+._9o-{display:inline-block;width:242px}
+._dq0 ._9o-{width:247px}
+._9p2{margin-left:-7px}
+._9p2 .uiButtonText{color:gray}
+._9p2 .uiSelectorButton .customimg, ._9p2 .uiSelectorButton .img{opacity:.5}
+._o1t{background-color:#f3f5f9;border:1px dashed #d1d4da;margin-right:-13px;padding:6px 20px 6px 6px}
+._2v9_{border-top:1px solid #c5c5c5}
+._2va0 ._9o_, ._2v9_{display:block}
+._9o_, ._2va0 ._2v9_{display:none}
+._8-b ._9oy ._9o- ._1msz{margin-left:21px}
+._301p{overflow:hidden}
+._301q{-moz-box-sizing:border-box;width:100%}
+._301r{float:right}
+._dq0 ._9oz{margin-left:4px;width:37px}
+._awf, ._awg, ._4_8m, ._awk .seeMore .subtitle, ._awk .seeMore .img.white, ._aw6._4_8l ._26y4, ._aw6 ._26y3 ._5cw0, ._aw6._aw7 ._4_8m, ._aw7 ._26y4{display:none}
+._aw6 ._4_8m, ._aw6 ._awf, ._aw6 ._26y3 ._5cw1, ._aw7 ._awg{display:block}
+._awf{background:#f7f7f7;border-radius:2px 2px 0 0;left:0;padding:5px 0 4px 7px;position:absolute;right:0;top:0;z-index:101}
+html ._awh{border-color:#8c8c8c}
+html ._awh .inputtext{width:265px}
+._awi{display:inline-block;margin-right:2px;margin-top:-4px;vertical-align:middle}
+._awj{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-80px -318px;background-color:#fff;height:18px;overflow:hidden;position:absolute;right:10px;top:7px;width:18px}
+._awj:hover{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-32px -350px}
+._awk, ._4_8m{padding:8px 5px}
+._awk .UIFaq_Content, ._4_8m .UIFaq_Content{width:292px}
+._awk .UIFaq_Content img, ._4_8m .UIFaq_Content img{max-width:100%}
+._awk .UIFaq_Container, ._4_8m .UIFaq_Container{font-size:11px;line-height:15px}
+._awk .seeMore, ._4_8m .seeMore{background:#f7f7f7;border-top:1px solid #c5c5c5;margin:5px -5px -39px;padding:8px;position:relative;text-align:center}
+._awk .seeMore .blue, ._4_8m .seeMore .blue{margin-top:-12px}
+._awl{padding:20px;text-align:center}
+._o1t._9p0{display:none}
+._o1w{float:right;position:relative;right:-18px;top:-4px}
+._56vu{background:#eff3f6;border:1px dashed #c4c9d2;margin:2px;margin-bottom:0}
+._571t{background:#e5f2f7;border:1px dashed #c4c9d1;margin:-5px}
+._1lvl{background-color:#f7f7f7;border-bottom:1px dashed #ced5e5;margin-top:-5px;min-height:135px;overflow:hidden;position:relative}
+._1lvm{margin-right:365px;padding:15px;padding-right:0}
+._1lvn{line-height:1.28}
+html ._1lvo{position:absolute;right:0;top:-9px}
+.hasSmurfbar ._1lvo{right:-9px;top:-10px}
+._1lvp{margin:0 2px}
+._1lvq{opacity:.5;padding:3px;position:absolute;right:5px;top:5px}
+._1lvq:hover{opacity:1}
+._1lvq .img{display:block}
+._1luy{z-index:200 !important}
+html ._1luz{background-color:#2c2c2c;color:#fff;position:relative}
+._1luy ._53im ._53io{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:0 -429px}
+._1luy._3qz8 ._53im ._53io{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-94px -370px}
+._1luw{display:none}
+.tinyViewport ._1luw, ._1lux{bottom:-6px;display:block;margin-left:932px;position:absolute;z-index:300}
+.hasSmurfbar ._1luw{bottom:-4px;margin-left:941px}
+._3oye ._3oyf{display:none}
+._7fw{background-color:#000;background-color:rgba(0, 0, 0, .8);border-bottom:1px solid #000;color:#fff;display:none;height:38px;position:relative;width:100%}
+._7fx{background:url(/rsrc.php/v2/yE/r/lOjysYeBKNU.png) repeat-x;height:4px;position:absolute;top:38px;width:100%}
+.hasViewasChromeBar ._7fw, ._7fy{display:block}
+._7fz{margin:0 auto;padding:3px 0;position:relative;width:981px}
+.sidebarMode ._7fz{left:-102px}
+._4g5r ._7fz{left:0;padding-left:0}
+._7f-{color:#a6a6a6;line-height:20px}
+._7f- ._7f_, ._7f- ._7f_ a{color:#fff;cursor:pointer}
+._7f- ._7g0 .uiTypeahead, ._7f- ._7g0 .uiTypeahead .wrap{background-color:#414141;border-color:#414141}
+._7f- ._7g0 .textInput{color:#a6a6a6}
+._7g1{margin-top:2px}
+._7fy{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-82px 0;height:16px;padding-bottom:12px;position:relative;width:16px}
+._7fy:hover{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-81px -48px}
+._7g2, ._7g3, ._7f_{margin-top:1px}
+._7g4{background-image:url(/rsrc.php/v2/y4/r/8ejVUcUqZKI.png);background-repeat:no-repeat;background-size:auto;background-position:1px -17px}
+._7g5{background-image:url(/rsrc.php/v2/y7/r/qqsPhasdlSp.png);background-repeat:no-repeat;background-size:auto;background-position:-51px -396px}
+._7g4{margin-left:3px}
+._7g4, ._7g5{height:16px;margin-right:4px;margin-top:3px;width:16px}
+._7g8{min-width:200px}
+._7f_:hover
+._7g6, ._7f_:hover
+._7o5{text-decoration:underline}
+._7g1, ._7g2, ._7g3, ._7g5, ._7g4, ._7f_, ._7g6, ._7o5{float:left}
+._7g7 ._7g0, ._7g7 ._7g8{display:block}
+._7g0, ._7g8, ._7g7 ._7g9, ._7g7 ._7ga{display:none}
+._7g0{float:left;width:250px}
+.hasViewasChromeBar #modalMaskOverlay{background-color:#000}
+._585-{background-color:#fff;border:none;border-radius:3px;box-shadow:inset 0 0 0 1px #f9f9f9,
+inset 0 1px 0 0 #e5e5e5,
+0 -1px 0 0 #2f477a;height:24px;margin-left:33px;margin-top:0;max-width:550px;overflow:hidden;padding-left:5px;padding-right:25px;position:relative;top:9px;width:auto}
+.UIInternPage ._59ba ._585-{margin-left:0;padding-left:0}
+._585- ._5861, ._5861 ._586f{border:none;font-family:'Helvetica Neue', Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;font-size:14px}
+._585_{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1598px;cursor:pointer;display:block;height:16px;position:absolute;right:4px;top:4px;width:16px;z-index:2}
+._585- ._5860, ._585- ._5860 .wrap{background:transparent;border:none;height:23px}
+._585- ._5861{background:none;color:#333;cursor:text;height:23px;overflow:hidden;padding:0;text-indent:2px;width:inherit}
+._5861 ._586j, ._5861 ._586k, ._5861 ._586f, ._5861 ._586i{font-family:'Helvetica Neue', Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;height:18px;line-height:18.6px;padding:3px 0 0;text-shadow:none}
+.gecko ._5861 ._586j, .gecko ._5861 ._586k, .gecko ._5861 ._586f, .gecko ._5861 ._586i{padding-top:2px}
+._5861 ::-ms-clear{display:none}
+._5861 ._586f{padding-left:0}
+._5861 ._586f, ._5861 ._586i{color:#141823}
+._5861 ._586h{color:#898f9c}
+._5861 .DOMControl_placeholder, ._5861 ._586j{color:#898f9c}
+._5861 input::-webkit-input-placeholder{color:#898f9c;font-family:'Helvetica Neue', Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif}
+._5861 input:-moz-placeholder{color:#898f9c;font-family:'Helvetica Neue', Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif}
+._5861 input:-ms-placeholder{color:#898f9c;font-family:'Helvetica Neue', Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif}
+._200{margin:10px 0;border-top:1px solid #ccc}
+._201{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1569px;display:inline-block;height:14px;margin:4px 2px;width:17px}
+._6i3{font-size:14px}
+._6i3 ._7gk{max-width:550px;overflow:hidden}
+._202{border:none;padding:0;position:relative}
+._202.selected{background-color:#ececed}
+.highContrast ._202.selected{border-left:10px solid transparent;margin-right:10px}
+._205{position:relative;white-space:nowrap}
+._6i1{display:block}
+._7gk{display:block;height:56px;overflow:hidden;position:relative}
+._6_k ._7gk{margin-left:59px}
+._20h, ._k83{float:left;height:48px;margin:4px 0 0 4px;width:48px}
+._k83 span{display:block;height:48px;width:48px}
+._k83{background:#fafafa;background:-moz-linear-gradient(#fafafa, #f2f2f2)}
+._20h{background-color:#fff}
+._4c7a{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 0}
+._6-a{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -686px}
+._9rf{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -490px}
+._9rg{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -441px}
+._9rh{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -588px}
+._9ri{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -196px}
+._9rj{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -49px}
+._9rk{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -539px}
+._9rl{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -735px}
+._5b4m{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -294px}
+._a0i{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -392px}
+._hya{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -343px}
+._hyb{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -98px}
+._485s{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -147px}
+._4-vy{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -637px}
+._5b1w{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -245px}
+._5b71 ._6-a, ._5b71 ._5b1w{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1154px}
+._5b71 ._9rf{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -826px}
+._5b71 ._9rg{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1031px}
+._5b71 ._9rh{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -949px}
+._5b71 ._9ri{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1195px}
+._5b71 ._9rj{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1277px}
+._5b71 ._9rk{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -990px}
+._5b71 ._9rl{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -867px}
+._5b71 ._a0i{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1072px}
+._5b71 ._hya{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1113px}
+._5b71 ._hyb{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1318px}
+._5b71 ._485s{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -1236px}
+._5b71 ._4-vy{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -908px}
+._5b71 ._4c7a{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:-4px -4px}
+._205, ._205:hover{outline:none;text-decoration:none}
+._53ad{display:inline-block;float:left;font-family:Helvetica, Arial, sans-serif;line-height:20px;margin:18px 0}
+._55y-._53ad{margin:8px 0}
+._5b71 ._53ad.isClipped:after{background:-moz-linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));bottom:0;content:'';left:0;position:absolute;top:0;width:20px}
+._5b71 ._53ad.direction_ltr.isClipped:after{background:-moz-linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))}
+._5b71 ._202.selected ._53ad.isClipped:after{background:-moz-linear-gradient(to right, rgba(76, 102, 164, 1), rgba(76, 102, 164, 0))}
+._5b71 ._202.selected ._53ad.direction_ltr.isClipped:after{background:-moz-linear-gradient(to left, rgba(76, 102, 164, 1), rgba(76, 102, 164, 0))}
+._a0t{color:#636363;font-size:82%}
+._a0s{color:#636363}
+._a0s:hover{color:#333;text-decoration:none}
+._205, ._205 .fragmentUnchanged{color:#999}
+._53ad, ._5av{color:#333}
+._205 .fragmentEnt{font-weight:700}
+._6ji, html ._474s ._6ji{display:none}
+.selected ._6ji, .forceShowSubcomponents ._6ji{display:inline}
+._6ji{background-color:#ececed;color:gray;float:right;font-size:11px;font-weight:normal;line-height:16px;margin:20px 0;text-align:right;text-transform:uppercase}
+._78d{color:#535353;font-weight:bold}
+._6i2{margin-top:-11px;position:absolute;right:8px;top:50%}
+._6i2 .uiButton span{color:#333 !important}
+._6i2 .morePlain{padding:4px 7px}
+.selected ._6i2 .moreButton, ._6i2 .morePlain{display:inline-block;vertical-align:top}
+._6i2 .moreButton, .selected ._6i2 .morePlain{display:none}
+._51l_{display:inline-block;float:left;margin-left:4px;margin-top:4px;width:48px}
+._51l_ .splitpic{float:left;height:48px;overflow:hidden;width:23px}
+._51l_ img{left:0;margin-left:-11px;position:static}
+._51l_ .leftpic{margin-right:1px;width:24px}
+._51l_ .toppic{height:23px;margin-bottom:1px}
+._51l_ .bottompic{height:24px}
+._51l_ .toppic img, ._51l_ .bottompic img{margin-top:-11px}
+._205 .presenceIndicator i{margin-left:6px}
+._5anx{float:right;margin:15px 334px 15px 0}
+._5b71 ._5anx{float:left;margin:12px 0 0 0}
+._5b71 ._202.selected{background:#4c66a4;color:#fff}
+._5b71 ._7gk{height:48px}
+._5b71 ._6_k ._7gk{margin-left:54px}
+._5b71 ._20h, ._5b71 ._k83, ._5b71 ._51l_{background:#fff;border-radius:3px;height:40px;margin:4px 0 0 7px;overflow:hidden;width:40px}
+._5b71 ._202.selected ._k83{background:#4c66a4}
+._5b71 ._51l_ .splitpic{height:40px;width:19px}
+._5b71 ._51l_ .leftpic{width:20px}
+._5b71 ._51l_ .leftpic img{margin:-5px 0 0 -15px}
+._5b71 ._51l_ .toppic{height:19px}
+._5b71 ._51l_ .bottompic{height:20px}
+._5b71 ._51l_ .toppic img, ._5b71 ._51l_ .bottompic img{margin:-15px 0 0 -15px}
+._5b71 ._k83 span{height:40px;width:40px}
+._5b71 ._53ad{margin:14px 0}
+._5b71 ._53ad, ._5b71 ._53a9{overflow:hidden;text-overflow:ellipsis;width:520px}
+._5ezo ._53ad{text-overflow:clip}
+._5b71 ._53a9{position:relative;z-index:1}
+._5b71 ._5byz ._53ad, ._5b71 ._5byz ._53a9{width:452px}
+._5b71 ._55y-._53ad{line-height:16px;margin:9px 0}
+._5b71 ._202.selected ._53ad{color:#fff}
+._5b71 ._a0s, ._5b71 ._a0t, ._5b71 ._53aa, ._5b71 ._53ab, ._5b71 ._57q5{color:#999;font-size:11px;font-weight:300}
+._5b71 ._202.selected ._a0s, ._5b71 ._202.selected ._a0t, ._5b71 ._202.selected ._53aa, ._5b71 ._202.selected ._53ab, ._5b71 ._202.selected ._57q5{color:#ccc}
+._5b71 .selected ._6ji{display:none}
+._53a9{display:inline;font-size:13px}
+._55y- ._53a9{display:block}
+._53aa{color:#333}
+._53ab, ._57q5{color:#999}
+.selected ._53ab, ._13xm ._53ab, .forceShowSubcomponents ._53ab{display:inline}
+._55y_ ._53ab{display:none}
+.selected._55y_ ._53ab{display:inline}
+._50c9{overflow:hidden;width:auto}
+._53df{left:0 !important;right:0 !important;width:auto !important}
+._5b71{left:-1px;top:-1px;width:582px !important}
+._5b71 ._50c9{border:1px solid #ccc;border-color:rgba(0, 0, 0, .15);border-radius:4px;box-shadow:0 4px 6px 2px rgba(0, 0, 0, .10)}
+._5b71 ._70_{line-height:inherit;padding:8px 0 7px 0}
+._5b71 ._70_.selected, ._5b71 ._57zy.selected{background:#4c66a4;color:#fff}
+._5b71 ._nli{border-bottom:none;box-shadow:none;margin-bottom:0;padding:4px 0}
+.sidebarMode ._53df{margin-right:206px}
+.sidebarMode ._4g5r ._53df{margin-right:0}
+.sidebarMode ._5ap2 ._53df{margin-right:205px}
+._50c9 ._6i1{display:block;margin:0 auto;padding-right:56px;width:971px}
+#facebook .liquid ._50c9 ._6i1{width:auto}
+._nli{background:#fff;border:1px solid #e1e1e1;border-color:rgba(0, 0, 0, .2);border-left:0;border-right:0;border-top:0;box-shadow:0 3px 5px 0 rgba(0, 0, 0, .25);margin-bottom:8px}
+._21r{font-size:16px}
+._8v2{height:0}
+._3su{border-top:1px solid #e1e1e1;color:#5d5d5d;cursor:pointer;font-family:Helvetica, Arial, sans-serif;font-size:11px;font-weight:bold;line-height:16px;text-align:center;text-transform:uppercase}
+._7gl{margin-top:8px}
+._70_{border-top:1px solid #e1e1e1;color:#5d5d5d;cursor:pointer;font-family:Helvetica, Arial, sans-serif;font-size:11px;font-weight:bold;line-height:16px;padding:13px 0 11px 0;text-align:center;text-transform:uppercase}
+._70_.selected{background:#ececed;color:#2b2c2b}
+._70_:hover{color:#2b2c2b}
+._57zy{border-top:1px solid #e1e1e1;color:#5d5d5d;cursor:pointer;font-family:Helvetica, Arial, sans-serif;font-size:11px;font-weight:bold;line-height:16px;padding:13px 5px 11px 5px;text-align:center;text-decoration:none !important}
+._57zy.selected{background:#ececed;color:#2b2c2b}
+._57zy:hover{color:#2b2c2b}
+._21f{line-height:23px;padding:8px 0}
+._21f img{margin-left:12px;position:relative;top:4px}
+._553e{background-color:#fff9d2;border-bottom:1px solid #f9eca5;color:#535353;font-size:14px;line-height:20px;padding:18px 0 17px 0;text-align:center}
+._553f{font-size:16px;line-height:20px}
+._553f ._553g{cursor:pointer;padding:18px 0 17px 60px}
+._553f strong{color:#333}
+._586g{overflow:hidden;position:relative}
+._586f, ._586i, ._586k, ._586j{border:0;outline:1px solid rgba(0, 0, 0, 0);padding:3px;position:relative;z-index:1}
+._586i, ._586k, ._586j{overflow:auto;white-space:pre-wrap}
+._586k, ._586j{left:0;position:absolute;right:0;top:0;z-index:0}
+._586i{cursor:text}
+._586i br{display:none}
+._586k{color:transparent}
+._586f{width:100%}
+._586g{border:1px solid #999}
+._586f, ._586i{background:transparent;color:#333}
+._586f, ._586i{background:rgba(255, 255, 255, 0)}
+._586j{color:#777}
+._586j.child_is_focused{color:#999}
+._586h{color:#999}
+._586o{font-weight:bold}
+._586p{height:20px}
+._586p ._586f, ._586p ._586i, ._586p ._586k, ._586p ._586j{overflow:hidden;white-space:pre}
+.gecko ._586p ._586i{height:100px;overflow-x:auto}
+#pageLogo._5bfh{margin-left:-6px;margin-top:2px;position:absolute}
+html #pageLogo._5bfh a{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:0 -784px;height:41px;padding:0;position:relative;width:41px;z-index:2}
+.highContrast #pageLogo._5bfh a{overflow:visible;text-align:right}
+#pageLogo._5bfh a:hover, #pageLogo._5bfh a:focus, #pageLogo._5bfh a:active{background-color:transparent}
+html .liquid #blueBar ._5bfg#pageHead{padding-left:16px;padding-right:16px}
+html .tinyViewport.liquid #blueBar ._5bfg#pageHead{padding-left:2px;padding-right:2px}
+._5bfg #headNav #navSearch{margin-left:33px;margin-top:0;padding-top:9px}
+.litestandTypeaheadview{margin-top:5px}
+._5bfg #pageNav .navItem{display:block;height:22px}
+._5bfg #pageNav .navLink, ._5bfg #pageNav .navItem .navLink{background-color:transparent;color:#9aa9c8;font-family:'Helvetica Neue', Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;font-size:12px;height:27px;line-height:27px;margin-top:-3px}
+._5bfg #jewelContainer a.jewelButton, ._5bfg #pageNav .navLink, ._5bfg #pageNav .navLink:hover, ._5bfg #pageNav .navLink:focus{background:transparent}
+._5bfg #pageNav .navLink:after, ._5bfg #pageNav .navLink:hover::after, ._5bfg #pageNav .openToggler .navLink:after, ._5bfg #pageNav .openToggler .navLink:hover::after{display:none}
+._5bfg #pageNav .navDivider{border-left:1px solid #385187;border-right:1px solid #4e68aa;height:22px;margin:0 3px}
+._5bfg #jewelContainer{height:40px;margin-top:-5px;padding:0 7px}
+._5bfg .fbJewel a.jewelButton{height:27px;margin:0;padding:2px;width:27px}
+._5bfg #jewelContainer .openToggler .jewelButton{border:0}
+._5bfg .fbJewel .jewelCount{background-color:transparent;border-radius:0;overflow:visible;padding:0;right:-1px;top:0}
+._5bfg .fbJewel .jewelCount span{background:-moz-linear-gradient(top, #fa3c45, #dc0d17);border:none;border-radius:2px;box-shadow:0 1px 1px rgba(0, 0, 0, .7);font-family:"Helvetica Neue", Helvetica, Arial, "segoe ui",tahoma,sans-serif;font-size:10px;font-weight:bold;height:14px;line-height:14px;min-width:12px;padding:0;text-align:center;text-shadow:0 -1px 0 rgba(0, 0, 0, .4)}
+._5bfg .fbJewel.hasCountMedium .jewelCount span{padding:0 3px}
+._5bfg .fbJewel.hasCountLarge .jewelCount span{padding:0 4px}
+._5bfg #fbMessagesJewel .jewelButton{padding:0 3px}
+._5bfg #pageNav #navPrivacy .navLink{padding-right:6px}
+._5bfg #jewelContainer .fbJewel .beeperNubWrapper{position:relative}
+._5bfg #jewelContainer .fbJewel .beeperNubWrapper .beeperNub{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-repeat:no-repeat;background-size:auto;background-position:-18px -1578px;left:auto;position:absolute}
+._5bfg #jewelContainer #fbRequestsJewel .beeperNub{right:224px}
+._5bfg #jewelContainer #fbMessagesJewel .beeperNub{right:192px}
+._5bfg #jewelContainer #fbNotificationsFlyout .beeperNub{right:161px}
+._5bfg #navAccount #accountSettingsFlyout .beeperNub{right:10px}
+._5bfg #jewelContainer .jewelFlyout, ._5bfg #accountSettingsFlyout{left:auto;top:38px;width:430px}
+._5bfg #accountSettingsFlyout{left:-174px;margin-top:-4px;width:202px}
+._5bfg #fbRequestsFlyout{right:-219px}
+._5bfg #fbMessagesFlyout{right:-187px}
+._5bfg #fbNotificationsFlyout{right:-157px}
+._5bfg #fbNotificationsFlyout .info{max-width:380px}
+._5bfg .notifNegativeBase #fbNotificationsFlyout .info{max-width:373px}
+._5bfg ._59fb{height:13px;margin:7px 0 0;width:16px}
+._5bfg #pageNav #navAccount{top:0}
+._5bfg #pageNav #navAccount #navAccountLink{margin:0 0 0 6px}
+._5bfg #pageNav #navAccount #navAccountLink .menuPulldown{height:13px;margin:4px 0;width:13px}
+._5bfg #navAccount .contextualHelp{top:25px}
+#pageNav._5bfw #navAccount #navAccountLink .menuPulldown{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-35px -1373px!important}
+#pageNav._5bfw #navAccount.openToggler #navAccountLink .menuPulldown{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-35px -1359px!important}
+#pageNav._5bfw #navAccount #navAccountLink:focus .menuPulldown, #pageNav._5bfw #navAccount #navAccountLink:hover .menuPulldown{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-35px -1359px!important}
+._5bfw #fbRequestsJewel a.jewelButton, ._5bfw #fbRequestsJewel a.jewelButton:focus, ._5bfw #fbRequestsJewel a.jewelButton:hover, ._5bfw #fbRequestsJewel a.jewelButton:active{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-2px -1501px!important}
+._5bfw #fbRequestsJewel.hasNew a.jewelButton, ._5bfw .notifNegativeBase #fbRequestsJewel.openToggler a.jewelButton, ._5bfw .notifNegativeBase #fbRequestsJewel.openToggler a.jewelButton:hover{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-2px -1466px!important}
+._5bfw #fbMessagesJewel a.jewelButton, ._5bfw #fbMessagesJewel a.jewelButton:focus, ._5bfw #fbMessagesJewel a.jewelButton:hover, ._5bfw #fbMessagesJewel a.jewelButton:active{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-1px -1431px!important}
+._5bfw #fbMessagesJewel.hasNew a.jewelButton, ._5bfw .notifNegativeBase #fbMessagesJewel.openToggler a.jewelButton, ._5bfw .notifNegativeBase #fbMessagesJewel.openToggler a.jewelButton:hover{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-1px -1361px!important}
+._5bfw #fbNotificationsJewel a.jewelButton, ._5bfw #fbNotificationsJewel a.jewelButton:focus, ._5bfw #fbNotificationsJewel a.jewelButton:hover, ._5bfw #fbNotificationsJewel a.jewelButton:active{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-2px -1536px!important}
+._5bfw #fbNotificationsJewel.hasNew a.jewelButton, ._5bfw .notifNegativeBase #fbNotificationsJewel.openToggler a.jewelButton, ._5bfw .notifNegativeBase #fbNotificationsJewel.openToggler a.jewelButton:hover{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png)!important;background-repeat:no-repeat!important;background-size:auto!important;background-position:-2px -1396px!important}
+.sp_2lt20w{background-image:url(/rsrc.php/v2/yC/r/GIzW7w7Ow5O.png);background-size:auto;background-repeat:no-repeat;display:inline-block;height:16px;width:16px}
+.sx_6e50cf{background-position:-380px -77px}
+.selected .sx_6e50cf{background-position:-364px -77px}
+.sx_44504f{background-position:-314px -77px}
+.selected .sx_44504f{background-position:-298px -77px}
+.sx_c0dada{background-position:-347px -77px}
+.selected .sx_c0dada{background-position:-331px -77px}
+.sx_6859f8{width:154px;height:154px;background-position:0 -77px}
+.sx_452497{width:12px;height:12px;background-position:-555px -77px}
+.selected .sx_452497{background-position:-542px -77px}
+.sx_515587{width:12px;height:12px;background-position:-375px -94px}
+.selected .sx_515587{background-position:-363px -94px}
+.sx_771849{background-position:-446px -77px}
+.selected .sx_771849{background-position:-430px -77px}
+.sx_685be5{background-position:-413px -77px}
+.selected .sx_685be5{background-position:-397px -77px}
+.sx_d03f32{background-position:-325px -178px}
+.sx_1335e3{width:12px;height:12px;background-position:-298px -94px}
+.selected .sx_1335e3{background-position:-285px -94px}
+.sx_fabbbc{width:12px;height:12px;background-position:-503px -77px}
+.selected .sx_fabbbc{background-position:-490px -77px}
+.sx_f5bffb{width:12px;height:12px;background-position:-529px -77px}
+.selected .sx_f5bffb{background-position:-516px -77px}
+.sx_4db24e{width:12px;height:12px;background-position:-581px -77px}
+.selected .sx_4db24e{background-position:-568px -77px}
+.sx_4790d5{width:12px;height:12px;background-position:-350px -94px}
+.selected .sx_4790d5{background-position:-337px -94px}
+.sx_f085d0{width:12px;height:12px;background-position:-324px -94px}
+.selected .sx_f085d0{background-position:-311px -94px}
+.sx_542fbc{width:12px;height:12px;background-position:-272px -94px}
+.selected .sx_542fbc{background-position:-259px -94px}
+.sx_1b17e4{background-position:-155px -178px}
+.sx_a37d97{background-position:-172px -178px}
+.sx_868741{background-position:-342px -178px}
+.sx_391a10{width:28px;height:28px;background-position:-426px -108px}
+.sx_ba0a49{width:28px;height:28px;background-position:-455px -108px}
+.sx_a08cab{width:28px;height:28px;background-position:-484px -108px}
+.sx_1ebbd0{width:28px;height:28px;background-position:-513px -108px}
+.sx_8c0080{width:28px;height:28px;background-position:-542px -108px}
+.sx_d7ff0b{width:28px;height:28px;background-position:-571px -108px}
+.sx_e67b09{width:28px;height:28px;background-position:-155px -149px}
+.sx_1e325e{width:34px;height:34px;background-position:-391px -108px}
+.sx_456af5{width:34px;height:34px;background-position:-356px -108px}
+.sx_b99fee{width:34px;height:34px;background-position:-321px -108px}
+.sx_09ef4b{width:28px;height:28px;background-position:-213px -149px}
+.sx_46cd71{width:28px;height:28px;background-position:-184px -149px}
+.sx_d36a56{width:34px;height:34px;background-position:-286px -108px}
+.sx_2536a4{width:34px;height:34px;background-position:-251px -108px}
+.sx_935f65{background-position:-308px -178px}
+.sx_7348a6{background-position:-291px -178px}
+.sx_c6a6ee{background-position:-274px -178px}
+.sx_cd315b{background-position:-257px -178px}
+.sx_20c111{background-position:-240px -178px}
+.sx_4a6314{background-position:-223px -178px}
+.sx_b16c4a{background-position:-206px -178px}
+.sx_8b586e{background-position:-189px -178px}
+.sx_3c99a1{width:613px;height:76px;background-position:0 0}
+.sx_986b43{width:9px;height:11px;background-position:-600px -110px}
+.sx_df4c17{width:19px;background-position:-278px -77px}
+.selected .sx_df4c17{background-position:-259px -77px}
+.sx_f266e2{width:103px;height:30px;background-position:-155px -77px}
+.sx_a82c09{width:80px;height:17px;background-position:-163px -120px}
+.sx_1fc9e6{width:26px;background-position:-463px -77px}
+.sx_01ec65{width:11px;height:8px;background-position:-424px -94px}
+.selected .sx_01ec65{background-position:-413px -94px}
+.sx_590616{width:12px;height:10px;background-position:-400px -94px}
+.selected .sx_590616{background-position:-388px -94px}
+.sx_90e527{width:9px;height:10px;background-position:-270px -149px}
+.selected .sx_90e527{background-position:-261px -149px}
+.sx_af707c{width:9px;height:13px;background-position:-251px -149px}
+.selected .sx_af707c{background-position:-242px -149px}
+.sx_170d49{width:9px;height:12px;background-position:-603px -77px}
+.selected .sx_170d49{background-position:-594px -77px}
+.sx_4af782{width:8px;height:9px;background-position:-288px -149px}
+.selected .sx_4af782{background-position:-280px -149px}
+.sp_b2plby{background-image:url(/rsrc.php/v2/ym/r/Bbz4Buqzgqn.png);background-size:auto;background-repeat:no-repeat;display:inline-block;height:48px;width:48px}
+.sx_7be905{width:17px;height:28px;background-position:0 -1569px}
+.sx_2d925f{background-position:0 -49px}
+.sx_0d7115{background-position:0 -98px}
+.sx_369b5a{background-position:0 -147px}
+.sx_474cf6{background-position:0 -196px}
+.sx_01f3ec{background-position:0 -245px}
+.sx_0656fe{background-position:0 -294px}
+.sx_204546{background-position:0 -343px}
+.sx_26137b{background-position:0 -392px}
+.sx_f16857{background-position:0 -441px}
+.sx_78a056{background-position:0 -490px}
+.sx_620a63{background-position:0 -539px}
+.sx_4dfdc0{background-position:0 -588px}
+.sx_a8675c{background-position:0 -637px}
+.sx_cadb0a{width:40px;height:40px;background-position:0 -1277px}
+.sx_a92496{width:40px;height:40px;background-position:0 -1318px}
+.sx_9b1545{width:40px;height:40px;background-position:0 -1236px}
+.sx_365776{width:40px;height:40px;background-position:0 -1195px}
+.sx_769dfd{width:40px;height:40px;background-position:0 -1154px}
+.sx_3ef82b{width:40px;height:40px;background-position:0 -1113px}
+.sx_1d3b98{width:40px;height:40px;background-position:0 -1072px}
+.sx_49c5f6{width:40px;height:40px;background-position:0 -1031px}
+.sx_6e92ca{width:40px;height:40px;background-position:0 -826px}
+.sx_0173a2{width:40px;height:40px;background-position:0 -990px}
+.sx_bb084e{width:40px;height:40px;background-position:0 -949px}
+.sx_7b29fc{width:40px;height:40px;background-position:0 -908px}
+.sx_fb0bbc{width:40px;height:40px;background-position:0 -867px}
+.sx_02d0e5{background-position:0 0}
+.sx_ff9bde{background-position:0 -735px}
+.sx_54094b{background-position:0 -686px}
+.sx_2c8913{width:20px;height:11px;background-position:-18px -1578px}
+.sx_1fee5b{width:24px;height:24px;background-position:-7px -791px}
+.sx_eb6cd4{width:12px;height:13px;background-position:-35px -1373px}
+.sx_b6bbe5{width:12px;height:13px;background-position:-35px -1359px}
+.sx_38a5d9{width:27px;height:27px;background-position:-4px -1398px}
+.sx_06c190{width:27px;height:27px;background-position:-4px -1538px}
+.sx_e60251{width:16px;height:16px;background-position:0 -1598px}
+.sx_b0e7ae{width:27px;height:27px;background-position:-4px -1363px}
+.sx_1ba560{width:27px;height:27px;background-position:-4px -1433px}
+.sx_3a70c1{width:27px;height:27px;background-position:-4px -1468px}
+.sx_29f4f0{width:27px;height:27px;background-position:-4px -1503px}
+.sx_9a85b8{width:22px;height:8px;background-position:-18px -1569px}
+
+#bootloader_KOZ20 { height: 42px; }
+.bootloader_KOZ20 { display:block !important; }

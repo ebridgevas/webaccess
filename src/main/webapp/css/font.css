@@ -1,0 +1,7 @@
+﻿/* @font-face kit by Fonts2u (http://www.fonts2u.com) */
+@font-face {
+    font-family: "Space Age";
+    src: url("../img/space_age.eot?") format("eot"), url("../img/space_age.woff") format("woff"), url("../img/space_age.ttf") format("truetype"), url("../img/space_age.svg#SpaceAge") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
