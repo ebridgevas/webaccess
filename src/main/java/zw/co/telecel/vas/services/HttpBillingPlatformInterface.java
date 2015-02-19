@@ -9,6 +9,10 @@ import zw.co.telecel.vas.model.BalanceDTO;
 import zw.co.telecel.vas.model.User;
 import zw.co.telecel.vas.services.billing.inject.BillingPlatformInterfaceModule;
 import zw.co.telecel.vas.services.legacy.billing.BillingPlatformInterface;
+import zw.co.telecel.vas.services.legacy.impl.DatabaseBackedSecurityTokenSender;
+import zw.co.telecel.vas.services.legacy.impl.RegisterCommandProcessor;
+import zw.co.telecel.vas.services.legacy.impl.WebAccessCommandProcessor;
+import zw.co.telecel.vas.util.TransactionException;
 import zw.co.telecel.vas.util.legacy.HttpResponseWriter;
 import zw.co.telecel.vas.util.legacy.WebAccessCommandParser;
 
@@ -35,6 +39,7 @@ public class HttpBillingPlatformInterface extends HttpServlet {
 
     private BillingPlatformInterface billingPlatformInterface;
 
+    private WebAccessCommandProcessor registrationCommandProcessor;
     /**
      *
      * Init resources
@@ -45,6 +50,8 @@ public class HttpBillingPlatformInterface extends HttpServlet {
 
         Injector injector = Guice.createInjector(new BillingPlatformInterfaceModule());
         billingPlatformInterface = injector.getInstance(BillingPlatformInterface.class);
+
+        registrationCommandProcessor = new RegisterCommandProcessor(new DatabaseBackedSecurityTokenSender());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -56,6 +63,14 @@ public class HttpBillingPlatformInterface extends HttpServlet {
             String mobileNumber = params.get("mobile-number") != null ? params.get("mobile-number")[0] : null;
 
             switch (webAccessCommand) {
+                case REGISTER_SUBSCRIBER:
+
+                    if ( ! "PREPAID".equalsIgnoreCase(billingPlatformInterface.subscribedPackage(mobileNumber)) )
+                        throw new TransactionException("This service is for prepaid customers only");
+
+                    registrationCommandProcessor.process( request.getParameterMap(),
+                                                           webAccessCommand,
+                                                            null, response);
 
                 case GET_MOBILE_ACCOUNT_LIST:
                     HttpResponseWriter.write( billingPlatformInterface.balances( mobileNumber ), response );
@@ -71,12 +86,17 @@ public class HttpBillingPlatformInterface extends HttpServlet {
                     String beneficiaryId = params.get("beneficiary-id")[0];
                     String paymentMethod = params.get("payment-method")[0];
                     String oneTimePassword = params.get("one-time-password")[0];
+                    String dataBundleServiceCommand = params.get("data-bundle-service-command")[0];
+
                     BalanceDTO[] dataBundlePurchaseResult
                             = billingPlatformInterface.dataBundlePurchase(
                                                             uuid, mobileNumber, productCode, beneficiaryId,
-                                                            paymentMethod, oneTimePassword);
+                                                            paymentMethod, oneTimePassword, dataBundleServiceCommand );
                     DataBundleDTO dataBundle = billingPlatformInterface.dataBundleList().get(productCode);
-                    String[] result = dataBundleResponse (dataBundlePurchaseResult, dataBundle, paymentMethod );
+                    String[] result = dataBundleResponse (  dataBundlePurchaseResult,
+                                                            dataBundle,
+                                                            paymentMethod,
+                                                            dataBundleServiceCommand );
                     HttpResponseWriter.write(result[0], response );
 
                     User source = UserDao.findUser( mobileNumber );
@@ -105,7 +125,10 @@ public class HttpBillingPlatformInterface extends HttpServlet {
                                 beneficiary == null ? "SMS" : source.getNotificationAgent(), result[1]);
                     }
 
-                    persistDataBundleResponse(uuid, dataBundlePurchaseResult, dataBundle);
+                    persistDataBundleResponse(  "" + (System.currentTimeMillis() + 3),
+                                                dataBundlePurchaseResult,
+                                                dataBundle,
+                                                paymentMethod);
 
                     break;
 
@@ -114,11 +137,20 @@ public class HttpBillingPlatformInterface extends HttpServlet {
                     uuid = randomUUID().toString().replaceAll("-","").toUpperCase();
                     beneficiaryId = params.get("beneficiary-id")[0];
                     BigDecimal amount = new BigDecimal(params.get("amount")[0]);
+                    paymentMethod = null;
+                    oneTimePassword = null;
+                    try {
+                        paymentMethod = params.get("payment-method")[0];
+                        oneTimePassword = params.get("one-time-password")[0];
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
 
                     BalanceDTO[] balances =
-                            billingPlatformInterface.transfer(uuid, mobileNumber, beneficiaryId, amount);
+                            billingPlatformInterface.transfer(
+                                    uuid, mobileNumber, beneficiaryId, amount, paymentMethod, oneTimePassword);
                     // Call prepaid platform
-                    result = balanceTransferResponse( balances, amount, uuid );
+                    result = balanceTransferResponse( balances, amount, uuid, paymentMethod );
 
                     // Notify web user
                     HttpResponseWriter.write( result[0], response );
@@ -139,56 +171,68 @@ public class HttpBillingPlatformInterface extends HttpServlet {
 
                     // Notify beneficiary device
                     billingPlatformInterface.sendMessage(
-                            new BigInteger("" + System.currentTimeMillis() ),
+                            new BigInteger("" + System.currentTimeMillis() + 4 ),
                             beneficiary != null && !"SMS".equalsIgnoreCase( beneficiary.getNotificationAgent())
                                     ? beneficiary.getEmailAddress() : beneficiaryId,
                             beneficiary == null ? "SMS" : source.getNotificationAgent(), result[1] );
 
-                    persistBalanceTransferResponse(  balances, amount, uuid );
+                    persistBalanceTransferResponse(     balances,
+                                                        amount,
+                                                        "" + (System.currentTimeMillis() + 5),
+                                                        paymentMethod );
 
                     break;
 
                 case VOUCHER_RECHARGE:
-                    uuid = randomUUID().toString().replaceAll("-","").toUpperCase();
-                    beneficiaryId = params.get("beneficiary-id")[0];
-                    String rechargeVoucher = params.get("recharge-voucher")[0];
+                    try {
+                        uuid = randomUUID().toString().replaceAll("-", "").toUpperCase();
+                        beneficiaryId = params.get("beneficiary-id")[0];
+                        String rechargeVoucher = params.get("recharge-voucher")[0];
 
-                    BalanceDTO rechargeResult = billingPlatformInterface.recharge(uuid, beneficiaryId, rechargeVoucher);
+                        BalanceDTO rechargeResult = billingPlatformInterface.recharge(uuid, beneficiaryId, rechargeVoucher);
 
-                    String[] rechargeResponse = voucherRechargeResponse(uuid, mobileNumber, rechargeResult);
+                        String[] rechargeResponse = voucherRechargeResponse(uuid, mobileNumber, rechargeResult);
 
-                    // Notify web user
-                    HttpResponseWriter.write(rechargeResponse[0], response );
+                        // Notify web user
+                        HttpResponseWriter.write(rechargeResponse[0], response);
 
-                    source = UserDao.findUser( mobileNumber );
+                        source = UserDao.findUser(mobileNumber);
 
 //                    Notify source device
-                    billingPlatformInterface.sendMessage(
-                            new BigInteger("" + (System.currentTimeMillis() + 1)),
-                            "SMS".equalsIgnoreCase(source.getNotificationAgent())
-                                    ? source.getMobileNumber() : source.getEmailAddress(),
-                            source.getNotificationAgent(), rechargeResponse[0] );
+                        billingPlatformInterface.sendMessage(
+                                new BigInteger("" + (System.currentTimeMillis() + 1)),
+                                "SMS".equalsIgnoreCase(source.getNotificationAgent())
+                                        ? source.getMobileNumber() : source.getEmailAddress(),
+                                source.getNotificationAgent(), rechargeResponse[0]);
 
-                    // Notify beneficiary if different from source
-                    if (rechargeResponse.length == 2) {
-                        try {
-                            beneficiary = UserDao.findUser(beneficiaryId);
-                        } catch(Exception e ){
-                            beneficiary = null;
+                        // Notify beneficiary if different from source
+                        if (rechargeResponse.length == 2) {
+                            try {
+                                beneficiary = UserDao.findUser(beneficiaryId);
+                            } catch (Exception e) {
+                                beneficiary = null;
+                            }
+
+                            billingPlatformInterface.sendMessage(
+                                    new BigInteger("" + (System.currentTimeMillis() + 2)),
+                                    beneficiary != null && !"SMS".equalsIgnoreCase(beneficiary.getNotificationAgent())
+                                            ? beneficiary.getEmailAddress() : beneficiaryId,
+                                    beneficiary == null ? "SMS" : source.getNotificationAgent(), rechargeResponse[1]);
                         }
 
-                        billingPlatformInterface.sendMessage(
-                                new BigInteger("" + (System.currentTimeMillis() + 2)) ,
-                                beneficiary != null && !"SMS".equalsIgnoreCase( beneficiary.getNotificationAgent())
-                                        ? beneficiary.getEmailAddress() : beneficiaryId,
-                                beneficiary == null ? "SMS" : source.getNotificationAgent(), rechargeResponse[1] );
+                        persistVoucherRechargeResponse( "" + (System.currentTimeMillis() + 1),
+                                                        mobileNumber,
+                                                        rechargeResult,
+                                                        "VOUCHER");
+                    } catch( Exception e ) {
+                        HttpResponseWriter.write(e.getMessage(), response);
                     }
-
-                    persistVoucherRechargeResponse(uuid, mobileNumber, rechargeResult);
                     break;
 
                 case TRANSACTION_HISTORY:
-                    HttpResponseWriter.write( transactionHistory( mobileNumber ), response );
+                    HttpResponseWriter.write( transactionHistory( mobileNumber,
+                                                                  billingPlatformInterface.dataBundleList() ),
+                                              response );
                     break;
             }
         } catch ( Exception e ) {

@@ -57,9 +57,11 @@ public class ValidateUserIdCommandProcessor implements WebAccessCommandProcessor
                 response.setMobileNumber( mobileNumber );
                 response.setUserAction( UserAction.ENTER_PASSWORD );
             } else if ( "inactive".equals(user.getStatus()) ) {
-
                 sendActivationCodeToDevice(response, user);
-            } else {
+            } else if ( "locked".equals(user.getStatus()) ) {
+                response.setMobileNumber( mobileNumber );
+                response.setUserAction(UserAction.ACCOUNT_LOCKED);
+            }else {
                 throw new IOException("Invalid subscription. Please reset password.");
             }
 

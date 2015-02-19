@@ -42,8 +42,9 @@ public class TxnDAO {
 
         String sql = " INSERT INTO txns (uuid, source_id, destination_id, delivery_channel, transaction_date," +
                 "                   transaction_type, product_code, amount, status_code, narrative," +
-                "                   short_message, account_type, source_balance, beneficiary_balance ) " +
-                " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+                "                   short_message, account_type, source_balance, beneficiary_balance," +
+                "                   payment_method ) " +
+                " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
         PreparedStatement stmt = null;
         try {
@@ -62,6 +63,7 @@ public class TxnDAO {
             stmt.setString(12,txn.getAccountType());
             stmt.setBigDecimal( 13, txn.getSourceBalance() );
             stmt.setBigDecimal( 14, txn.getBeneficiaryBalance() );
+            stmt.setString(15, txn.getPaymentMethod() );
 
             stmt.executeUpdate();
 
@@ -174,7 +176,8 @@ public class TxnDAO {
         String sql =
               " select uuid, transaction_date, transaction_type, source_id, " +
               " destination_id, product_code, amount, status_code, " +
-              " source_balance, beneficiary_balance, delivery_channel, account_type " +
+              " source_balance, beneficiary_balance, delivery_channel, account_type," +
+                      " payment_method " +
               "   from txns where source_id = ? or destination_id = ?  " +
               "  order by transaction_date desc ";
 
@@ -203,7 +206,7 @@ public class TxnDAO {
                     txn.setAccountType(rs.getString("account_type"));
                     txn.setSourceBalance( rs.getBigDecimal("source_balance") );
                     txn.setBeneficiaryBalance( rs.getBigDecimal("beneficiary_balance"));
-
+                    txn.setPaymentMethod( rs.getString("payment_method"));
                     history.add( txn );
                 } catch (Exception e) {
                     e.printStackTrace();

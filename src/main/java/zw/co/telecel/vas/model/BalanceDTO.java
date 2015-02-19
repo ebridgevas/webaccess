@@ -24,6 +24,7 @@ public class BalanceDTO implements Comparable<BalanceDTO> {
     private BigDecimal otherAmount;
     private DateTime currentExpiryDate;
     private String subscriberPackage;
+    private String narrative;
 
     public BalanceDTO() {
     }
@@ -110,6 +111,14 @@ public class BalanceDTO implements Comparable<BalanceDTO> {
 
     public void setSubscriberPackage(String subscriberPackage) {
         this.subscriberPackage = subscriberPackage;
+    }
+
+    public String getNarrative() {
+        return narrative;
+    }
+
+    public void setNarrative(String narrative) {
+        this.narrative = narrative;
     }
 
     public String toString() {

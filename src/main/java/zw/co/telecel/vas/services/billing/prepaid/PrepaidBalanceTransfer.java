@@ -8,6 +8,7 @@ import org.apache.log4j.Category;
 import zw.co.telecel.vas.model.BalanceDTO;
 import zw.co.telecel.vas.services.billing.BalanceTransfer;
 import zw.co.telecel.vas.services.legacy.billing.prepaid.AccountBalanceFactory;
+import zw.co.telecel.vas.services.payment.TelecashPaymentService;
 import zw.co.telecel.vas.services.util.ConfigurationService;
 import zw.co.telecel.vas.util.BalanceTransferReversalFailedException;
 import zw.co.telecel.vas.util.TransactionException;
@@ -18,6 +19,7 @@ import java.math.RoundingMode;
 import java.rmi.RemoteException;
 import java.util.Map;
 
+import static java.util.UUID.randomUUID;
 import static zw.co.telecel.vas.services.util.Util.balance;
 
 /**
@@ -33,6 +35,8 @@ public class PrepaidBalanceTransfer implements BalanceTransfer {
     @Named("prepaidAccountBalanceFactory")
     private AccountBalanceFactory prepaidAccountBalanceFactory;
 
+    private TelecashPaymentService telecashPaymentService;
+
     @Inject
     private ConfigurationService configurationService;
 
@@ -40,8 +44,18 @@ public class PrepaidBalanceTransfer implements BalanceTransfer {
 
     private static final Category CAT = Category.getInstance(PrepaidBalanceTransfer.class);
 
+    public PrepaidBalanceTransfer() {
+
+        telecashPaymentService = new TelecashPaymentService();
+    }
+
     @Override
-    public BalanceDTO[] transfer( String uuid, String mobileNumber, String beneficiaryId, BigDecimal amount )
+    public BalanceDTO[] transfer(   String uuid,
+                                    String mobileNumber,
+                                    String beneficiaryId,
+                                    BigDecimal amount,
+                                    String paymentMethod,
+                                    String oneTimePassword)
             throws RemoteException, TransactionException, BalanceTransferReversalFailedException {
 
         BalanceDTO source = balance(
@@ -70,13 +84,35 @@ public class PrepaidBalanceTransfer implements BalanceTransfer {
         beneficiaryPayload[0].setExpirationDate(beneficiary.getExpiryDate());
 
         // debit
+        if (paymentMethod.equals( "AIRTIME" ) ) {
 
-        prepaidServiceSoapProvider.get().creditAccount(
-                mobileNumber.substring(3),
-                null,
-                sourcePayload,
-                "", uuid);
-                // "Transfer to : " + beneficiary.getMobileNumber().substring(3) + ". Ref: " + uuid );
+            // Debit Prepaid Account.
+
+            prepaidServiceSoapProvider.get().creditAccount(
+                    mobileNumber.substring(3),
+                    null,
+                    sourcePayload,
+                    "", uuid);
+        } else {
+
+            // Debit Telecash
+
+            String errorCode = null;
+            String narrative =
+                    telecashPaymentService.purchase(uuid,
+                                                    mobileNumber,
+                                                    oneTimePassword,
+                                                    new BigDecimal( amount.doubleValue() +
+                                                                    charge.doubleValue())
+                                                                .setScale(2, RoundingMode.HALF_UP));
+
+            System.out.println("Error: mobile-number : " + mobileNumber + ", error: " + errorCode +
+                    ", narrative : " + narrative);
+
+            if ( ! narrative.equalsIgnoreCase("Success")) {
+                throw new TransactionException( narrative );
+            }
+        }
 
         try {
             // credit
@@ -90,22 +126,30 @@ public class PrepaidBalanceTransfer implements BalanceTransfer {
 
         } catch ( RemoteException remoteException ) {
 
-            // Reverse the debit
-            try {
-                sourcePayload[0].setCreditValue( 0.00 - (amount.doubleValue() + charge.doubleValue()) );
-                prepaidServiceSoapProvider.get()
-                        .creditAccount(
-                                source.getMobileNumber().substring(3),
-                                null,
-                                sourcePayload,
-                                "", uuid);
-                                // "Transfer to : " + beneficiary.getMobileNumber().substring(3) + ". Ref: " + uuid );
-            } catch ( RemoteException e ) {
-                // FATAL. Failed to reverse the debit.
-                throw new BalanceTransferReversalFailedException( uuid, mobileNumber, beneficiaryId, amount,charge );
-            }
+            if ( "TELECASH".equalsIgnoreCase( paymentMethod ) ) {
+                Boolean voided = telecashPaymentService.voidTransaction(
+                        randomUUID().toString().replaceAll("-", "").toUpperCase(), uuid);
+                throw new TransactionException("Transaction not completed. " +
+                        ( voided ? "Your money was refunded." : "Will notify you after refunding your money."));
 
-            throw remoteException;
+            } else {
+                // Reverse the debit
+                try {
+                    sourcePayload[0].setCreditValue(0.00 - (amount.doubleValue() + charge.doubleValue()));
+                    prepaidServiceSoapProvider.get()
+                            .creditAccount(
+                                    source.getMobileNumber().substring(3),
+                                    null,
+                                    sourcePayload,
+                                    "", uuid);
+                    // "Transfer to : " + beneficiary.getMobileNumber().substring(3) + ". Ref: " + uuid );
+                } catch (RemoteException e) {
+                    // FATAL. Failed to reverse the debit.
+                    throw new BalanceTransferReversalFailedException(uuid, mobileNumber, beneficiaryId, amount, charge);
+                }
+
+                throw remoteException;
+            }
         }
 
         source.setBalance(source.getBalance().subtract(amount).subtract(charge).setScale(2, RoundingMode.HALF_UP));

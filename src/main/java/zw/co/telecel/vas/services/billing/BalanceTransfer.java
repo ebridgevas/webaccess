@@ -15,6 +15,11 @@ import java.util.Set;
  */
 public interface BalanceTransfer {
 
-    public BalanceDTO[] transfer( String uuid, String mobileNumber, String beneficiaryId, BigDecimal amount )
+    public BalanceDTO[] transfer(   String uuid,
+                                    String mobileNumber,
+                                    String beneficiaryId,
+                                    BigDecimal amount,
+                                    String paymentMethod,
+                                    String oneTimePassword )
             throws RemoteException, TransactionException, BalanceTransferReversalFailedException;
 }

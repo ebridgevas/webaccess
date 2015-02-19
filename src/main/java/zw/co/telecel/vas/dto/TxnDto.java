@@ -29,6 +29,8 @@ public class TxnDto implements Comparable<TxnDto> {
     private BigDecimal sourceBalance;
     private BigDecimal beneficiaryBalance;
 
+    private String paymentMethod;
+
     public TxnDto( BigInteger uuid,
             String shortCode,
             String sourceId,
@@ -149,5 +151,13 @@ public class TxnDto implements Comparable<TxnDto> {
     @Override
     public int compareTo(TxnDto o) {
         return transactionDate.after(o.getTransactionDate()) ? -1 : 1;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

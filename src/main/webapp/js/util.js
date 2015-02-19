@@ -26,10 +26,14 @@ function UrlParser() {
 
 /* Currency formatter. */
 function formatCurrency(raw) {
+    var result;
     if ( (raw < 1) && (raw > 0) ) {
-        return ($.number((raw * 100).toString(),0)) + "c";
+        var normalized =  (raw * 100).toString();
+        //result = $.number(normalized,0);
+        return parseFloat(normalized).toFixed(0) + "c";
     } else {
-        return "$" + ($.number(raw.toString(),2));
+        var normalized = raw.toString();
+        return "$" + parseFloat(normalized).toFixed(2); // ($.number(normalized,2));
     }
 }
 
@@ -65,17 +69,22 @@ function parseMoney( raw ) {
 function formatCurrencyOrData(account) {
     if (account.unitOfMeasure == 'money') {
         return formatCurrency(account.accountBalance);
+    } else if (account.unitOfMeasure == 'megabyte') {
+        return account.accountBalance + " MB";
     } else {
-        return account.accountBalance + " MB"
+        return account.accountBalance;
 
     }
 }
 
 function formatCurrencyOrData(amount, unitOfMeasure) {
-    if ( unitOfMeasure == 'money' ) {
-        return formatMoney( amount );
+    if (unitOfMeasure == 'money') {
+        return formatCurrency(amount);
+    } else if (unitOfMeasure == 'megabyte') {
+        return amount + " MB";
     } else {
-        return amount + " MB"
+        return amount;
+
     }
 }
 
@@ -178,23 +187,30 @@ function isValidUserEmailAddress( emailAddress ) {
 
 function parseMoney( raw ) {
 
-    var amountIsInCents = false;
+    var result = "";
 
-    if (raw.toString().match(/[c]/)) {
-        amountIsInCents = true;
+    try {
+
+        var amountIsInCents = false;
+
+        if (raw.toString().match(/[c]/)) {
+            amountIsInCents = true;
+        }
+
+        result = raw.toString().replace(/[^.0-9]/g, '');
+        result = parseFloat(result);
+        if (result == NaN) {
+            throw new Error ("Invalid amount");
+        }
+
+        if ( amountIsInCents ) {
+            result = result / 100;
+        }
+        result = result.toFixed(2);
+
+    } catch (error) {
+
     }
-
-    var result = raw.toString().replace(/[^.0-9]/g, '');
-    result = parseFloat(result);
-    if (result == NaN) {
-        throw new Error ("Invalid amount");
-    }
-
-    if ( amountIsInCents ) {
-        result = result / 100;
-    }
-    result = result.toFixed(2);
-
     return result;
 }
 

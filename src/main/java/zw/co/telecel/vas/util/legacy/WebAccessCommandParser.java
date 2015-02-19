@@ -24,7 +24,7 @@ public class WebAccessCommandParser {
         COMMANDS.put("deactivate-user",         WebAccessCommand.DEACTIVATE_USER);
         COMMANDS.put("delete-user",             WebAccessCommand.DELETE_USER);
         COMMANDS.put("set-user-password",       WebAccessCommand.SET_USER_PASSWORD);
-        COMMANDS.put("reset-password",          WebAccessCommand.SET_USER_PASSWORD);
+        COMMANDS.put("reset-password",          WebAccessCommand.RESET_PASSWORD);
         COMMANDS.put("get-user-account",        WebAccessCommand.GET_USER_ACCOUNT);
         COMMANDS.put("get-mobile-account-list", WebAccessCommand.GET_MOBILE_ACCOUNT_LIST);
         COMMANDS.put("data-bundle-purchase",    WebAccessCommand.DATA_BUNDLE_PURCHASE);

@@ -54,7 +54,6 @@ public class UserAccountManager extends HttpServlet {
         PROCESSORS.put(WebAccessCommand.RESET_PASSWORD,
                             new ResetUserPasswordCommandProcessor(
                                     new DatabaseBackedSecurityTokenSender()));
-        PROCESSORS.put(WebAccessCommand.SUBSCRIBER_FEEDBACK, new SubscriberFeedbackProcessor());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -27,6 +27,7 @@ var viewer = {
     },
 
     loginPortletVisible : function ( visible ) {
+
         $('#auth-password-pane').css('display', 'none');
         $('#left-column').css('width', '100%');
         $('#login-portlet').css('display', ( visible ? 'block' : 'none'));
@@ -55,6 +56,8 @@ var viewer = {
 
     showOrdinaryUserViews : function() {
 
+        userSession.userRole = 'USER';
+
         console.log("showOrdinaryUserViews ...");
 
         viewer.hide();
@@ -74,17 +77,24 @@ var viewer = {
         viewer.accountListPortletVisible( true );
         viewer.airtimeTransferPortlet();
         viewer.voucherRechargePortlet( true );
-        viewer.dataBundlePortletVisible( true);
-        viewer.transactionListPortletVisible( false, userSession.getUserId() );
-        viewer.maximizeDataBundlePortlet();
-        viewer.maximizeAirtimeTransferPortlet();
-        viewer.maximizeVoucherRechargePortlet();
+        //viewer.whatsappDataBundlePortletVisible(true);
+        //viewer.facebookDataBundlePortletVisible(true);
 
-//        viewer.statusPortlet();
+        controller.dataBundleOfferListing(0, 30);
+
+        //viewer.dataBundlePortletVisible( true);
+
+        viewer.transactionListPortletVisible( true, userSession.getUserId() );
+        //viewer.minimizeDataBundlePortlet();
+        viewer.minimizeAirtimeTransferPortlet();
+        viewer.minimizeVoucherRechargePortlet();
+
+        viewer.progressBarVisible(false, "");
     },
 
     progressBarVisible : function ( visible, message ) {
 
+        console.log("progressBarVisible : " + visible + " - " + message );
         $('#blueBarNAXAnchor').css('pointer-events', (visible ? 'none' : 'auto'));
         $('#contentCol').css('pointer-events', (visible ? 'none' : 'auto'));
         $('#footer').css('pointer-events', (visible ? 'none' : 'auto'));
@@ -94,6 +104,8 @@ var viewer = {
     },
 
     showCustomerCareAgentViews : function () {
+
+        userSession.userRole = 'AGENT';
 
         viewer.hide();
         viewer.headerVisible( true );
@@ -108,14 +120,21 @@ var viewer = {
         viewer.registrationPortlet();
         viewer.accountListPortletVisible( false );
         viewer.subscriberListPortletVisible( true );
-        viewer.dataBundlePortletVisible( true);
+        //viewer.whatsappDataBundlePortletVisible(true);
+        //viewer.facebookDataBundlePortletVisible(true);
+        //viewer.dataBundlePortletVisible( true);
+
+        controller.dataBundleOfferListing(0, 30);
+
         viewer.airtimeTransferPortlet();
         viewer.voucherRechargePortlet( true );
-        viewer.transactionListPortletVisible( false );
+        viewer.transactionListPortletVisible( true, userSession.getUserId() );
         viewer.minimizeAccountListingPortlet();
-        viewer.minimizeDataBundlePortlet();
+        //viewer.minimizeDataBundlePortlet();
         viewer.minimizeAirtimeTransferPortlet();
         viewer.minimizeVoucherRechargePortlet();
+
+        viewer.progressBarVisible(false, "");
     },
 
     hideUserIdEntry : function() {
@@ -260,6 +279,29 @@ var viewer = {
 //        }
     },
 
+    whatsappDataBundlePortletVisible : function( visible ) {
+
+        if ( ! userSession.isUserLoggedOn() ) {
+            viewer.loginPortletVisible();
+        }
+
+        $('#whatsapp-data-bundle-purchase-portlet').css('display', ( visible ? 'block' : 'none'));
+//        if ( visible == true ) {
+        controller.dataBundleOfferListing(0, 20);
+//        }
+    },
+
+    facebookDataBundlePortletVisible : function( visible ) {
+
+        if ( ! userSession.isUserLoggedOn() ) {
+            viewer.loginPortletVisible();
+        }
+
+        $('#facebook-data-bundle-purchase-portlet').css('display', ( visible ? 'block' : 'none'));
+//        if ( visible == true ) {
+        controller.dataBundleOfferListing(0, 20);
+//        }
+    },
 
     dataBundlePortletVisible : function( visible ) {
 
@@ -269,7 +311,7 @@ var viewer = {
 
         $('#data-bundle-purchase-portlet').css('display', ( visible ? 'block' : 'none'));
 //        if ( visible == true ) {
-            controller.dataBundleOfferListing(0, 20);
+            controller.dataBundleOfferListing(0, 30);
 //        }
     },
 
@@ -281,18 +323,21 @@ var viewer = {
         }
     },
 
-    rssFeedsVisible : function ( visible ) {
-        $('#data-bundle-purchase-portlet-2').css('display', ( visible ? 'block' : 'none'));
-
-//        setTimeout( controller.initTwitter, 5000 );
-
-    },
-
     registrationPortlet : function ( ) {
 
-        var portlet = $('#registration-portlet');
-        viewer.showRegistrationPortlet();
+        var portlet = $('#agent-registration-portlet');
+        viewer.agentRegistrationPortletVisibility( true );
         portlet.empty();
+
+        if (userSession.userRole == "AGENT") {
+            $('#agent-registration-portlet').css('width', '100%');
+            $('#agent-registration-portlet').css('margin-left','0px');
+        } else {
+            $('#agent-registration-portlet').css('width', '450px');
+            $('#agent-registration-portlet').css('margin-left','calc((100% - 450px)/2)');
+            $('#agent-registration-portlet').css('margin-bottom','20px');
+        }
+
         portlet.append($('<div class="widget-head">')
             .append($('<div id="registration-portlet-resize-icon" class="minimize-icon"></div>'))
             .append($('<h3 class="portlet-header"><span id="subscriber-registration-header">Subscriber Registration</span></h3>')));
@@ -313,12 +358,15 @@ var viewer = {
         content.append('<div class="input-container"><input class="input" id="security-question" type="text"></div>');
         content.append('<div class="label"><label>Security Answer</label></div>');
         content.append('<div class="input-container"><input class="input" id="security-answer" type="text"></div>');
-        //content.append('<div class="label"><label>SMS Capable</label></div>');
-        //content.append('<div class="input-container"><input id="sms-capable" type="checkbox" checked></div>');
-        //content.append('<div class="label"><label>Subscriber Role</label></div>');
-        //content.append('<div class="input-container"><select id="role"><option>User</option><option>Agent</option><option>Administrator</option></select></div>');
+        content.append('<div class="label"><label>SMS Capable</label></div>');
+        content.append('<div class="input-container"><input id="sms-capable" type="checkbox" checked></div>');
 
+        if ( userSession.userRole == "AGENT") {
+            content.append('<div class="label"><label>Subscriber Role</label></div>');
+            content.append('<div class="input-container"><select id="role"><option>User</option><option>Agent</option><option>Administrator</option></select></div>');
+        }
         var buttons = $('<ul class="standard-ul"></ul>')
+            .append($('<li class="standard-li"><button id="search-subscriber-button" class="button" type="button">Search</button></li>'))
             .append($('<li class="standard-li"><button id="delete-register-button" class="button" type="button">Delete</button></li>'))
             .append($('<li class="standard-li"><button id="send-activation-code-button" class="button" type="button">Send Code</button></li>'))
             .append($('<li class="standard-li"><button id="register-cancel-button" class="button" type="button">Cancel</button></li>'))
@@ -333,6 +381,8 @@ var viewer = {
         $('#send-activation-code-button').css('display', 'none');
         $('#register-cancel-button').css('display', 'none');
         $('.status').css('display','none');
+
+        $('#sms-capable').prop('checked', true);
 
         controller.registerEventHandlers();
     },
@@ -350,15 +400,21 @@ var viewer = {
         $('#subscriber-registration-header').text("SUBSCRIBER - " + toShortMobileNumberFormat(subscriber.mobileNumber));
         $('#mobile-number').prop('disabled', true);
         $('#mobile-number').css('background', 'lightgoldenrodyellow');
-        if ( subscriber.status.toLowerCase() == "enteractivationcode") {
+        if ( subscriber.status.toLowerCase() != "active") {
 
             $('.register-status').css('display', 'block');
+
+            var narrative = "This account is not activated yet.";
+            if (subscriber.status.toLowerCase() == "locked" ) {
+                narrative = "To unlock account, press 'Send Code'";
+            }
 
             viewer.displayError(
                 $('.register-status'),
                 $('#register-status'),
                 $('#register-status-icon'),
-                    "This account is not activated yet.");
+                narrative
+                );
         } else {
             $('#register-status').text('');
             $('.register-status').css('display', 'none');
@@ -466,6 +522,10 @@ var viewer = {
 
     showRegistrationPortlet : function() {
         $('#registration-portlet').css('display', 'block');
+    },
+
+    agentRegistrationPortletVisibility : function(visible) {
+        $('#agent-registration-portlet').css('display', (visible ? 'block' : 'none'));
     },
 
     hideRegistrationPortlet : function() {
@@ -629,6 +689,9 @@ var viewer = {
 
         content.append('<div class="data-bundle-beneficiary-mobile" style="display: none;"><input id="data-bundle-beneficiary-mobile" type="text" placeholder="enter mobile number to topup"></div>');
         content.append('<div class="is-topping-up-own-phone" style="display: none;"><input id="is-topping-up-own-phone" type="checkbox">  <span id="my-mobile-phone">mine</span></div>');
+
+        content.append('<div id="data-bundle-purchase-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="data-bundle-purchase-confirmation-message"/><input id="data-bundle-purchase-confirmed" type="radio" name="data-bundle-purchase-confirmation" value="data-bundle-purchase-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="data-bundle-purchase-cancelled" type="radio" name="data-bundle-purchase-confirmation" value="data-bundle-purchase-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
+
         content.append('<div class="data-bundle-confirmation-password" style="display: none;"><input id="data-bundle-confirmation-password" type="password" placeholder="enter your password to confirm"></div>');
 
         var buttons = $('<ul class="standard-ul"></ul>')
@@ -661,22 +724,22 @@ var viewer = {
         $('#registration-pane').css('display','block');
     },
 
-    minimizeDataBundlePortlet : function() {
-        $('#data-bundle-portlet-resize-icon').removeClass('maximize-icon');
-        $('#data-bundle-portlet-resize-icon').removeClass('minimize-icon');
-        $('#data-bundle-portlet-resize-icon').addClass('minimize-icon');
-        $('#data-bundle-purchase-portlet').css('display', 'block');
-        $('#data-bundle-offer-listing').css('display','none');
+    minimizeDataBundlePortlet : function(dataBundleReSizeIcon, dataBundlePortlet, dataBundleList) {
+        dataBundleReSizeIcon.removeClass('maximize-icon');
+        dataBundleReSizeIcon.removeClass('minimize-icon');
+        dataBundleReSizeIcon.addClass('minimize-icon');
+        dataBundlePortlet.css('display', 'block');
+        dataBundleList.css('display','none');
     },
 
-    maximizeDataBundlePortlet : function() {
+    maximizeDataBundlePortlet : function(dataBundleReSizeIcon, dataBundlePortlet, dataBundleList) {
         viewer.minimizeRegistrationPortlet();
         viewer.maximizeAccountListingPortlet();
-        $('#data-bundle-portlet-resize-icon').removeClass('maximize-icon');
-        $('#data-bundle-portlet-resize-icon').removeClass('minimize-icon');
-        $('#data-bundle-portlet-resize-icon').addClass('maximize-icon');
-        $('#data-bundle-purchase-portlet').css('display', 'block');
-        $('#data-bundle-offer-listing').css('display','block');
+        dataBundleReSizeIcon.removeClass('maximize-icon');
+        dataBundleReSizeIcon.removeClass('minimize-icon');
+        dataBundleReSizeIcon.addClass('maximize-icon');
+        dataBundlePortlet.css('display', 'block');
+        dataBundleList.css('display','block');
     },
 
     minimizeSubscriberListingPortlet : function() {
@@ -714,25 +777,38 @@ var viewer = {
         content.append('<div class="airtime-transfer-status" style="display: none;"><span id="airtime-transfer-status"></span></div>');
 
         var txnPane = $('<ul></ul>');
-        txnPane.append('<li class="transfer-amount"><input id="transfer-amount" type="text" placeholder="Enter Amount"></li>');
-        txnPane.append('<li class="transfer-beneficiary-mobile"><input id="transfer-beneficiary-mobile" type="text" placeholder="Beneficiary Mobile"></li>');
+        //txnPane.append('<div id="airtime-payment-method" style="width: 100%; display: block;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 30px; border-top: solid 0.1px;">Payment Method: <input id="airtime-transfer" type="radio" name="payment-method" value="transfer-airtime" style="margin-left: 10px;margin-right: 10px;">Airtime Transfer<input id="buy-using-telecash" type="radio" name="payment-method" value="pay-by-telecash" style="margin-left: 40px;margin-right: 10px;">Pay by Telecash</div>');
+        txnPane.append('<li class="transfer-amount" style="display: none;"><input id="transfer-amount" type="text" placeholder="Enter Amount"></li>');
+        txnPane.append('<li class="transfer-beneficiary-mobile" style="display: none;"><input id="transfer-beneficiary-mobile" type="text" placeholder="Beneficiary Mobile"></li>');
+        txnPane.append('<div class="is-purchase-for-own-phone" style="display: none;"><input id="is-purchase-for-own-phone" type="checkbox">  <span id="purchase-for-own-phone">mine</span></div>');
+
+        txnPane.append('<div id="airtime-transfer-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="transaction-confirmation-message"/><input id="airtime-transfer-confirmed" type="radio" name="airtime-transfer-confirmation" value="airtime-transfer-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="airtime-transfer-cancelled" type="radio" name="airtime-transfer-confirmation" value="airtime-transfer-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
+
         content.append( txnPane );
 
-        content.append('<div class="transfer-confirmation-password"><input id="transfer-confirmation-password" type="password" placeholder="Enter Password"></div>');
+        content.append('<div class="transfer-confirmation-password" style="display: none;"><input id="transfer-confirmation-password" type="password" placeholder="Enter Password"></div>');
 
         contentPane.append(content);
 
         var buttons = $('<ul class="standard-ul"></ul>')
             .append($('<li class="standard-li"><button id="transfer-cancel-button" class="button" type="button" style="display: none;">Cancel</button></li>'))
-            .append($('<li class="standard-li"><button id="transfer-process-button" class="button" type="button">Transfer</button></li>'));
+            .append($('<li class="standard-li"><button id="transfer-process-button" class="button" type="button">Buy</button></li>'));
 
         contentPane.append( $('<div class="button-pane clear-fix ">').append( buttons) );
         portlet.append(contentPane);
 
         $('.transfer-confirmation-password').css('display', 'none');
         $('#transfer-cancel-button').css('display', 'none');
+        $('#buy-using-telecash').attr("checked", false);
+        $('#transfer-airtime').attr("checked", false);
+
+        $("input[name='payment-method']").change(function(){
+            userSession.setPaymentMethod($('#buy-using-telecash').is(':checked') ? "TELECASH" : "AIRTIME");
+            controller.airtimeTransferEventHandlers( $('#buy-using-telecash').is(':checked') ? "TELECASH" : "AIRTIME" );
+        });
+        controller.airtimeTransferEventHandlers( "AIRTIME" );
+
 //        controller.downloadBalanceTransferSettings();
-        controller.airtimeTransferEventHandlers();
     },
 
 
@@ -755,6 +831,7 @@ var viewer = {
 
 
     minimizeAirtimeTransferPortlet : function () {
+
         $('#airtime-transfer-portlet-resize-icon').removeClass('maximize-icon');
         $('#airtime-transfer-portlet-resize-icon').removeClass('minimize-icon');
         $('#airtime-transfer-portlet-resize-icon').addClass('minimize-icon');
@@ -795,8 +872,11 @@ var viewer = {
 
         var txnPane = $('<ul></ul>');
         txnPane.append('<li class="recharge-voucher"><input id="recharge-voucher" type="text" placeholder="Enter Voucher"></li>');
-        txnPane.append('<li class="voucher-recharge-beneficiary-mobile"><input id="voucher-recharge-beneficiary-mobile" type="text" placeholder="Beneficiary Mobile (optional)"></li>');
+        txnPane.append('<li class="voucher-recharge-beneficiary-mobile"><input id="voucher-recharge-beneficiary-mobile" type="text" placeholder="Beneficiary Mobile"></li>');
+        txnPane.append('<div class="is-recharging-own-phone" style="display: inline-block;"><input id="is-recharging-own-phone" type="checkbox">  <span id="recharge-mobile-phone">mine</span></div>');
         content.append( txnPane );
+
+        content.append('<div id="voucher-recharge-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="voucher-recharge-confirmation-message"/><input id="voucher-recharge-confirmed" type="radio" name="voucher-recharge-confirmation" value="voucher-recharge-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="voucher-recharge-cancelled" type="radio" name="voucher-recharge-confirmation" value="voucher-recharge-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
 
         content.append('<div class="voucher-recharge-confirmation-password"><input id="voucher-recharge-confirmation-password" type="password" placeholder="Enter Password"></div>');
 
@@ -835,6 +915,11 @@ var viewer = {
         $('#voucher-recharge-portlet-resize-icon').addClass('maximize-icon');
         $('#voucher-recharge-portlet').css('display', 'block');
         $('#voucher-recharge-pane').css('display', 'block');
+    },
+
+    hideErrorPanel : function(messageClass, messageBox) {
+        messageBox.text( '' );
+        messageClass.css('display', 'none');
     },
 
     displayError : function(  messageClass, messageBox, messageIcon, message ) {

@@ -1,0 +1,197 @@
+{
+    "dataBundles": {
+        "1": {
+            "productType": "STANDARD",
+            "bundleType": "1",
+            "shortDescription": "4.8 MB Data Bundle",
+            "bundleDescription": "1. 50c    for 4.8MB",
+            "bundleSize": 4.80,
+            "bundleRate": 0.108,
+            "debit": 0.50,
+            "credit": 0.576,
+            "consumptionTariff": 0.12,
+            "windowSize": 30
+        },
+        "2": {
+            "productType": "STANDARD",
+            "bundleType": "2",
+            "shortDescription": "9.5 MB Data Bundle",
+            "bundleDescription": "2. $1     for 9.5MB",
+            "bundleSize": 9.50,
+            "bundleRate": 0.10,
+            "debit": 1.00,
+            "credit": 1.14,
+            "consumptionTariff": 0.12,
+            "windowSize": 30
+        },
+        "3": {
+            "productType": "STANDARD",
+            "bundleType": "3",
+            "shortDescription": "76 MB Data Bundle",
+            "bundleDescription": "3. $3.00  for 76MB",
+            "bundleSize": 76.00,
+            "bundleRate": 0.08,
+            "debit": 3.00,
+            "credit": 9.12,
+            "consumptionTariff": 0.12,
+            "windowSize": 30
+        },
+        "4": {
+            "productType": "STANDARD",
+            "bundleType": "4",
+            "shortDescription": "142.5 MB Data Bundle",
+            "bundleDescription": "4. $5.00  for 142.5MB",
+            "bundleSize": 142.50,
+            "bundleRate": 0.08,
+            "debit": 5.00,
+            "credit": 17.10,
+            "consumptionTariff": 0.12,
+            "windowSize": 60
+        },
+        "5": {
+            "productType": "STANDARD",
+            "bundleType": "5",
+            "shortDescription": "304 MB Data Bundle",
+            "bundleDescription": "5. $10.00 for 304MB",
+            "bundleSize": 304.00,
+            "bundleRate": 0.06,
+            "debit": 10.00,
+            "credit": 36.48,
+            "consumptionTariff": 0.12,
+            "windowSize": 60
+        },
+        "6": {
+            "productType": "STANDARD",
+            "bundleType": "6",
+            "shortDescription": "800 MB Data Bundle",
+            "bundleDescription": "6. $20.00 for 800MB",
+            "bundleSize": 800.00,
+            "bundleRate": 0.05,
+            "debit": 20.00,
+            "credit": 96.00,
+            "consumptionTariff": 0.12,
+            "windowSize": 90
+        },
+        "7": {
+            "productType": "STANDARD",
+            "bundleType": "7",
+            "shortDescription": "2000 MB Data Bundle",
+            "bundleDescription": "7. $45.00 for 2000MB",
+            "bundleSize": 2000.00,
+            "bundleRate": 0.05,
+            "debit": 45.00,
+            "credit": 240.00,
+            "consumptionTariff": 0.12,
+            "windowSize": 90
+        },
+        "8": {
+            "productType": "STANDARD",
+            "bundleType": "8",
+            "shortDescription": "4000 MB Data Bundle",
+            "bundleDescription": "8. $75.00 for 4000MB",
+            "bundleSize": 4000.00,
+            "bundleRate": 0.04,
+            "debit": 75.00,
+            "credit": 480.00,
+            "consumptionTariff": 0.12,
+            "windowSize": 120
+        },
+        "9": {
+            "productType": "WHATSAPP",
+            "bundleType": "9",
+            "shortDescription": "Daily",
+            "bundleDescription": "Daily",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 0.29,
+            "credit": 0.29,
+            "consumptionTariff": 0.12,
+            "windowSize": 1
+        },
+        "10": {
+            "productType": "WHATSAPP",
+            "bundleType": "10",
+            "shortDescription": "Weekly",
+            "bundleDescription": "Weekly",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 0.89,
+            "credit": 8.89,
+            "consumptionTariff": 0.12,
+            "windowSize": 7
+        },
+        "11": {
+            "productType": "WHATSAPP",
+            "bundleType": "11",
+            "shortDescription": "Monthly",
+            "bundleDescription": "Monthly",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 2.85,
+            "credit": 2.85,
+            "consumptionTariff": 0.12,
+            "windowSize": 30
+        },
+        "12": {
+            "productType": "WHATSAPP",
+            "bundleType": "12",
+            "shortDescription": "UnSubscribe",
+            "bundleDescription": "UnSubscribe",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 0.00,
+            "credit": 0.00,
+            "consumptionTariff": 0.00,
+            "windowSize": 0
+        },
+        "13": {
+            "productType": "FACEBOOK",
+            "bundleType": "9",
+            "shortDescription": "Daily",
+            "bundleDescription": "Daily",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 0.29,
+            "credit": 0.29,
+            "consumptionTariff": 0.12,
+            "windowSize": 1
+        },
+        "14": {
+            "productType": "FACEBOOK",
+            "bundleType": "10",
+            "shortDescription": "Weekly",
+            "bundleDescription": "Weekly",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 0.89,
+            "credit": 8.89,
+            "consumptionTariff": 0.12,
+            "windowSize": 7
+        },
+        "15": {
+            "productType": "FACEBOOK",
+            "bundleType": "11",
+            "shortDescription": "Monthly",
+            "bundleDescription": "Monthly",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 2.85,
+            "credit": 2.85,
+            "consumptionTariff": 0.12,
+            "windowSize": 30
+        },
+        "16": {
+            "productType": "FACEBOOK",
+            "bundleType": "12",
+            "shortDescription": "UnSubscribe",
+            "bundleDescription": "UnSubscribe",
+            "bundleSize": 0.00,
+            "bundleRate": 0.00,
+            "debit": 0.00,
+            "credit": 0.00,
+            "consumptionTariff": 0.00,
+            "windowSize": 0
+        }
+    }
+}
+

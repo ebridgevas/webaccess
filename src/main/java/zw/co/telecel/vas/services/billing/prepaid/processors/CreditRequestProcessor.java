@@ -52,7 +52,6 @@ public class CreditRequestProcessor {
 
             CAT.debug("Crediting ...");
             System.out.println("Crediting ...");
-
             prepaidServiceSoapProvider.get().creditAccount(
                     beneficiaryId.substring(3), null, creditPayload, "", uuid); //"VAS Gw: Data Bundle Purchase Ref: " + uuid);
         } catch (Exception e) {

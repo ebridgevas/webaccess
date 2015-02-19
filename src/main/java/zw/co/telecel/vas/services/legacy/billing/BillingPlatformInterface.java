@@ -24,10 +24,16 @@ public interface BillingPlatformInterface {
     public Set<BalanceDTO> balances( String mobileNumber ) throws RemoteException;
 
     public BalanceDTO[] dataBundlePurchase( String uuid, String mobileNumber, String productCode, String beneficiaryId,
-                                            String paymentMethod, String oneTimePassword )
+                                            String paymentMethod, String oneTimePassword,
+                                            String dataBundleServiceCommand  )
                throws RemoteException, TransactionException;
 
-    public BalanceDTO[] transfer( String uuid, String mobileNumber, String beneficiaryId, BigDecimal amount )
+    public BalanceDTO[] transfer( String uuid,
+                                  String mobileNumber,
+                                  String beneficiaryId,
+                                  BigDecimal amount,
+                                  String paymentMethod,
+                                  String oneTimePassword )
             throws RemoteException, BalanceTransferReversalFailedException, TransactionException;
 
 

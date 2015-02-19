@@ -8,8 +8,9 @@ import zw.co.telecel.vas.util.legacy.UserNotFoundException;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * david@ebridgevas.com
@@ -176,6 +177,90 @@ public class UserDao {
         }
     }
 
+    public static UserAction updateWrongPasswordCounter( User user, String mobileNumber) throws DatabaseException {
+
+        if ( connection == null) {
+            try {
+                connection = DataBaseConnectionPool.getConnection();
+            } catch (Exception e) {
+                // TODO handle exception
+                e.printStackTrace();
+            }
+        }
+
+            PreparedStatement ps = null;
+
+            String sql = null;
+
+            try {
+
+//                Date date = new Date(new SimpleDateFormat("yyyy-MM-dd").fonew java.util.Date().getTime());
+//                System.out.println("today : " + date + ", wrong password date : " + user.getWrongPasswordCounterDate());
+//                System.out.println("today : " +  date.getTime() + ", wrong password date : " + user.getWrongPasswordCounterDate().getTime());
+//                if (user.getWrongPasswordCounterDate().getTime() == date.getTime()) {
+//                    System.out.println("############# wrong counter today ");
+                Integer count = user.getWrongPasswordCounter();
+                if (count == null) count = 0;
+
+                if ( count > 4) {
+
+                    sql = " UPDATE usr " +
+                            " SET status = ? " +
+                            " WHERE     mobile_number = ? ";
+
+                    System.out.println(sql + " mobileNumber  " + mobileNumber);
+                    ps = connection.prepareStatement( sql );
+                    ps.setString(1, "locked");
+                    ps.setString(2, mobileNumber);
+                    ps.executeUpdate();
+                    return UserAction.ACCOUNT_LOCKED;
+                } else {
+
+                    System.out.println("############# counter : " + (count + 1) );
+                    sql = " UPDATE usr " +
+                            " SET wrong_password_counter = ?, " +
+                            "    wrong_password_counter_date  = ? " +
+                            " WHERE     mobile_number = ? ";
+                    ps = connection.prepareStatement( sql );
+                    ps.setInt(1, ( count + 1) );
+                    ps.setDate(2, new Date( new java.util.Date().getTime()));
+                    ps.setString(3, mobileNumber);
+
+                    System.out.println(sql + ", counter : " + (count + 1)
+                            + " wrong_password_counter_date : " +
+                            new Date( new java.util.Date().getTime()) + " mobileNumber  " + mobileNumber);
+
+                    ps.executeUpdate();
+                    return UserAction.INVALID_PASSWORD;
+                }
+//                } else {
+
+//                    System.out.println("############# wrong counter not today ");
+//
+//                    sql = " UPDATE usr " +
+//                            " SET wrong_password_counter = ?, " +
+//                            "    wrong_password_counter_date  = ? " +
+//                            " WHERE     mobile_number = ? ";
+//                    ps = connection.prepareStatement( sql );
+//                    ps.setInt(1, 1 );
+//                    ps.setDate(2, new Date( new java.util.Date().getTime()));
+//                    ps.setString(3, mobileNumber);
+//
+//                    System.out.println(sql + ", wrong_password_counter_date : " +
+//                            new Date(new java.util.Date().getTime()) + " mobileNumber  " + mobileNumber);
+//
+//                    ps.executeUpdate();
+//                    return UserAction.INVALID_PASSWORD;
+//                }
+           } catch (SQLException e) {
+                e.printStackTrace();
+                throw new DatabaseException( e.getMessage() );
+            } finally {
+                try {ps.close();} catch (Exception e){}
+            }
+    }
+
+
     /**
      * findUserByMobileNumber
      */
@@ -197,7 +282,8 @@ public class UserDao {
 
         String sql = " SELECT email_address, mobile_number, password, first_name, surname, role, " +
                 "          notification_agent, status, narrative, activation_code, " +
-                "          security_question, security_answer, user_photo_file_name" +
+                "          security_question, security_answer, user_photo_file_name," +
+                "          wrong_password_counter, wrong_password_counter_date "+
                 "   FROM usr " +
                 "  WHERE mobile_number = '" + mobileNumber + "'";
         System.out.println( sql );
@@ -218,8 +304,7 @@ public class UserDao {
                                 rs.getString("surname"),
                                 rs.getString("role"),
                                 rs.getString("notification_agent"),
-                                ("forcePasswordChange".equalsIgnoreCase(rs.getString("password"))
-                                        ? "forcePasswordChange" : rs.getString("status")),
+                                rs.getString("status"),
                                 rs.getString("narrative"),
                                 rs.getString("activation_code"),
                                 rs.getString("security_question"),
@@ -230,6 +315,8 @@ public class UserDao {
                         rs.getString("user_photo_file_name") != null ?
                                 rs.getString("user_photo_file_name") : "default-photo.jpg");
 
+                user.setWrongPasswordCounter(rs.getInt("wrong_password_counter"));
+                user.setWrongPasswordCounterDate(rs.getDate("wrong_password_counter_date"));
                 return user;
             } else {
                 throw new UserNotFoundException("Mobile number " + mobileNumber + " is not registered.");
@@ -357,7 +444,7 @@ public class UserDao {
         switch(request.getServiceCommand()) {
 
             case GENERATE_ACTIVATION_CODE:
-                sql = " UPDATE usr SET password = 'forcePasswordChange', " +
+                sql = " UPDATE usr SET password = '*', " +
                         "                status = 'enterActivationCode', " +
                         "                activation_code = '" + request.getPayload() + "'";
                 break;
@@ -366,7 +453,7 @@ public class UserDao {
                 sql = " UPDATE usr SET status = 'active'";
                 break;
             case RESET_USER_PASSWORD:
-                sql = " UPDATE usr SET password = 'forcePasswordChange'";
+                sql = " UPDATE usr SET status = 'forcePasswordChange'";
                 break;
             case CHANGE_USER_PASSWORD:
                 sql = " UPDATE usr SET password = '" + request.getPayload().trim() + "'," +

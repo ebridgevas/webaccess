@@ -27,12 +27,17 @@ public class ClassOfServiceBasedSubscribedPackageIdentifier implements Subscribe
 
         CAT.debug("subscribedPackage ( " + mobileNumber + ")");
 
-        String cosName = prepaidServiceSoapProvider.get()
-                            .retrieveSubscriberWithIdentityNoHistory(
-                                    mobileNumber.substring(3), null, 1)
-                                    .getSubscriberData().getCOSName();
-        CAT.debug("{mobileNumber : " + mobileNumber + ", cosName : " + cosName + "}" );
+        String cosName = null;
 
+        try {
+            cosName = prepaidServiceSoapProvider.get()
+                    .retrieveSubscriberWithIdentityNoHistory(
+                            mobileNumber.substring(3), null, 1)
+                    .getSubscriberData().getCOSName();
+            CAT.debug("{mobileNumber : " + mobileNumber + ", cosName : " + cosName + "}");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         String result = cosName == null
                                 || configurationService.config().getPostpaidCos().contains( cosName)
                                         ? "POSTPAID" : "PREPAID";

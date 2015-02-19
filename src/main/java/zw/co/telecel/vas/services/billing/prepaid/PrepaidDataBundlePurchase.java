@@ -5,6 +5,8 @@ import com.comverse_in.prepaid.ccws.ServiceSoap;
 import com.ebridge.services.payment.telecash.ws.ObopayExternalWebServiceServiceStub;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.telecel.wfb.services.TestFacebookSession;
+import com.telecel.wfb.services.TestFacebookSessionServiceLocator;
 import data.ws.obopay.com.ObopayWebServiceData;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.log4j.Category;
@@ -18,6 +20,7 @@ import zw.co.telecel.vas.services.payment.TelecashPaymentService;
 import zw.co.telecel.vas.util.TransactionException;
 
 import javax.inject.Named;
+import javax.xml.rpc.ServiceException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.rmi.RemoteException;
@@ -50,6 +53,10 @@ public class PrepaidDataBundlePurchase implements DataBundlePurchase {
 
     private TelecashPaymentService telecashPaymentService;
 
+    private TestFacebookSession dataBundleManagementService;
+
+    private HuaweiCreditRequestProcessor huaweiCreditRequestProcessor;
+
     @Inject
     @Named("prepaidAccountBalanceFactory")
     private AccountBalanceFactory prepaidAccountBalanceFactory;
@@ -58,15 +65,44 @@ public class PrepaidDataBundlePurchase implements DataBundlePurchase {
     public PrepaidDataBundlePurchase() {
 
         telecashPaymentService = new TelecashPaymentService();
+        try {
+            dataBundleManagementService = new TestFacebookSessionServiceLocator().getTestFacebookSessionPort();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
+        huaweiCreditRequestProcessor = new HuaweiCreditRequestProcessor();
     }
 
     @Override
     public BalanceDTO[] dataBundlePurchase(
                 String uuid, String sourceId, DataBundleDTO dataBundle, String beneficiaryId,
-                String paymentMethod, String oneTimePassword)
+                String paymentMethod, String oneTimePassword, String dataBundleServiceCommand )
             throws RemoteException, TransactionException {
 
         BalanceDTO[] result = new BalanceDTO[2];
+
+        if ( "UN-SUBSCRIBE".equalsIgnoreCase( dataBundleServiceCommand ) ) {
+
+
+            System.out.println("-----> {service-command: opt-out, mobile-number : " + sourceId +
+                    ", data-bundle-type : " + dataBundle.getProductType() +
+                    ", amount : " + dataBundle.getCredit().doubleValue() );
+
+            result[0] = new BalanceDTO();
+            result[0].setMobileNumber( sourceId );
+            result[0].setNarrative(
+                    dataBundleManagementService.optOut(sourceId,
+                            dataBundle.getBundleType(),
+                            dataBundle.getCredit().doubleValue()));
+
+            System.out.println("<----- {service-command: opt-out, mobile-number : " +
+                    sourceId + ", data-bundle-type : " +
+                    dataBundle.getProductType() +
+                    ", amount : " + dataBundle.getCredit().doubleValue() + ", response : " + result[0].getNarrative() );
+
+            return result;
+        }
 
         Calendar expirationDate = Calendar.getInstance();
         expirationDate.setTime( new DateTime(expirationDate.getTime()).plusDays( dataBundle.getWindowSize()).toDate() );
@@ -80,25 +116,43 @@ public class PrepaidDataBundlePurchase implements DataBundlePurchase {
 
             Boolean ownPhone = sourceId.equals(beneficiaryId);
 
-            if ( ownPhone ) {
+            if ("STANDARD".equalsIgnoreCase( dataBundle.getProductType())) {
 
-                DebitCreditRequestProcessor.process(prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
-                        uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
-                        result);
+                if (ownPhone) {
+
+                    DebitCreditRequestProcessor.process(prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
+                            uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
+                            result);
+                } else {
+
+                    BalanceCreditAccount[] debitPayload
+                            = PrepaidDebitRequestProcessor.process(
+                            prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
+                            uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
+                            result);
+
+                    CreditRequestProcessor.process(
+                            paymentMethod,
+                            prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
+                            telecashPaymentService,
+                            uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
+                            debitPayload, result);
+                }
             } else {
 
                 BalanceCreditAccount[] debitPayload
                         = PrepaidDebitRequestProcessor.process(
-                                prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
-                                uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
-                                result);
+                        prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
+                        uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
+                        result);
 
-                CreditRequestProcessor.process(
-                                paymentMethod,
-                                prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
-                                telecashPaymentService,
-                                uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
-                                debitPayload, result);
+                huaweiCreditRequestProcessor.process(
+                        paymentMethod,
+                        dataBundleManagementService,
+                        prepaidServiceSoapProvider,
+                        telecashPaymentService,
+                        uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
+                        debitPayload, result);
             }
 
         } else {
@@ -115,12 +169,11 @@ public class PrepaidDataBundlePurchase implements DataBundlePurchase {
                 throw new TransactionException( narrative );
             }
 
-//            if ( debited ) {
-
+            if ("STANDARD".equalsIgnoreCase( dataBundle.getProductType())) {
                 result[0] = new BalanceDTO();
-                result[0].setMobileNumber( sourceId );
+                result[0].setMobileNumber(sourceId);
                 result[0].setBalance(null);
-                result[0].setExpiryDate( null );
+                result[0].setExpiryDate(null);
                 result[0].setSubscriberPackage("PREPAID");
 
                 Boolean credited =
@@ -130,18 +183,23 @@ public class PrepaidDataBundlePurchase implements DataBundlePurchase {
                                 telecashPaymentService,
                                 uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
                                 null, result);
-//            } else {
-//                System.out.println("Error: mobile-number : " + sourceId + ", error: " + errorCode +
-//                        ", narrative : " + narrative);
-//
-//                throw new TransactionException( narrative );
-//            }
-//            if (! credited ) {
-//                Boolean refunded =
-//                        TelecashRefundProcessor.process(
-//                                prepaidAccountBalanceFactory, prepaidServiceSoapProvider,
-//                                uuid, sourceId, dataBundle, beneficiaryId, expirationDate );
-//            }
+            } else {
+
+                result[0] = new BalanceDTO();
+                result[0].setMobileNumber(sourceId);
+                result[0].setBalance(null);
+                result[0].setExpiryDate(null);
+                result[0].setSubscriberPackage("PREPAID");
+
+                huaweiCreditRequestProcessor.process(
+                        paymentMethod,
+                        dataBundleManagementService,
+                        prepaidServiceSoapProvider,
+                        telecashPaymentService,
+                        uuid, sourceId, dataBundle, beneficiaryId, expirationDate,
+                        null, result);
+            }
+
         }
 
         /*

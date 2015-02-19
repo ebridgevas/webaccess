@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <soapenv:Body>
+        <optOut xmlns="http://services.wfb.telecel.com/">
+            <mobileNumber xmlns="">263739852990</mobileNumber>
+            <bundleType xmlns="">WHATSAPP</bundleType>
+            <bundleAmount xmlns="">0.29</bundleAmount>
+        </optOut>
+    </soapenv:Body>
+</soapenv:Envelope>
+
+<?xml version="1.0" encoding="utf-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+<S:Body>
+    <ns2:optOutResponse xmlns:ns2="http://services.wfb.telecel.com/">
+        <return>Dear valued subscriber,you are not part of this promotion</return>
+    </ns2:optOutResponse>
+</S:Body>
+</S:Envelope>
+
+
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://services.wfb.telecel.com/">
+<soapenv:Header/>
+<soapenv:Body>
+    <ser:optOut>
+        <!--Optional:-->
+        <mobileNumber>263739852990</mobileNumber>
+        <!--Optional:-->
+        <bundleType>WHATSAPP</bundleType>
+        <!--Optional:-->
+        <bundleAmount>0.29</bundleAmount>
+    </ser:optOut>
+</soapenv:Body>
+</soapenv:Envelope>

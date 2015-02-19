@@ -7,6 +7,7 @@ import java.math.BigDecimal;
  */
 public class DataBundleDTO implements Comparable<DataBundleDTO> {
 
+    private final String productType;
     private final String bundleType;
     private final String shortDescription;
     private final String bundleDescription;
@@ -18,6 +19,7 @@ public class DataBundleDTO implements Comparable<DataBundleDTO> {
     private final Integer windowSize;
 
     public DataBundleDTO (
+            String productType,
             String bundleType,
             String shortDescription,
             String bundleDescription,
@@ -27,6 +29,7 @@ public class DataBundleDTO implements Comparable<DataBundleDTO> {
             BigDecimal credit,
             BigDecimal consumptionTariff,
             Integer windowSize) {
+        this.productType = productType;
         this.bundleType = bundleType;
         this.shortDescription = shortDescription;
         this.bundleDescription = bundleDescription;
@@ -36,6 +39,10 @@ public class DataBundleDTO implements Comparable<DataBundleDTO> {
         this.credit = credit;
         this.consumptionTariff = consumptionTariff;
         this.windowSize = windowSize;
+    }
+
+    public String getProductType() {
+        return productType;
     }
 
     public String getBundleType() {

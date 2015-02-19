@@ -1,6 +1,7 @@
 package zw.co.telecel.vas.model;
 
 import java.io.InputStream;
+import java.sql.Date;
 
 /**
  * david@ebridgevas.com
@@ -20,6 +21,8 @@ public class User {
     private String securityQuestion;
     private String securityAnswer;
     private String userPhotoFileName;
+    private Integer wrongPasswordCounter;
+    private Date wrongPasswordCounterDate;
 
     public User() {
     }
@@ -154,5 +157,21 @@ public class User {
 
     public void setUserPhotoFileName(String userPhotoFileName) {
         this.userPhotoFileName = userPhotoFileName;
+    }
+
+    public Integer getWrongPasswordCounter() {
+        return wrongPasswordCounter;
+    }
+
+    public void setWrongPasswordCounter(Integer wrongPasswordCounter) {
+        this.wrongPasswordCounter = wrongPasswordCounter;
+    }
+
+    public Date getWrongPasswordCounterDate() {
+        return wrongPasswordCounterDate;
+    }
+
+    public void setWrongPasswordCounterDate(Date wrongPasswordCounterDate) {
+        this.wrongPasswordCounterDate = wrongPasswordCounterDate;
     }
 }

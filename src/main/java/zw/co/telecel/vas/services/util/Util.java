@@ -15,6 +15,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -56,41 +57,77 @@ public class Util {
 //        throw new TransactionException("Missing account.");
     }
 
-    public static String[] dataBundleResponse( BalanceDTO[] balances, DataBundleDTO dataBundle, String paymentMethod)
+    public static String[] dataBundleResponse(  BalanceDTO[] balances,
+                                                DataBundleDTO dataBundle,
+                                                String paymentMethod,
+                                                String dataBundleServiceCommand )
             throws TransactionException {
 
-        Boolean ownPhone = balances[0].getMobileNumber().equals( balances[1].getMobileNumber());
-
-        String[] result = new String[ ownPhone ? 1 : 2 ];
-        result[0] =
-                "You have bought the " + dataBundle.getBundleSize().setScale(2, RoundingMode.HALF_UP ) + "mb bundle" +
-                ( ! ownPhone ? " for 0" + balances[1].getMobileNumber().substring(3) + "" : "") +
-                        ( "TELECASH".equalsIgnoreCase(paymentMethod) ?
-                                " from your Telecash account." :
-                                ". Your main balance is now " + balances[0].getBalance() + "usd. ") +
-                ( ownPhone ?
-                    "Your data balance is " + balances[ balances.length - 1 ].getBalance() +
-                    "mb exp on " +
-                    String.format("%1$td/%1$tm/%1$tY", balances[ balances.length - 1 ].getExpiryDate()) : "" );
-
-        if ( ! ownPhone ) {
-            result[1] =
-                    "You received " + dataBundle.getBundleSize().setScale(2, RoundingMode.HALF_UP) + "mb bundle " +
-                    "from 0" + balances[0].getMobileNumber().substring(3) +
-                    ". Your data balance is now " + balances[1].getBalance() +
-                    "mb exp on " +
-                    String.format("%1$td/%1$tm/%1$tY", balances[ 1 ].getExpiryDate() );
+        String[] result = null;
+        if ( "UN-SUBSCRIBE".equalsIgnoreCase( dataBundleServiceCommand )) {
+            result = new String[1];
+            result[0] = balances[0].getNarrative();
+            return result;
         }
 
+        Boolean ownPhone = balances[0].getMobileNumber().equals( balances[1].getMobileNumber());
+        result = new String[ ownPhone ? 1 : 2 ];
+
+        if ("STANDARD".equalsIgnoreCase( dataBundle.getProductType())) {
+            result[0] =
+                    "You have bought the " + dataBundle.getBundleSize().setScale(2, RoundingMode.HALF_UP) + "mb bundle" +
+                            (!ownPhone ? " for 0" + balances[1].getMobileNumber().substring(3) + "" : "") +
+                            ("TELECASH".equalsIgnoreCase(paymentMethod) ?
+                                    " from your Telecash account." :
+                                    ". Your main balance is now " + balances[0].getBalance() + "usd. ") +
+                            (ownPhone ?
+                                    "Your data balance is " + balances[balances.length - 1].getBalance() +
+                                            "mb exp on " +
+                                            String.format("%1$td/%1$tm/%1$tY", balances[balances.length - 1].getExpiryDate()) : "");
+
+            if (!ownPhone) {
+                result[1] =
+                        "You received " + dataBundle.getBundleSize().setScale(2, RoundingMode.HALF_UP) + "mb bundle " +
+                                "from 0" + balances[0].getMobileNumber().substring(3) +
+                                ". Your data balance is now " + balances[1].getBalance() +
+                                "mb exp on " +
+                                String.format("%1$td/%1$tm/%1$tY", balances[1].getExpiryDate());
+            }
+        } else {
+
+            result[0] = balances[1].getNarrative();
+//                    "You have subscribed to the " + dataBundle.getShortDescription() + " data bundle" +
+//                            (!ownPhone ? " for 0" + balances[1].getMobileNumber().substring(3) + "" : "") +
+//                            ("TELECASH".equalsIgnoreCase(paymentMethod) ?
+//                                    " from your Telecash account." :
+//                                    ". Your main balance is now " + balances[0].getBalance() + "usd. ");
+
+            if (!ownPhone) {
+                result[1] =
+                        "You received " + dataBundle.getShortDescription() + " bundle subscription " +
+                                "from 0" + balances[0].getMobileNumber().substring(3);
+            }
+        }
         return result;
     }
 
-    public static String[] balanceTransferResponse( BalanceDTO[] balances, BigDecimal amount, String uuid ) {
+    public static String[] balanceTransferResponse( BalanceDTO[] balances, BigDecimal amount, String uuid,
+                                                    String paymentMethod) {
 
         String[] result = new String[2];
-        result[0] = "$" + amount + " transfer to 0" + balances[1].getMobileNumber().substring(3) + " accepted. " +
-                        "Your balance is now: $" + balances[0].getBalance() +
-                        ". Reference: " + uuid;
+
+        if ("AIRTIME".equalsIgnoreCase( paymentMethod )) {
+            result[0] = "$" + amount + " transfer to 0" + balances[1].getMobileNumber().substring(3) + " accepted. " +
+                    "Your balance is now: $" + balances[0].getBalance() +
+                    ". Reference: " + uuid;
+        } else {
+            result[0] = "$" + amount + " purchase from Telecash account for 0" +
+                    balances[1].getMobileNumber().substring(3) + " accepted. " +
+                    (balances[0].getMobileNumber().equals( balances[1].getMobileNumber()) ?
+                        "Airtime balance is now: $" + balances[1].getBalance()
+                        : "") +
+                    ". Reference: " + uuid;
+        }
 
         result[1] = "$" + amount + " transfer from 0" + balances[0].getMobileNumber().substring(3) + " accepted. " +
                 "Your balance is now: $" + balances[1].getBalance() +
@@ -126,7 +163,10 @@ public class Util {
         return result;
     }
 
-    public static void persistDataBundleResponse(String uuid, BalanceDTO[] balances, DataBundleDTO dataBundle) {
+    public static void persistDataBundleResponse(   String uuid,
+                                                    BalanceDTO[] balances,
+                                                    DataBundleDTO dataBundle,
+                                                    String paymentMethod ) {
         System.out.print("Persisting txn ...");
         TxnDto txn = new TxnDto(new BigInteger(uuid), "WEB", balances[0].getMobileNumber(), "WEB", new Date());
         txn.setDestinationId( balances[1 ].getMobileNumber() );
@@ -135,13 +175,17 @@ public class Util {
         txn.setTransactionType("DataBundlePurchase");
         txn.setStatusCode("000");
         txn.setAccountType(balances[0].getSubscriberPackage());
-        txn.setSourceBalance( balances [ 0 ].getBalance() );
-        txn.setBeneficiaryBalance(  balances[ 1 ].getBalance() );
+        txn.setSourceBalance(balances[0].getBalance());
+        txn.setBeneficiaryBalance(balances[1].getBalance());
+        txn.setPaymentMethod( paymentMethod );
         System.out.println(" mobile number : " + balances[0].getMobileNumber() + ", amount : " + dataBundle.getDebit());
         TxnDAO.persist(txn);
     }
 
-    public static void persistBalanceTransferResponse(BalanceDTO[] balances, BigDecimal amount, String uuid ) {
+    public static void persistBalanceTransferResponse(  BalanceDTO[] balances,
+                                                        BigDecimal amount,
+                                                        String uuid,
+                                                        String paymentMethod) {
 
         TxnDto txn = new TxnDto(new BigInteger(uuid), "WEB", balances[0].getMobileNumber(), "WEB", new Date());
         txn.setDestinationId( balances[ 1 ].getMobileNumber());
@@ -152,11 +196,15 @@ public class Util {
         txn.setAccountType("PREPAID");
         txn.setSourceBalance( balances[ 0 ].getBalance() );
         txn.setBeneficiaryBalance( balances [ 1 ].getBalance() );
+        txn.setPaymentMethod( paymentMethod );
 
         TxnDAO.persist(txn);
     }
 
-    public static void persistVoucherRechargeResponse( String uuid, String mobileNumber, BalanceDTO balance ) {
+    public static void persistVoucherRechargeResponse(  String uuid,
+                                                        String mobileNumber,
+                                                        BalanceDTO balance,
+                                                        String paymentMethod) {
 
         TxnDto txn = new TxnDto(new BigInteger(uuid), "WEB", mobileNumber, "WEB", new Date());
         txn.setDestinationId( balance.getMobileNumber());
@@ -165,6 +213,7 @@ public class Util {
         txn.setTransactionType("VoucherRecharge");
         txn.setStatusCode("000");
         txn.setAccountType("PREPAID");
+        txn.setPaymentMethod( paymentMethod );
 
         Boolean ownPhone = mobileNumber.equals( balance.getMobileNumber() );
         txn.setSourceBalance( ownPhone ? balance.getBalance() : BigDecimal.ZERO );
@@ -173,7 +222,19 @@ public class Util {
         TxnDAO.persist(txn);
     }
 
-    public static Set<TxnDto> transactionHistory( String mobileNumber ) {
-        return TxnDAO.history( mobileNumber );
+    public static Set<TxnDto> transactionHistory( String mobileNumber, Map<String, DataBundleDTO> bundleDTOMap) {
+
+        Set<TxnDto> history = TxnDAO.history(mobileNumber);
+
+        for ( TxnDto txn : history ) {
+
+            if ("DataBundlePurchase".equalsIgnoreCase(txn.getTransactionType())) {
+                txn.setNarrative( bundleDTOMap.get(txn.getProductCode()).getShortDescription());
+            } else {
+                txn.setNarrative(txn.getProductCode());
+            }
+        }
+
+        return history;
     }
 }

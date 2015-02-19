@@ -54,7 +54,7 @@ public class PostpaidDataBundlePurchase implements DataBundlePurchase {
     @Override
     public BalanceDTO[] dataBundlePurchase(
                                 String uuid, String mobileNumber, DataBundleDTO dataBundle, String beneficiaryId,
-                                String paymentMethod, String oneTimePassword)
+                                String paymentMethod, String oneTimePassword, String dataBundleServiceCommand )
             throws RemoteException, TransactionException {
 
         Calendar windowPeriod = Calendar.getInstance();

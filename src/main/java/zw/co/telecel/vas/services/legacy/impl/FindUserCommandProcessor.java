@@ -25,23 +25,8 @@ public class FindUserCommandProcessor implements WebAccessCommandProcessor {
 
         try {
 
-//            String mobileNumber = parameters.get("mobileNumber")[0];
-            String sessionId = parameters.get("sessionId")[0];
-            System.out.println("session id requested : " + sessionId);
-            System.out.println("sessions count : " + userSessions.size());
-            System.out.println("sessions  : " + userSessions);
-            System.out.println("session  : " + userSessions.get(sessionId));
-            UserSession userSession = userSessions.get(sessionId);
-            if (userSession != null ) {
-//                if (userSessions.get(mobileNumber).getSessionId().equals(sessionId) ) {
-                  String userId = userSession.getUserId();
-                    HttpResponseWriter.write(UserDao.findUser(userId), response);
-//                }  else {
-//                    HttpResponseWriter.write("You are not logged on.", response);
-//                }
-            } else {
-                HttpResponseWriter.write("Invalid session.", response);
-            }
+            HttpResponseWriter.write(UserDao.findUser(parameters.get("mobile-number")[0]), response);
+
         } catch (UserNotFoundException e) {
             HttpResponseWriter.write(e.getMessage(), response);
         } catch (DatabaseException e) {

@@ -1,6 +1,6 @@
 
 var HTTP_URL = "/televas-httpbridge-1.0/";
-var HTTP_TIMEOUT = 5000;
+var HTTP_TIMEOUT = 30000;
 var TEST_DELAY   = 0;
 
 var SERVICE_COMMANDS;
@@ -12,7 +12,11 @@ var subscriberList;
 
 var subscribersMap;
 
-var dataBundles = new Object();
+var whatsAppDataBundlesArray = new Object();
+var facebookDataBundlesArray = new Object();
+var standardDataBundlesArray = new Object();
+
+var idleTime = 0;
 
 var controller = {
 
@@ -48,6 +52,31 @@ var controller = {
             }
         });
 
+    },
+
+    monitorActivity : function() {
+        //Increment the idle time counter every minute.
+        var idleInterval = setInterval(controller.timerIncrement, 60000); // 1 minute
+
+        //Zero the idle timer on mouse movement.
+        $(document).mousemove(function (e) {
+            idleTime = 0;
+        });
+        $(document).click(function (e) {
+            idleTime = 0;
+        });
+        $(document).keypress(function (e) {
+            idleTime = 0;
+        });
+    },
+
+    timerIncrement : function() {
+
+        idleTime = idleTime + 1;
+        if (idleTime > 6 ) { // 15 minutes
+            alert("No activity for too long. Logged out.");
+            window.location.reload();
+        }
     },
 
     signOutEvenHandler : function() {
@@ -317,15 +346,21 @@ var controller = {
     },
 
     onLoginClick : function() {
+
         if ( isValidMobileNumber($('#auth-email').val()) ) {
 
             var mobileNumber = toStandardMobileNumberFormat($('#auth-email').val());
+
+            viewer.progressBarVisible(true, "Logging in ... " +
+                toShortMobileNumberFormat( mobileNumber ) );
 
             var url =  HTTP_URL +
                 "/user-account-manager?service-command=validate-user-id&" +
                 "mobile-number=" + mobileNumber;
 
             var promise = $.getJSON(url, function( data ) {
+
+                viewer.progressBarVisible(false, "");
 
                 userSession.userAction = data.userAction;
 
@@ -358,7 +393,9 @@ var controller = {
 //                        view.inputMessagePlaceholder("Enter activation code here.");
 //                        view.inputMessage("");
 //                        view.leftButtonText("Re-New");
-                    viewer.showPasswordEntry("Enter activation code");
+                    // David 16
+                    viewer.showPasswordEntry( 'Enter activation code sent to ' +
+                    (data.notificationAgent == "SMS" ? data.mobileNumber : data.emailAddress));
                     viewer.disableUserIdEntry();
                     $('#auth-password').attr('type', 'text');
                     $('#auth-password').focus();
@@ -367,12 +404,18 @@ var controller = {
 
                     $('#auth-email').prop('placeholder', 'Mobile not registered.');
                     $('#auth-email').val('');
+                } else if ( userSession.userAction == "ACCOUNT_LOCKED") {
+
+                    $('#auth-email').prop('placeholder', 'Account locked. Call HelpDesk.');
+                    $('#auth-email').val('');
                 } else {
                     // Unknown response code
                 }
             });
 
             promise.fail(function(xhr, status, error) {
+
+                viewer.progressBarVisible(false, "");
 
                 var message;
                 if ( xhr.responseText == "") {
@@ -416,7 +459,10 @@ var controller = {
                 userSession.userAction = data.userAction;
 
                 if (userSession.userAction == "ENTER_ACTIVATION_CODE") {
-                    $('#auth-password').prop('placeholder', 'Enter activation code');
+
+                    $('#auth-password').prop('placeholder',
+                            'Enter activation code to ' +
+                            (data.notificationAgent == "SMS" ? data.mobileNumber : data.emailAddress));
                     $('#auth-password').val('');
                     controller.registerActivationCodeEventHandlers();
                 }
@@ -444,13 +490,17 @@ var controller = {
                     "&mobile-number=" + userSession.mobileNumber + "&" +
                     "password=" + password;
 
-                var promise = $.getJSON(url, function( data ) {
+                viewer.progressBarVisible(true, "Logging in ... " +
+                                toShortMobileNumberFormat(userSession.mobileNumber ) );
 
+                var promise = $.getJSON(url, function( data ) {
+                    viewer.progressBarVisible(false, "");
                     userSession.userAction = data.userAction;
                     console.log("password response : " + userSession.userAction);
                     if (userSession.userAction == "GRANT_ACCESS") {
                         userSession.setUserPassword( $('#auth-password').val() );
                         controller.userSession( data );
+                        controller.monitorActivity();
                         if ( userSession.getUserRole().toLowerCase() == 'agent') {
                             viewer.showCustomerCareAgentViews();
                         } else {
@@ -459,6 +509,9 @@ var controller = {
                     } else if (userSession.userAction == "INVALID_PASSWORD") {
                         userSession.userAction = "ENTER_PASSWORD";
                         viewer.showPasswordEntry("Wrong password.");
+                    } else if (userSession.userAction == "ACCOUNT_LOCKED") {
+                        userSession.userAction = "ACCOUNT_LOCKED";
+                        viewer.showPasswordEntry("Account locked. Call Help Desk");
                     } else if (userSession.userAction == "ENTER_ACTIVATION_CODE") {
 //                            view.message(true, false, controller.activationCodePromptMessage( data, false ));
 //                            view.inputMessageType("text");
@@ -470,8 +523,9 @@ var controller = {
                 });
 
                 promise.fail(function(xhr, status, error) {
-
-                    view.message(true, false, "Login failed.<br/>Please try shortly.");
+                    viewer.progressBarVisible(false, "");
+                    viewer.showPasswordEntry("System error. Please try again.");
+                    //view.message(true, false, "Login failed.<br/>Please try shortly.");
                     console.log("Mobile subscriber : " + userSession.mobileNumber + " failed to set password : " + xhr.responseText );
                 });
 
@@ -570,6 +624,8 @@ var controller = {
                     console.log("calling showOrdinaryUserViews ... ");
                     viewer.showOrdinaryUserViews();
                 }
+            } else if (userSession.userAction == "ACCOUNT_LOCKED") {
+                viewer.showPasswordEntry("Account locked. Call Help Desk");
             } else if (    userSession.getServiceCommand() == SERVICE_COMMAND.DATA_BUNDLE_PURCHASE
                 || userSession.getServiceCommand() == SERVICE_COMMAND.AIRTIME_TRANSFER
                 || userSession.getServiceCommand() == SERVICE_COMMAND.VOUCHER_RECHARGE ) {
@@ -623,7 +679,9 @@ var controller = {
 //                        view.inputMessagePlaceholder("Enter activation code here.");
 //                        view.inputMessage("");
 //                        view.leftButtonText("Re-New");
-                        viewer.showPasswordEntry("Enter activation code");
+                        viewer.showPasswordEntry( 'Enter activation code sent to ' +
+                        (data.notificationAgent == "SMS" ? data.mobileNumber : data.emailAddress));
+
                         viewer.disableUserIdEntry();
                         $('#pass').attr('type', 'text');
                         $('#pass').focus();
@@ -753,6 +811,33 @@ var controller = {
                 $('#pass').val('');
             }
         });
+
+        $('#forgot-password').unbind();
+        $('#forgot-password').click(function(){
+            var url =  HTTP_URL +
+                "/user-account-manager?service-command=reset-password" +
+                "&mobile-number=" + userSession.mobileNumber;
+
+            var promise = $.getJSON(url, function( data ) {
+
+                userSession.userAction = data.userAction;
+
+                if (userSession.userAction == "ENTER_ACTIVATION_CODE") {
+
+                    $('#auth-password').prop('placeholder',
+                        'Enter activation code sent to ' +
+                        (data.notificationAgent == "SMS" ? data.mobileNumber : data.emailAddress));
+                    $('#auth-password').val('');
+                    controller.registerActivationCodeEventHandlers();
+                }
+            });
+
+            promise.fail(function(xhr, status, error) {
+
+                view.message(true, false, "Login failed.<br/>Please try shortly.");
+                console.log("Mobile subscriber : " + userSession.mobileNumber + " failed to set password : " + xhr.responseText );
+            });
+        });
     },
 
     isValidRegistrationForm : function() {
@@ -845,15 +930,16 @@ var controller = {
     registerSubscriber : function( subscriber, serviceCommand ) {
 
         var url =  HTTP_URL +
-            "/user-account-manager?service-command=" + serviceCommand.sServiceCommand +
+            "/billing-platform?service-command=" + serviceCommand.sServiceCommand +
             "&subscriberMobileNumber=" + subscriber.mobileNumber +
+            "&mobile-number=" + subscriber.mobileNumber +
             "&subscriberEmailAddress=" + subscriber.emailAddress +
             "&subscriberFirstName=" + subscriber.firstName +
             "&subscriberSurname=" + subscriber.surname +
             "&subscriberSecurityQuestion=" + subscriber.securityQuestion +
             "&subscriberSecurityAnswer=" + subscriber.securityAnswer +
-            "&communicationAgent=SMS" + //subscriber.notificationAgent +
-            "&subscriberRole=USER" + //subscriber.role +
+            "&communicationAgent=" + subscriber.notificationAgent +
+            "&subscriberRole=" + (userSession.userRole = 'AGENT' ? subscriber.role : "USER" ) +
             "&password=" + subscriber.password;
 
         var promise = $.getJSON(url, function( data ) {
@@ -964,6 +1050,56 @@ var controller = {
                 viewer.minimizeRegistrationPortlet();
             }
         });
+
+        $('#search-subscriber-button').click(function(){
+
+            if ( ! isValidMobileNumber($('#mobile-number').val()) ) {
+
+                viewer.displayError(
+                    $('.register-status'),
+                    $('#register-status'),
+                    $('#register-status-icon'),
+                    "Enter a valid mobile number."
+                );
+
+                $('#mobile-number').prop('placeholder', 'Enter mobile number to search.');
+                $('#mobile-number').val('');
+
+            } else {
+                // David 7
+                viewer.hideErrorPanel($('.register-status'), $('#register-status'));
+
+                viewer.progressBarVisible( true,
+                                        "Searching for " + toShortMobileNumberFormat($('#mobile-number').val() ));
+
+                var url =  HTTP_URL +
+                    "/user-account-manager?" +
+                    "service-command=get-user-account&mobile-number="
+                                + toStandardMobileNumberFormat($('#mobile-number').val());
+
+                var promise = $.getJSON(url, function( response ) {
+
+                    viewer.progressBarVisible( false );
+
+                    viewer.displaySubscriber( response );
+                    viewer.maximizeRegistrationPortlet();
+                    viewer.minimizeAccountListingPortlet();
+                    viewer.transactionHistoryVisible( true, toStandardMobileNumberFormat( response.mobileNumber )  );
+
+                });
+
+                promise.fail( function( xmlHttpRequest, status, error ) {
+                    viewer.progressBarVisible( false );
+                    viewer.displayError(
+                        $('.register-status'),
+                        $('#register-status'),
+                        $('#register-status-icon'),
+                        "Search for mobile number " + toShortMobileNumberFormat($('#mobile-number').val() ) + " failed.");
+                });
+
+                setTimeout( function() { promise.abort(); }, HTTP_TIMEOUT );
+            }
+        });
     },
 
     settingsEventHandlers : function() {
@@ -1045,157 +1181,403 @@ var controller = {
         });
     },
 
-    dataBundleEventHandlers : function() {
+    dataBundleEventHandlers : function( productType,
+                                        purchaseButton,
+                                        cancelButton,
+                                        radioButton,
+                                        paymentMethodSelectionPanel,
+                                        paymentMethodSelector,
+                                        paymentByAirtime,
+                                        paymentByTelecash,
+                                        dataBundleBeneficiaryMobileNumber,
+                                        dataBundlePurchaseConfirmationPanel,
+                                        dataBundlePurchaseConfirmationMessage,
+                                        dataBundlePurchaseConfirmationSelector,
+                                        dataBundlePurchaseIsCancelled,
+                                        dataBundleConfirmationPasswordPanel,
+                                        dataBundleConfirmationPasswordElement,
+                                        isToppingUpOwnPhone,
+                                        isToppingUpOwnPhonePanel,
+                                        dataBundleBeneficiaryMobileNumberPanel,
+                                        dataBundleUnSubscriberButton,
+                                        dataBundlePurchaseStatusPanel,
+                                        dataBundlePurchaseStatusElement,
+                                        dataBundlePurchaseStatusIconElement
+                                        ) {
 
-        $('#data-bundle-portlet-resize-icon').click(function(){
+        userSession.transactionConfirmed = false;
 
-            if ( ! userSession.isUserLoggedOn() ) {
-                viewer.loginPortletVisible();
-            }
+        //$('#data-bundle-portlet-resize-icon').click(function(){
+        //
+        //    if ( ! userSession.isUserLoggedOn() ) {
+        //        viewer.loginPortletVisible();
+        //    }
+        //
+        //    if ( $('#data-bundle-offers').css('display') == 'none' ) {
+        //        viewer.maximizeDataBundlePortlet();
+        //    } else {
+        //        viewer.minimizeDataBundlePortlet();
+        //    }
+        //});
 
-            if ( $('#data-bundle-offers').css('display') == 'none' ) {
-                viewer.maximizeDataBundlePortlet();
-            } else {
-                viewer.minimizeDataBundlePortlet();
-            }
-        });
-
-        $(".radio-button").click(function(e){
+        radioButton.click(function(e){
 
             if ( ! userSession.isUserLoggedOn() ) {
                 viewer.loginPortletVisible();
             }
 
             var selected = $(this).hasClass('ticked-radio-button');
-            $('.radio-button').removeClass('ticked-radio-button');
+            radioButton.removeClass('ticked-radio-button');
             if ( selected == false ) {
                 $(this).addClass('ticked-radio-button');
             }
 
             if ($(this).hasClass("ticked-radio-button") ) {
 
-                $('#payment-method').css('display', 'inline-block');
                 var purchaseAmount = $(this).attr("amount");
                 var productCode = $(this).attr("id");
                 var productDescription = $(this).attr("description");
 
-                $('#pay-by-telecash').attr("checked", false);
-                $('#pay-by-airtime').attr("checked", false);
+                userSession.setProduct( productCode );
+                userSession.productDescription = productDescription;
 
-                $("input[name='payment-method']").change(function(){
-                    userSession.setPaymentMethod($('#pay-by-telecash').is(':checked') ? "TELECASH" : "AIRTIME");
-                    controller.processPaymentMethodSelection( purchaseAmount, productCode, productDescription );
+                //paymentMethodSelectionPanel.css('display', 'inline-block');
+                //
+                //paymentByTelecash.attr("checked", false);
+                //paymentByAirtime.attr("checked", false);
+
+                paymentMethodSelector.change(function () {
+                    userSession.setPaymentMethod(paymentByTelecash.is(':checked') ? "TELECASH" : "AIRTIME");
+                    //controller.processPaymentMethodSelection(   purchaseAmount,
+                    //                                            productCode,
+                    //                                            productDescription,
+                    //                                            cancelButton,
+                    //                                            paymentMethodSelectionPanel,
+                    //                                            paymentByAirtime,
+                    //                                            paymentByTelecash,
+                    //                                            dataBundleBeneficiaryMobileNumber,
+                    //                                            dataBundleBeneficiaryMobileNumberPanel,
+                    //                                            dataBundlePurchaseConfirmationPanel,
+                    //                                            dataBundlePurchaseConfirmationMessage,
+                    //                                            dataBundlePurchaseConfirmationSelector,
+                    //                                            dataBundlePurchaseIsCancelled,
+                    //                                            dataBundleConfirmationPasswordPanel,
+                    //                                            dataBundleConfirmationPasswordElement,
+                    //                                            isToppingUpOwnPhone,
+                    //                                            isToppingUpOwnPhonePanel);
                 });
+
+
+
             } else {
 
-                $('#payment-method').css('display', 'none');
+                userSession.setProduct( undefined );
+                userSession.productDescription = undefined;
+                dataBundleBeneficiaryMobileNumber.val('');
+                paymentMethodSelectionPanel.css('display', 'none');
+
+                dataBundleUnSubscriberButton.css('display', 'none');
+                dataBundleUnSubscriberButton.unbind();
             }
         });
 
-        $('#data-bundle-purchase-button').unbind();
+        purchaseButton.unbind();
 
-        $('#data-bundle-purchase-button').click(function() {
+        purchaseButton.click(function() {
 
-            if ( ! userSession.isUserLoggedOn() ) {
-                viewer.loginPortletVisible();
+            if ( controller.isDataBundleProductSelected (
+                                    dataBundlePurchaseStatusPanel,
+                                    dataBundlePurchaseStatusElement,
+                                    dataBundlePurchaseStatusIconElement) == false ){
+                return;
             }
 
-            $('#data-bundle-purchase-status').val('');
-            $('.data-bundle-purchase-status').css('display', 'none');
+            dataBundleUnSubscriberButton.unbind();
+            dataBundleUnSubscriberButton.css('display', 'none');
+            cancelButton.css('display', 'inline-block');
 
-            if ( ! userSession.isUserLoggedOn() ) {
-                viewer.loginPortletVisible( true );
+            controller.purchaseButtonClicked(
+                false,
+                productType,
+                cancelButton,
+                paymentMethodSelectionPanel,
+                paymentByAirtime,
+                paymentByTelecash,
+                dataBundleBeneficiaryMobileNumber,
+                dataBundleBeneficiaryMobileNumberPanel,
+                dataBundlePurchaseConfirmationPanel,
+                dataBundlePurchaseConfirmationMessage,
+                dataBundlePurchaseConfirmationSelector,
+                dataBundlePurchaseIsCancelled,
+                dataBundleConfirmationPasswordPanel,
+                dataBundleConfirmationPasswordElement,
+                isToppingUpOwnPhone,
+                isToppingUpOwnPhonePanel,
+                dataBundlePurchaseStatusPanel,
+                dataBundlePurchaseStatusElement,
+                dataBundlePurchaseStatusIconElement);
+        });
 
-            } else if ( userSession.getProduct() == undefined ) {
-//                $('#data-bundle-purchase-status').text('Please a select data bundle first.');
-//                $('.data-bundle-purchase-status').css('display', 'block');
-                viewer.displayError (
-                    $('.data-bundle-purchase-status'),
-                    $('#data-bundle-purchase-status'),
-                    $('#data-bundle-purchase-status-icon'),
-                    "Please a select data bundle first." );
-            } else if ( ! isValidMobileNumber ( $('#data-bundle-beneficiary-mobile').val() ) ) {
+        dataBundleUnSubscriberButton.unbind();
+
+        dataBundleUnSubscriberButton.click(function(){
+
+            dataBundleBeneficiaryMobileNumber.val( userSession.getUserId() );
+
+            purchaseButton.unbind();
+            purchaseButton.css('display', 'none');
+            cancelButton.css('display', 'inline-block');
+            cancelButton.click(function(){
+                controller.dataBundleOfferListing(0, 30);
+            });
+
+            controller.purchaseButtonClicked(   true,
+                productType,
+                cancelButton,
+                paymentMethodSelectionPanel,
+                paymentByAirtime,
+                paymentByTelecash,
+                dataBundleBeneficiaryMobileNumber,
+                dataBundleBeneficiaryMobileNumberPanel,
+                dataBundlePurchaseConfirmationPanel,
+                dataBundlePurchaseConfirmationMessage,
+                dataBundlePurchaseConfirmationSelector,
+                dataBundlePurchaseIsCancelled,
+                dataBundleConfirmationPasswordPanel,
+                dataBundleConfirmationPasswordElement,
+                isToppingUpOwnPhone,
+                isToppingUpOwnPhonePanel,
+                dataBundlePurchaseStatusPanel,
+                dataBundlePurchaseStatusElement,
+                dataBundlePurchaseStatusIconElement);
+        });
+    },
+
+    isDataBundleProductSelected : function(dataBundlePurchaseStatusPanel,
+                                           dataBundlePurchaseStatusElement,
+                                           dataBundlePurchaseStatusIconElement) {
+
+        if ( userSession.getProduct() == undefined ) {
+
+            viewer.displayError (
+                dataBundlePurchaseStatusPanel,
+                dataBundlePurchaseStatusElement,
+                dataBundlePurchaseStatusIconElement,
+                "Please a select data bundle first." );
+
+            return false;
+        }
+
+        viewer.hideErrorPanel(dataBundlePurchaseStatusPanel, dataBundlePurchaseStatusElement );
+        return true;
+    },
+
+    purchaseButtonClicked : function( isDataBundleSubscriptionCancel,
+                                      productType,
+                                      cancelButton,
+                                      paymentMethodSelectionPanel,
+                                      paymentByAirtime,
+                                      paymentByTelecash,
+                                      dataBundleBeneficiaryMobileNumber,
+                                      dataBundleBeneficiaryMobileNumberPanel,
+                                      dataBundlePurchaseConfirmationPanel,
+                                      dataBundlePurchaseConfirmationMessage,
+                                      dataBundlePurchaseConfirmationSelector,
+                                      dataBundlePurchaseIsCancelled,
+                                      dataBundleConfirmationPasswordPanel,
+                                      dataBundleConfirmationPasswordElement,
+                                      isToppingUpOwnPhone,
+                                      isToppingUpOwnPhonePanel,
+                                      dataBundlePurchaseStatusPanel,
+                                      dataBundlePurchaseStatusElement,
+                                      dataBundlePurchaseStatusIconElement) {
+
+        if ( ! userSession.isUserLoggedOn() ) {
+            viewer.loginPortletVisible();
+        }
+
+        $('#data-bundle-purchase-status').val('');
+        $('.data-bundle-purchase-status').css('display', 'none');
+
+        if ( ! userSession.isUserLoggedOn() ) {
+            viewer.loginPortletVisible( true );
+            return;
+        }
+
+        console.log("beneficiary mobile number : " + dataBundleBeneficiaryMobileNumber.val()  );
+
+        if ( ! isValidMobileNumber ( dataBundleBeneficiaryMobileNumber.val() ) ) {
 //                $('#data-bundle-purchase-status').text('Enter a valid mobile number to topup.');
 //                $('.data-bundle-purchase-status').css('display', 'block');
 
-                viewer.displayError (
-                    $('.data-bundle-purchase-status'),
-                    $('#data-bundle-purchase-status'),
-                    $('#data-bundle-purchase-status-icon'),
-                        "Enter a valid mobile number to topup." );
+            viewer.displayError (
+                            dataBundlePurchaseStatusPanel,
+                            dataBundlePurchaseStatusElement,
+                            dataBundlePurchaseStatusIconElement,
+                            "Enter a valid mobile number." );
 
-            }  else if ( ! isValidPassword($('#data-bundle-confirmation-password').val())) {
-                if ( $('.data-bundle-purchase-status').is('visible')) {
-                    $('#data-bundle-purchase-status').text('Enter a valid confirmation password.');
-                    $('.data-bundle-purchase-status').css('display', 'block');
+            return;
+        }
+
+        if ( userSession.transactionConfirmed == false ) {
+
+            // David 8
+            dataBundlePurchaseConfirmationPanel.css('display', 'block');
+            //$('#data-bundle-purchase-status').text('Enter your password.');
+            //$('.data-bundle-purchase-status').css('display', 'block');
+
+            dataBundlePurchaseConfirmationMessage.text(
+                (isDataBundleSubscriptionCancel ?
+                    "Are you sure your want to cancel " + userSession.productDescription.toLowerCase() + " " +
+                                productType.toLowerCase() + " sub?"
+                        : "Are you sure you want to buy " + userSession.productDescription + "?" ) );
+
+            dataBundlePurchaseConfirmationSelector.change(function(){
+
+                if ( dataBundlePurchaseIsCancelled.is(':checked') ) {
+                    viewer.dataBundlePortletVisible( true );
                 } else {
 
-                    if (userSession.getPaymentMethod() == 'TELECASH' ) {
+                    userSession.transactionConfirmed = true;
 
-                        $('#data-bundle-confirmation-password').prop('placeholder',
-                            'Dial *199# and enter password received here.');
-                        $('.data-bundle-confirmation-password').css('display', 'block');
-                        $('#data-bundle-confirmation-password').focus();
+                    dataBundleConfirmationPasswordPanel.css('display', 'block');
+                    dataBundleConfirmationPasswordElement.focus();
+                    $('#cancel-button').text('Cancel');
+                    $('.cancel-button').css('display', 'block');
 
-                    } else  {
-                        $('#data-bundle-confirmation-password').prop('placeholder',
-                            'Enter password here to purchase ' + userSession.productDescription);
-                        $('#data-bundle-confirmation-password').text('');
-                        $('.data-bundle-confirmation-password').css('display', 'block');
+                    dataBundleConfirmationPasswordElement.prop('placeholder',
+                        paymentByTelecash.is(':checked')  ?
+                            'Dial *90900# and enter password received here.'
+                            : 'Enter your password here' );
 
-                        viewer.displayError(
-                            $('.data-bundle-purchase-status'),
-                            $('#data-bundle-purchase-status'),
-                            $('#data-bundle-purchase-status-icon'),
-                            "Enter password here to purchase " + userSession.productDescription);
-                    }
+                    // David5
+
+                    cancelButton.click(function(){
+                        viewer.dataBundlePortletVisible( true);
+                    });
+                    return;
                 }
+            });
 
-            }  else if ( userSession.getPaymentMethod() == 'AIRTIME' &&
-                            (userSession.getUserPassword() != $('#data-bundle-confirmation-password').val() )) {
-//                $('#data-bundle-purchase-status').text('Wrong password. Try again');
-//                $('.data-bundle-purchase-status').css('display', 'block');
+            return;
+        }
 
-                viewer.displayError (
-                    $('.data-bundle-purchase-status'),
-                    $('#data-bundle-purchase-status'),
-                    $('#data-bundle-purchase-status-icon'),
-                    "Wrong password. Try again." );
-
-
+        if ( ! isValidPassword( dataBundleConfirmationPasswordElement.val())) {
+            if ( $('.data-bundle-purchase-status').is('visible')) {
+                $('#data-bundle-purchase-status').text('Enter a valid password.');
+                $('.data-bundle-purchase-status').css('display', 'block');
             } else {
-                $('#data-bundle-purchase-status').text('');
-                $('.data-bundle-purchase-status').css('display', 'none');
 
-                userSession.setBeneficiaryMobileNumber(
-                    toStandardMobileNumberFormat( $('#data-bundle-beneficiary-mobile').val()) );
+                if (userSession.getPaymentMethod() == 'TELECASH' ) {
 
-                userSession.setOneTimePassword( $('#data-bundle-confirmation-password').val() );
-                viewer.progressBarVisible( true, "Purchasing " + userSession.productDescription );
+                    dataBundleConfirmationPasswordElement.prop('placeholder',
+                        'Dial *90900# and enter password received here.');
+                    dataBundleConfirmationPasswordPanel.css('display', 'block');
+                    dataBundleConfirmationPasswordElement.focus();
 
-                $('#progress-cancel-button').click(function(){
+                } else  {
+                    dataBundleConfirmationPasswordElement.prop('placeholder',
+                        'Enter password here.');
+                    dataBundleConfirmationPasswordElement.text('');
+                    dataBundleConfirmationPasswordPanel.css('display', 'block');
 
-                    viewer.progressBarVisible( false );
-//                    $('#data-bundle-purchase-status').text('Bundle purchase cancelled.');
-//                    $('.data-bundle-purchase-status').css('display', 'block');
-                    viewer.displayError (
+                    viewer.displayError(
                         $('.data-bundle-purchase-status'),
                         $('#data-bundle-purchase-status'),
                         $('#data-bundle-purchase-status-icon'),
-                        "Bundle purchase cancelled." );
-                });
+                        "Enter a valid password ");
+                }
+            }
 
-                setTimeout(
-                    function() {
-                        controller.processDataBundleRequest( );
-                    }, TEST_DELAY );
-             }
+            return;
+        }
+
+        if ( ( userSession.getPaymentMethod() == 'AIRTIME' ||
+                isDataBundleSubscriptionCancel == true ) &&
+            (userSession.getUserPassword() != dataBundleConfirmationPasswordElement.val() )) {
+//                $('#data-bundle-purchase-status').text('Wrong password. Try again');
+//                $('.data-bundle-purchase-status').css('display', 'block');
+
+            viewer.displayError (
+                $('.data-bundle-purchase-status'),
+                $('#data-bundle-purchase-status'),
+                $('#data-bundle-purchase-status-icon'),
+                "Wrong password. Try again." );
+
+            return;
+
+        }
+
+        // Processing Data Bundle Purchase ###################################################
+
+        $('#data-bundle-purchase-status').text('');
+        $('.data-bundle-purchase-status').css('display', 'none');
+
+        userSession.setBeneficiaryMobileNumber(
+            toStandardMobileNumberFormat( dataBundleBeneficiaryMobileNumber.val()) );
+
+        userSession.setOneTimePassword( dataBundleConfirmationPasswordElement.val() );
+        viewer.progressBarVisible( true, (
+                isDataBundleSubscriptionCancel ?
+                    "Cancelling " + userSession.productDescription + " subscription" :
+                    "Purchasing " + userSession.productDescription ) );
+
+        cancelButton.click(function(){
+
+            viewer.progressBarVisible( false );
+//                    $('#data-bundle-purchase-status').text('Bundle purchase cancelled.');
+//                    $('.data-bundle-purchase-status').css('display', 'block');
+            viewer.displayError (
+                $('.data-bundle-purchase-status'),
+                $('#data-bundle-purchase-status'),
+                $('#data-bundle-purchase-status-icon'),
+                "Bundle purchase cancelled." );
         });
-    },
-    // David
-    processPaymentMethodSelection : function( purchaseAmount, productCode, productDescription ) {
 
-        if ( ( purchaseAmount > userSession.mainAccountBalance ) && ! $('#pay-by-telecash').is(':checked') ) {
+        setTimeout(
+            function() {
+                controller.processDataBundleRequest(
+                    isDataBundleSubscriptionCancel,
+                    cancelButton,
+                    paymentMethodSelectionPanel,
+                    paymentByAirtime,
+                    paymentByTelecash,
+                    dataBundleBeneficiaryMobileNumber,
+                    dataBundleBeneficiaryMobileNumberPanel,
+                    dataBundlePurchaseConfirmationPanel,
+                    dataBundlePurchaseConfirmationMessage,
+                    dataBundlePurchaseConfirmationSelector,
+                    dataBundlePurchaseIsCancelled,
+                    dataBundleConfirmationPasswordPanel,
+                    dataBundleConfirmationPasswordElement,
+                    isToppingUpOwnPhone,
+                    isToppingUpOwnPhonePanel,
+                    dataBundlePurchaseStatusPanel,
+                    dataBundlePurchaseStatusElement,
+                    dataBundlePurchaseStatusIconElement);
+            }, TEST_DELAY );
+    },
+
+    // David 10
+    processPaymentMethodSelection : function( purchaseAmount,
+                                              productCode,
+                                              productDescription,
+                                              cancelButton,
+                                              paymentMethodSelectionPanel,
+                                              paymentByAirtime,
+                                              paymentByTelecash,
+                                              dataBundleBeneficiaryMobileNumber,
+                                              dataBundleBeneficiaryMobileNumberPanel,
+                                              dataBundlePurchaseConfirmationPanel,
+                                              dataBundlePurchaseConfirmationMessage,
+                                              dataBundlePurchaseConfirmationSelector,
+                                              dataBundlePurchaseIsCancelled,
+                                              dataBundleConfirmationPasswordPanel,
+                                              dataBundleConfirmationPasswordElement,
+                                              isToppingUpOwnPhone,
+                                              isToppingUpOwnPhonePanel ) {
+
+        if ( ( purchaseAmount > userSession.mainAccountBalance ) && ! paymentByTelecash.is(':checked') ) {
 
             viewer.displayError (
                 $('.data-bundle-purchase-status'),
@@ -1204,10 +1586,10 @@ var controller = {
                 "Insufficient credit for selected bundle, please top up airtime or subscribe to a smaller bundle." );
 
             $('.data-bundle-purchase-status').css('display', 'block');
-            $('.data-bundle-beneficiary-mobile').css('display', 'none');
-            $('.is-topping-up-own-phone').css('display', 'none');
-            $('.data-bundle-confirmation-password').css('display', 'none');
-            $('#payment-method').css('display', 'none');
+            dataBundleBeneficiaryMobileNumber.css('display', 'none');
+            isToppingUpOwnPhonePanel.css('display', 'none');
+            dataBundleConfirmationPasswordPanel.css('display', 'none');
+            paymentMethodSelectionPanel.css('display', 'none');
 
         } else {
 
@@ -1219,59 +1601,154 @@ var controller = {
             $('#data-bundle-purchase-status').val('');
             $('.data-bundle-purchase-status').css('display', 'none');
 
-            controller.processDataBundleSelectedEvent();
+            controller.processDataBundleSelectedEvent(
+                                cancelButton,
+                                isToppingUpOwnPhone,
+                                isToppingUpOwnPhonePanel,
+                                dataBundleBeneficiaryMobileNumber,
+                                dataBundleBeneficiaryMobileNumberPanel,
+                                dataBundlePurchaseConfirmationPanel,
+                                dataBundlePurchaseConfirmationSelector,
+                                dataBundlePurchaseConfirmationMessage,
+                                dataBundlePurchaseIsCancelled,
+                                dataBundleConfirmationPasswordPanel,
+                                dataBundleConfirmationPasswordElement,
+                                paymentByTelecash );
         }
     },
 
-    processDataBundleRequest : function() {
+    processDataBundleRequest : function(
+                                        isDataBundleSubcriptionCancel,
+                                        cancelButton,
+                                        paymentMethodSelectionPanel,
+                                        paymentByAirtime,
+                                        paymentByTelecash,
+                                        dataBundleBeneficiaryMobileNumber,
+                                        dataBundleBeneficiaryMobileNumberPanel,
+                                        dataBundlePurchaseConfirmationPanel,
+                                        dataBundlePurchaseConfirmationMessage,
+                                        dataBundlePurchaseConfirmationSelector,
+                                        dataBundlePurchaseIsCancelled,
+                                        dataBundleConfirmationPasswordPanel,
+                                        dataBundleConfirmationPasswordElement,
+                                        isToppingUpOwnPhone,
+                                        isToppingUpOwnPhonePanel,
+                                        dataBundlePurchaseStatusPanel,
+                                        dataBundlePurchaseStatusElement,
+                                        dataBundlePurchaseStatusIconElement) {
 
         var url =  HTTP_URL +
             "/billing-platform?" +
             "service-command=data-bundle-purchase&mobile-number=" + userSession.getUserId() +
+            "&data-bundle-service-command=" + (isDataBundleSubcriptionCancel ? "UN-SUBSCRIBE" : "SUBSCRIBE") +
             "&product-code=" + userSession.getProduct() +
+            "&product-type=" + userSession.productType +
             "&beneficiary-id=" + userSession.getBeneficiaryMobileNumber() +
             "&payment-method=" + userSession.getPaymentMethod() +
             "&one-time-password=" + userSession.getOneTimePassword();
 
         var promise = $.getJSON(url, function( response ) {
-            controller.processDataBundleResponse(response);
+            controller.processDataBundleResponse(response,
+                                                cancelButton,
+                                                paymentMethodSelectionPanel,
+                                                paymentByAirtime,
+                                                paymentByTelecash,
+                                                dataBundleBeneficiaryMobileNumber,
+                                                dataBundleBeneficiaryMobileNumberPanel,
+                                                dataBundlePurchaseConfirmationPanel,
+                                                dataBundlePurchaseConfirmationMessage,
+                                                dataBundlePurchaseConfirmationSelector,
+                                                dataBundlePurchaseIsCancelled,
+                                                dataBundleConfirmationPasswordPanel,
+                                                dataBundleConfirmationPasswordElement,
+                                                isToppingUpOwnPhone,
+                                                isToppingUpOwnPhonePanel,
+                                                dataBundlePurchaseStatusPanel,
+                                                dataBundlePurchaseStatusElement,
+                                                dataBundlePurchaseStatusIconElement,
+                                                true);
         });
 
         promise.fail( function( xmlHttpRequest, status, error ) {
             controller.processDataBundleResponse(
-                "abort" == status ? "Data bundle purchase timed out." : xmlHttpRequest.responseText);
+                "abort" == status ? "Data bundle purchase timed out." : xmlHttpRequest.responseText,
+                cancelButton,
+                paymentMethodSelectionPanel,
+                paymentByAirtime,
+                paymentByTelecash,
+                dataBundleBeneficiaryMobileNumber,
+                dataBundleBeneficiaryMobileNumberPanel,
+                dataBundlePurchaseConfirmationPanel,
+                dataBundlePurchaseConfirmationMessage,
+                dataBundlePurchaseConfirmationSelector,
+                dataBundlePurchaseIsCancelled,
+                dataBundleConfirmationPasswordPanel,
+                dataBundleConfirmationPasswordElement,
+                isToppingUpOwnPhone,
+                isToppingUpOwnPhonePanel,
+                dataBundlePurchaseStatusPanel,
+                dataBundlePurchaseStatusElement,
+                dataBundlePurchaseStatusIconElement,
+                false);
         });
 
         setTimeout( function() { promise.abort(); }, HTTP_TIMEOUT );
     },
 
-    processDataBundleResponse : function( response ) {
+    processDataBundleResponse : function( response,
+                                          cancelButton,
+                                          paymentMethodSelectionPanel,
+                                          paymentByAirtime,
+                                          paymentByTelecash,
+                                          dataBundleBeneficiaryMobileNumber,
+                                          dataBundleBeneficiaryMobileNumberPanel,
+                                          dataBundlePurchaseConfirmationPanel,
+                                          dataBundlePurchaseConfirmationMessage,
+                                          dataBundlePurchaseConfirmationSelector,
+                                          dataBundlePurchaseIsCancelled,
+                                          dataBundleConfirmationPasswordPanel,
+                                          dataBundleConfirmationPasswordElement,
+                                          isToppingUpOwnPhone,
+                                          isToppingUpOwnPhonePanel,
+                                          dataBundlePurchaseStatusPanel,
+                                          dataBundlePurchaseStatusElement,
+                                          dataBundlePurchaseStatusIconElement,
+                                          transactionSuccessful ) {
 //        $('#data-bundle-purchase-status').text( response );
 //        $('.data-bundle-purchase-status').css('display', 'block');
 
-        viewer.displayInfo (
-            $('.data-bundle-purchase-status'),
-            $('#data-bundle-purchase-status'),
-            $('#data-bundle-purchase-status-icon'),
-            response );
+        if ( transactionSuccessful == true ) {
+            viewer.displayInfo(
+                dataBundlePurchaseStatusPanel,
+                dataBundlePurchaseStatusElement,
+                dataBundlePurchaseStatusIconElement,
+                response);
+        } else {
+            viewer.displayError(
+                dataBundlePurchaseStatusPanel,
+                dataBundlePurchaseStatusElement,
+                dataBundlePurchaseStatusIconElement,
+                response);
+        }
 
-        $('#data-bundle-beneficiary-mobile').prop('placeholder','enter mobile number to topup');
-        $('#data-bundle-beneficiary-mobile').val('');
-        $('#data-bundle-beneficiary-mobile').prop('disabled', false);
-        $('#data-bundle-beneficiary-mobile').css('display', 'none');
-        $('.is-topping-up-own-phone').css('display', 'none');
-        $('#data-bundle-beneficiary-mobile').css('background-color', 'white');
-        $('#my-mobile-phone').css('color', 'grey');
-        $('.data-bundle-confirmation-password').css('display', 'none');
-        $('#data-bundle-confirmation-password').val('');
+        dataBundleBeneficiaryMobileNumber.prop('placeholder','enter mobile number to topup');
+        dataBundleBeneficiaryMobileNumber.val('');
+        dataBundleBeneficiaryMobileNumber.prop('disabled', false);
+        dataBundleBeneficiaryMobileNumber.css('display', 'none');
+        isToppingUpOwnPhonePanel.css('display', 'none');
+        dataBundleBeneficiaryMobileNumber.css('background-color', 'white');
+        $('.my-mobile-phone').css('color', 'grey');
+        dataBundleConfirmationPasswordPanel.css('display', 'none');
+        dataBundleConfirmationPasswordElement.val('');
 
         viewer.accountListPortletVisible( true );
+        viewer.transactionListPortletVisible( true, userSession.getUserId() );
 
         $('#data-bundle-purchase-button').css('display', 'none');
-        $('#cancel-button').text('Close');
+        cancelButton.text('Close');
         $('#pay-by-airtime').attr('checked', 'false');
         $('#pay-by-telecash').attr('checked', 'false');
-        $('#payment-method').css('display', 'none');
+        paymentMethodSelectionPanel.css('display', 'none');
         viewer.progressBarVisible( false );
 
     },
@@ -1280,15 +1757,26 @@ var controller = {
         elem.text( response );
         elementClass.css('display', 'block');
         elementClass.css('color', ( successful == true ? 'green' : 'red'));
-        if ( successful == true) {
+        //if ( successful == true) {
             processButton.css('display', 'none');
             cancelButton.css('display', 'block');
             cancelButton.text('Close');
-        }
+        //}
         viewer.progressBarVisible( false );
     },
 
-    processDataBundleSelectedEvent : function() {
+    processDataBundleSelectedEvent : function( cancelButton,
+                                               isToppingUpOwnPhone,
+                                               isToppingUpOwnPhonePanel,
+                                               dataBundleBeneficiaryMobileNumber,
+                                               dataBundleBeneficiaryMobileNumberPanel,
+                                               dataBundlePurchaseConfirmationPanel,
+                                               dataBundlePurchaseConfirmationSelector,
+                                               dataBundlePurchaseConfirmationMessage,
+                                               dataBundlePurchaseIsCancelled,
+                                               dataBundleConfirmationPasswordPanel,
+                                               dataBundleConfirmationPasswordElement,
+                                               payByTelecash ) {
 
         if ( ! userSession.isUserLoggedOn() ) {
             //TODO
@@ -1297,69 +1785,119 @@ var controller = {
             $('.data-bundle-purchase-status').css('display', 'block');
         }
 
-        $('.data-bundle-beneficiary-mobile').css('display', 'block');
-        $('#data-bundle-beneficiary-mobile').css('display', 'block');
-        $('.is-topping-up-own-phone').css('display', 'block');
-        $('#cancel-button').css('display', 'inline-block');
+        dataBundleBeneficiaryMobileNumberPanel.css('display', 'block');
+        dataBundleBeneficiaryMobileNumber.css('display', 'block');
+        isToppingUpOwnPhonePanel.css('display', 'block');
+        cancelButton.css('display', 'inline-block');
 
-        $('#is-topping-up-own-phone').unbind();
-        $('#is-topping-up-own-phone').click(function(){
+        isToppingUpOwnPhone.unbind();
+        isToppingUpOwnPhone.click(function(){
 
             $('#data-bundle-purchase-status').val('');
             $('.data-bundle-purchase-status').css('display', 'none');
 
+            // David 11
+
             if ($(this).prop('checked') ) {
-                $('#data-bundle-beneficiary-mobile').val(toShortMobileNumberFormat( userSession.getUserId()));
-                $('#data-bundle-beneficiary-mobile').prop('disabled', true);
-                $('#data-bundle-beneficiary-mobile').css('background-color', 'lightgrey');
-                $('#my-mobile-phone').css('color', 'white');
-                $('#data-bundle-confirmation-password').prop('placeholder',
-                        userSession.getPaymentMethod() == 'TELECASH' ?
-                              'Dial *199# and enter password received here.'
-                            : 'Enter password here to purchase ' + userSession.productDescription);
-                $('.data-bundle-confirmation-password').css('display', 'block');
-                $('#data-bundle-confirmation-password').focus();
+
+                dataBundleBeneficiaryMobileNumber.val(toShortMobileNumberFormat( userSession.getUserId()));
+                dataBundleBeneficiaryMobileNumber.prop('disabled', true);
+                dataBundleBeneficiaryMobileNumber.css('background-color', 'lightgrey');
+                $('.my-mobile-phone').css('color', 'white');
+
+                dataBundlePurchaseConfirmationPanel.css('display', 'block');
+                dataBundlePurchaseConfirmationMessage.text(
+                    "Are you sure you want to buy " + userSession.productDescription + "?" );
+
+                dataBundlePurchaseConfirmationSelector.unbind();
+                dataBundlePurchaseConfirmationSelector.change(function(){
+
+                    if (dataBundlePurchaseIsCancelled.is(':checked')) {
+                        viewer.dataBundlePortletVisible( true );
+                    } else {
+
+                        userSession.transactionConfirmed = true;
+
+                        dataBundleConfirmationPasswordPanel.css('display', 'block');
+                        dataBundleConfirmationPasswordElement.focus();
+                        cancelButton.text('Cancel');
+                        cancelButton.css('display', 'block');
+
+                        dataBundleConfirmationPasswordElement.prop('placeholder',
+                            payByTelecash.is(':checked')  ?
+                                'Dial *90900# and enter password received here.'
+                                : 'Enter your password here' );
+
+                        // David5
+
+                        cancelButton.click(function(){
+                            //viewer.dataBundlePortletVisible( true);
+                            controller.dataBundleOfferListing(0, 30);
+                        });
+
+                        return;
+                    }
+                });
+                //$('#data-bundle-confirmation-password').prop('placeholder',
+                //        userSession.getPaymentMethod() == 'TELECASH' ?
+                //              'Dial *90900# and enter password received here.'
+                //            : 'Enter password here to purchase ' + userSession.productDescription);
+                //$('.data-bundle-confirmation-password').css('display', 'block');
+                //$('#data-bundle-confirmation-password').focus();
+
             } else {
-                $('#data-bundle-beneficiary-mobile').prop('placeholder','enter mobile number to topup');
-                $('#data-bundle-beneficiary-mobile').val('');
-                $('#data-bundle-beneficiary-mobile').prop('disabled', false);
-                $('#data-bundle-beneficiary-mobile').css('background-color', 'white');
-                $('#my-mobile-phone').css('color', 'grey');
-                $('.data-bundle-confirmation-password').css('display', 'none');
-                $('#data-bundle-confirmation-password').val('');
+
+                dataBundleBeneficiaryMobileNumber.prop('placeholder','enter mobile number to topup');
+                dataBundleBeneficiaryMobileNumber.val('');
+                dataBundleBeneficiaryMobileNumber.prop('disabled', false);
+                dataBundleBeneficiaryMobileNumber.css('background-color', 'white');
+                $('.my-mobile-phone').css('color', 'grey');
+
+                //$('.data-bundle-confirmation-password').css('display', 'none');
+                //$('#data-bundle-confirmation-password').val('');
+
+                dataBundlePurchaseConfirmationPanel.css('display', 'none');
             }
         });
 
-        $('#cancel-button').unbind();
+        cancelButton.unbind();
 
-        $('#cancel-button').click(function() {
-            userSession.setProduct( undefined );
-            $('.radio-button').removeClass('ticked-radio-button');
-            $('.data-bundle-beneficiary-mobile').css('display', 'none');
-            $('.is-topping-up-own-phone').css('display', 'none');
-            $('#cancel-button').text('Cancel');
-            $('#cancel-button').css('display', 'none');
-            $('#data-bundle-purchase-button').css('display', 'inline-block');
-            $('#data-bundle-beneficiary-mobile').prop('placeholder','enter mobile number to topup');
-            $('#data-bundle-beneficiary-mobile').val('');
-            $('#data-bundle-beneficiary-mobile').prop('disabled', false);
-            $('#data-bundle-beneficiary-mobile').css('background-color', 'white');
-            $('#my-mobile-phone').css('color', 'grey');
-            $('#is-topping-up-own-phone').prop('checked', false);
-            $('.data-bundle-confirmation-password').css('display', 'none');
-            $('.is-topping-up-own-phone').css('display', 'none');
-            $('#data-bundle-purchase-status').val('');
-            $('.data-bundle-purchase-status').css('display', 'none');
-            $('#pay-by-telecash').attr("checked", false);
-            $('#pay-by-airtime').attr("checked", false);
-            $('#payment-method').css('display', 'none');
-            viewer.maximizeDataBundlePortlet();
-            viewer.maximizeAirtimeTransferPortlet();
-            viewer.maximizeVoucherRechargePortlet();
+        cancelButton.click(function() {
+            controller.dataBundleOfferListing(0, 30);
+            //userSession.setProduct( undefined );
+            //$('.radio-button').removeClass('ticked-radio-button');
+            //$('.data-bundle-beneficiary-mobile').css('display', 'none');
+            //$('.is-topping-up-own-phone').css('display', 'none');
+            //$('#cancel-button').text('Cancel');
+            //$('#cancel-button').css('display', 'none');
+            //$('#data-bundle-purchase-button').css('display', 'inline-block');
+            //$('#data-bundle-beneficiary-mobile').prop('placeholder','enter mobile number to topup');
+            //$('#data-bundle-beneficiary-mobile').val('');
+            //$('#data-bundle-beneficiary-mobile').prop('disabled', false);
+            //$('#data-bundle-beneficiary-mobile').css('background-color', 'white');
+            //$('#my-mobile-phone').css('color', 'grey');
+            //$('#is-topping-up-own-phone').prop('checked', false);
+            //$('.data-bundle-confirmation-password').css('display', 'none');
+            //$('.is-topping-up-own-phone').css('display', 'none');
+            //$('#data-bundle-purchase-status').val('');
+            //$('.data-bundle-purchase-status').css('display', 'none');
+            //$('#pay-by-telecash').attr("checked", false);
+            //$('#pay-by-airtime').attr("checked", false);
+            //$('#payment-method').css('display', 'none');
+            //viewer.maximizeDataBundlePortlet();
+            //viewer.maximizeAirtimeTransferPortlet();
+            //viewer.maximizeVoucherRechargePortlet();
         });
     },
 
-    airtimeTransferEventHandlers : function () {
+    airtimeTransferEventHandlers : function ( paymentMethod ) {
+
+        $('.transfer-amount').css('display', 'inline-block');
+        $('.transfer-beneficiary-mobile').css('display', 'inline-block');
+        $('#transfer-process-button').text("Transfer");
+        $('.is-purchase-for-own-phone').css('display', "none" );
+
+        userSession.transactionConfirmed = false;
 
         $('#transfer-amount').focusin(function(){
             viewer.minimizeVoucherRechargePortlet();
@@ -1378,6 +1916,49 @@ var controller = {
                 viewer.minimizeAirtimeTransferPortlet();
             }
         });
+
+        // David4
+        $('is-purchase-for-own-phone').unbind();
+
+        if ( $('#buy-using-telecash').is(':checked') ) {
+
+            $('#is-purchase-for-own-phone').click(function(){
+
+                if ($(this).prop('checked') ) {
+                    $('#transfer-beneficiary-mobile').val(toShortMobileNumberFormat( userSession.getUserId()));
+                    $('#transfer-beneficiary-mobile').prop('disabled', true);
+                    $('#transfer-beneficiary-mobile').css('background-color', 'lightgrey');
+                    $('#purchase-for-own-phone').css('color', 'white');
+                    //$('#transfer-confirmation-password').prop('placeholder',
+                    //    'Dial *90900# and enter password received here.');
+                    //$('.transfer-confirmation-password').css('display', 'block');
+                    //$('#transfer-confirmation-password').focus();
+                    //
+                    //$('#transfer-cancel-button').text('Cancel');
+                    //$('#transfer-cancel-button').css('display', 'inline-block');
+                    //$('#transfer-cancel-button').unbind();
+                    //$('#transfer-cancel-button').click(function(){
+                    //    viewer.airtimeTransferPortlet();
+                    //    viewer.maximizeVoucherRechargePortlet();
+                    //});
+                } else {
+                    $('#transfer-beneficiary-mobile').prop('placeholder','Beneficiary Mobile');
+                    $('#transfer-beneficiary-mobile').val('');
+                    $('#transfer-beneficiary-mobile').prop('disabled', false);
+                    $('#transfer-beneficiary-mobile').css('background-color', 'white');
+                    $('#purchase-for-own-phone').css('color', 'grey');
+                    //$('.transfer-confirmation-password').css('display', 'none');
+                    //$('#transfer-confirmation-password').val('');
+                    //$('#transfer-cancel-button').css('display', 'none');
+                    //$('#transfer-cancel-button').unbind();
+                }
+            });
+        } else {
+            $('#transfer-beneficiary-mobile').prop('placeholder','Beneficiary Mobile');
+            $('#transfer-beneficiary-mobile').val('');
+            $('#transfer-beneficiary-mobile').prop('disabled', false);
+            $('#transfer-beneficiary-mobile').css('background-color', 'white');
+        }
 
         $('#transfer-process-button').unbind();
 
@@ -1407,7 +1988,7 @@ var controller = {
                 }
             } else {
                 console.log("Amount not entered.");
-                $('#airtime-transfer-status').text('Please enter amount to transfer');
+                $('#airtime-transfer-status').text('Please enter amount');
                 $('.airtime-transfer-status').css('display', 'block');
 
                 return;
@@ -1440,8 +2021,8 @@ var controller = {
 
                 if (isValidMobileNumber( $('#transfer-beneficiary-mobile').val() ) ) {
 
-                    if (toStandardMobileNumberFormat( $('#transfer-beneficiary-mobile').val() ) ==
-                            userSession.getUserId()) {
+                    if ( (toStandardMobileNumberFormat( $('#transfer-beneficiary-mobile').val() ) ==
+                            userSession.getUserId() ) && $('#transfer-airtime').is(':checked') ) {
 
                         $('#airtime-transfer-status').text("You can not transfer into your own phone");
                         $('.airtime-transfer-status').css('display', 'block');
@@ -1461,19 +2042,73 @@ var controller = {
                 }
             } else {
                 console.log("not entered");
-                $('#airtime-transfer-status').text('Please enter mobile number to topup');
+                $('#airtime-transfer-status').text('Please enter mobile number');
                 $('.airtime-transfer-status').css('display', 'block');
                 return;
             }
 
+            console.log("checking if transaction was confirmed");
+            // David6
+            if (userSession.transactionConfirmed == false ) {
+
+                console.log("amount : " + $('#transfer-amount').val() );
+                console.log("beneficiary : " + toShortMobileNumberFormat( $('#transfer-beneficiary-mobile').val()));
+
+                console.log("prompt : Are you sure you want to transfer " + formatMoney ($('#transfer-amount').val()) +
+                " to " + toShortMobileNumberFormat( $('#transfer-beneficiary-mobile').val()));
+
+                $('#transaction-confirmation-message').text(
+                    "Are you sure you want to transfer " + formatMoney (amountToTransfer) +
+                    " to " + toShortMobileNumberFormat( $('#transfer-beneficiary-mobile').val())
+                );
+                $('#airtime-transfer-confirmation').css('display', 'block');
+
+                $("input[name='airtime-transfer-confirmation']").change(function(){
+                    if ($('#airtime-transfer-cancelled').is(':checked')) {
+                        viewer.airtimeTransferPortlet();
+                        viewer.maximizeVoucherRechargePortlet();
+                    } else {
+
+                        userSession.transactionConfirmed = true;
+                        console.log("no. displaying now");
+
+                        viewer.minimizeVoucherRechargePortlet();
+                        $('.transfer-confirmation-password').css('display', 'block');
+                        $('#transfer-confirmation-password').focus();
+                        $('#transfer-cancel-button').text('Cancel');
+                        $('.transfer-cancel-button').css('display', 'block');
+
+                        $('#transfer-confirmation-password').prop('placeholder',
+                            'Enter password to confirm the transfer' );
+
+                        // David5
+
+                        $('#transfer-cancel-button').click(function(){
+                            viewer.airtimeTransferPortlet();
+                            viewer.maximizeVoucherRechargePortlet();
+                        });
+                        return;
+                    }
+                });
+
+                return;
+            }
+
             console.log("is password visible?");
-            if (!  $('#transfer-confirmation-password').is(':visible') ) {
+            if ( !  $('#transfer-confirmation-password').is(':visible') ) {
+
                 console.log("no. displaying now");
+
                 viewer.minimizeVoucherRechargePortlet();
                 $('.transfer-confirmation-password').css('display', 'block');
                 $('#transfer-confirmation-password').focus();
                 $('#transfer-cancel-button').text('Cancel');
                 $('.transfer-cancel-button').css('display', 'block');
+
+                $('#transfer-confirmation-password').prop('placeholder',
+                    'Enter password to confirm the transfer.' );
+
+                // David5
 
                 $('#transfer-cancel-button').click(function(){
                     viewer.airtimeTransferPortlet();
@@ -1501,7 +2136,8 @@ var controller = {
 
                 return;
 
-            } else if ( $('#transfer-confirmation-password').val() != userSession.getUserPassword()) {
+                // David7
+            } else if ( $('#transfer-confirmation-password').val() != userSession.getUserPassword() ) {
                 console.log("password wrong ");
                 $('#airtime-transfer-status').text('Wrong password. Please enter password again.');
                 $('#transfer-confirmation-password').val('');
@@ -1524,21 +2160,27 @@ var controller = {
                     $('.airtime-transfer-status').css('display', 'block');
                 });
 
-                controller.processAirtimeTransferRequest();
+                controller.processAirtimeTransferRequest( paymentMethod, $('#transfer-confirmation-password').val());
             }
         });
     },
 
-    processAirtimeTransferRequest : function() {
+    processAirtimeTransferRequest : function( paymentMethod, securityToken ) {
 
         var url =  HTTP_URL +
             "/billing-platform?" +
             "service-command=airtime-transfer" +
             "&mobile-number=" + userSession.getUserId() +
             "&beneficiary-id=" + userSession.getBeneficiaryMobileNumber() +
+            "&payment-method=" + paymentMethod +
+            "&one-time-password=" + (paymentMethod == "TELECASH" ? securityToken : "***") +
             "&amount=" + userSession.getAmount();
 
         var promise = $.getJSON(url, function( response ) {
+
+            viewer.accountListPortletVisible( true );
+            viewer.transactionListPortletVisible( true, userSession.getUserId() );
+
             controller.displayResponse (
                 true,
                 response,
@@ -1588,6 +2230,17 @@ var controller = {
             "&recharge-voucher=" + userSession.rechargeVoucher;
 
         var promise = $.getJSON(url, function( response ) {
+            //$('#voucher-recharge-process-button').css('display', 'none');
+            //$('#voucher-recharge-cancel-button').css('display', 'inline-block');
+            //$('#voucher-recharge-cancel-button').text('Close');
+
+            viewer.accountListPortletVisible( true );
+            viewer.transactionListPortletVisible( true, userSession.getUserId() );
+
+            if (response == "The password of voucher card is invalid.") {
+                response = "Invalid voucher card. Try again";
+            }
+
             controller.displayResponse (
                 true,
                 response,
@@ -1599,7 +2252,7 @@ var controller = {
 
             controller.displayResponse (
                 false,
-                    "abort" == status ? "Airtime transfer timed out." : xmlHttpRequest.responseText,
+                    "abort" == status ? "Voucher recharge timed out." : xmlHttpRequest.responseText,
                 $('#voucher-recharge-status'), $('.voucher-recharge-status'),
                 $('#voucher-recharge-process-button'), $('#voucher-recharge-cancel-button') );
 
@@ -1696,6 +2349,8 @@ var controller = {
 
     voucherRechargeEventHandlers : function () {
 
+        userSession.transactionConfirmed = false;
+
         if ( ! userSession.isUserLoggedOn() ) {
             viewer.loginPortletVisible();
         }
@@ -1719,6 +2374,31 @@ var controller = {
                 viewer.minimizeAirtimeTransferPortlet();
             } else {
                 viewer.minimizeVoucherRechargePortlet();
+            }
+        });
+
+        $('#is-recharging-own-phone').click(function(){
+
+            if ($(this).prop('checked') ) {
+                $('#voucher-recharge-beneficiary-mobile').val(toShortMobileNumberFormat( userSession.getUserId()));
+                $('#voucher-recharge-beneficiary-mobile').prop('disabled', true);
+                $('#voucher-recharge-beneficiary-mobile').css('background-color', 'lightgrey');
+                $('#recharge-mobile-phone').css('color', 'white');
+
+                //$('#voucher-recharge-confirmation-password').prop('placeholder',
+                //    'Enter password here to recharge');
+                //$('.voucher-recharge-confirmation-password').css('display', 'block');
+                //$('#voucher-recharge-confirmation-password').focus();
+
+            } else {
+                $('#voucher-recharge-beneficiary-mobile').prop('placeholder','Beneficiary Mobile');
+                $('#voucher-recharge-beneficiary-mobile').val('');
+                $('#voucher-recharge-beneficiary-mobile').prop('disabled', false);
+                $('#voucher-recharge-beneficiary-mobile').css('background-color', 'white');
+                $('#recharge-mobile-phone').css('color', 'grey');
+
+                //$('.voucher-recharge-confirmation-password').css('display', 'none');
+                //$('#voucher-recharge-confirmation-password').val('');
             }
         });
 
@@ -1768,12 +2448,49 @@ var controller = {
 
                     return;
                 }
-            } else {
-                console.log("not entered. defaulting to own phone.");
-                userSession.setBeneficiaryMobileNumber(userSession.getUserId());
-                $('#voucher-recharge-beneficiary-mobile').val(
-                    toShortMobileNumberFormat(userSession.getUserId()));
-                controller.showConfirmationPassword();
+            }// else {
+                //console.log("not entered. defaulting to own phone.");
+                //userSession.setBeneficiaryMobileNumber(userSession.getUserId());
+                //$('#voucher-recharge-beneficiary-mobile').val(
+                //    toShortMobileNumberFormat(userSession.getUserId()));
+                //controller.showConfirmationPassword();
+                //return;
+           // }
+
+            console.log("transactionConfirmed : " + userSession.transactionConfirmed);
+
+            // David 12
+            if ( userSession.transactionConfirmed == false ) {
+
+                $('#voucher-recharge-confirmation').css('display', 'block');
+                $('#voucher-recharge-confirmation-message').text(
+                    "Are you sure you want to recharge?" );
+
+                $("input[name='voucher-recharge-confirmation']").unbind();
+                $("input[name='voucher-recharge-confirmation']").change(function(){
+
+                    if ($('#voucher-recharge-cancelled').is(':checked')) {
+                        viewer.voucherRechargePortlet();
+                    } else {
+
+                        userSession.transactionConfirmed = true;
+
+                        $('.voucher-recharge-confirmation-password').css('display', 'block');
+                        $('#voucher-recharge-confirmation-password').focus();
+                        $('#voucher-recharge-cancel-button').text('Cancel');
+                        $('.voucher-recharge-cancel-button').css('display', 'block');
+
+                        $('#voucher-recharge-confirmation-password').prop('placeholder',
+                            'Enter your password here' );
+
+                        // David5
+
+                        $('#voucher-recharge-cancel-button').click(function(){
+                            viewer.voucherRechargePortlet();
+                        });
+                        return;
+                    }
+                });
                 return;
             }
 
@@ -1819,6 +2536,12 @@ var controller = {
                     $('.voucher-recharge-status').css('display', 'block');
                 });
 
+                $('#voucher-recharge-cancel-button').unbind();
+
+                $('#voucher-recharge-cancel-button').click(function() {
+                    viewer.voucherRechargePortlet( true );
+                });
+
                 controller.processVoucherRechargeRequest();
             }
         });
@@ -1848,21 +2571,59 @@ var controller = {
             "/billing-platform?" +
                 "service-command=get-mobile-account-list&mobile-number=" + userSession.getUserId();
 
-        $.getJSON(url, function( data ) {
+        var promise = $.getJSON(url, function( data ) {
             var dataSet = controller.toAccountsArray(data);
             controller.accountListingTable( dataSet );
         });
+
+        promise.fail( function( xmlHttpRequest, status, error ) {
+
+            console.log("###### POSTPAID");
+        });
+
+        setTimeout( function() { promise.abort(); }, HTTP_TIMEOUT );
     },
 
-    dataBundleOfferListing : function(startFrom, pageSize ) {
+    dataBundleOfferListing : function(visible, startFrom, pageSize ) {
+
+        if ( ! userSession.isUserLoggedOn() ) {
+            viewer.loginPortletVisible();
+            return;
+        }
 
         var url =  HTTP_URL +
             "/billing-platform?" +
             "service-command=data-bundle-price-list";
 
         $.getJSON(url, function( data ) {
-            var dataSet = controller.toDataBundleOfferArray(data);
-            controller.dataBundleOfferListingTable( dataSet );
+
+            // Whatsapp databundle offers
+            var whatsappBundleOffersDataSet =
+                controller.toDataBundleOfferArray(
+                    whatsAppDataBundlesArray,
+                    data,
+                    "WHATSAPP",
+                    "whatsapp-radio-button");
+            controller.whatsappDataBundleOfferListingTable( whatsappBundleOffersDataSet );
+
+            // Facebook databundle offers
+            var facebookBundleOffersDataSet =
+                controller.toDataBundleOfferArray(
+                    facebookDataBundlesArray,
+                    data,
+                    "FACEBOOK",
+                    "facebook-radio-button");
+            controller.facebookDataBundleOfferListingTable( facebookBundleOffersDataSet );
+
+            // Standard databundle offers
+            var standardBundleOffersDataSet =
+                controller.toDataBundleOfferArray(
+                    standardDataBundlesArray,
+                    data,
+                    "STANDARD",
+                    "standard-radio-button");
+            controller.standardDataBundleOfferListingTable( standardBundleOffersDataSet );
+
         });
     },
 
@@ -1925,7 +2686,8 @@ var controller = {
                 .append($('<li class="standard-li" style="padding-right: 10px;"><button id="account-listing-refresh-button" class="button" type="button">Refresh</button></li>'));
 
             $('#account-listing').append( $('<div class="button-pane clear-fix" style="border-left: 0px;border-right: 0px;">').append( buttons) );
-
+            $('#account-listing-portlet').css('margin', '14px 0 0');
+            $('#account-listing-portlet').css('width', '100%');
             $('#account-listing-portlet-resize-icon').click(function(){
 
                 if ( ! userSession.isUserLoggedOn() ) {
@@ -1944,28 +2706,31 @@ var controller = {
         return table;
     },
 
-    dataBundleOfferListingTable : function( dataSet  ) {
+    whatsappDataBundleOfferListingTable : function( dataSet, isInit, whatsAppTable, portlet, dataBundleOfferList  ) {
+
+        $('#whatsapp-data-bundle-purchase-portlet').css('display', 'block');
 
         var table = undefined;
 
         var isInit = false;
         try {
-            isInit = $.fn.dataTable.isDataTable('#data-bundle-offer-listing')
+            isInit = $.fn.dataTable.isDataTable('#whatsapp-data-bundle-offer-listing')
         } catch(e) {
             console.log("Not initialised yet.");
         }
 
         if ( isInit ) {
-            table = $('#data-bundle-offer-listing').dataTable();
+            return $('#whatsapp-data-bundle-offer-listing').dataTable();
         } else {
 
-            var portlet = $('#data-bundle-offer-listing');
+            var portlet = $('#whatsapp-data-bundle-offer-listing');
             portlet.empty();
 //            portlet.append('<div class="data-bundle-purchase-status" style="padding-left: 14px;display: none;"><span id="data-bundle-purchase-status"></span></div>');
-            portlet.append('<div class="data-bundle-purchase-status" style="display: none;"><img id="data-bundle-purchase-status-icon" src="../img/nack.jpeg" class="nack">&nbsp;<span id="data-bundle-purchase-status"></span></div>');
+            portlet.append('<div class="whatsapp-data-bundle-purchase-status" style="display: none;"><img id="whatsapp-data-bundle-purchase-status-icon" src="../img/nack.jpeg" class="nack">&nbsp;<span id="whatsapp-data-bundle-purchase-status"></span></div>');
 
-            portlet.append($('<table cellpadding="0" cellspacing="0" border="0" class="display" id="data-bundle-offer-list"></table>'));
-            table = $('#data-bundle-offer-list').dataTable({
+            portlet.append($('<table cellpadding="0" cellspacing="0" border="0" class="display" id="whatsapp-data-bundle-offer-list"></table>') );
+
+            table = $('#whatsapp-data-bundle-offer-list').dataTable({
                 "data": dataSet,
                 "aoColumns": [
                     { "sWidth": "50%" },
@@ -1986,52 +2751,547 @@ var controller = {
                 ],
 
                 fnDrawCallback: function () {
-                    $("#data-bundle-offer-list thead").remove();
+                    $("#whatsapp-data-bundle-offer-list thead").remove();
                     $(".dataTable").css('border-bottom', '0px solid #111111');
-                    $('#data-bundle-offer-list').css('width', 'calc(100% - 32px)');
-                    $('#data-bundle-offer-list').css('margin-left', '18px');
-                    $('#data-bundle-offer-list').css('margin-right', '14px');
-                    $('#data-bundle-offer-list_info').css('padding-left', '28px');
-                    $('#data-bundle-offer-list_paginate').css('padding-right', '14px');
-                    $('#data-bundle-offer-list tr td:nth-child(1)').css('color','#6a7480');
-                    $('#data-bundle-offer-list tr td:nth-child(3)').css('color','#6a7480');
-                    $('#data-bundle-offer-list tr td:nth-child(3)').css('text-align','right');
-                    $('#data-bundle-offer-list tr td').css('padding', '8px 10px 4px 10px');
-                    $('#data-bundle-offer-list tr td:nth-child(4)').css('padding', '4px 10px 4px 10px');
+                    $('#whatsapp-data-bundle-offer-list').css('width', 'calc(100% - 32px)');
+                    $('#whatsapp-data-bundle-offer-list').css('margin-left', '18px');
+                    $('#whatsapp-data-bundle-offer-list').css('margin-right', '14px');
+                    $('#whatsapp-data-bundle-offer-list_info').css('padding-left', '28px');
+                    $('#whatsapp-data-bundle-offer-list_paginate').css('padding-right', '14px');
+                    $('#whatsapp-data-bundle-offer-list tr td:nth-child(1)').css('color','#6a7480');
+                    $('#whatsapp-data-bundle-offer-list tr td:nth-child(3)').css('color','#6a7480');
+                    $('#whatsapp-data-bundle-offer-list tr td:nth-child(3)').css('text-align','right');
+                    $('#whatsapp-data-bundle-offer-list tr td').css('padding', '8px 10px 4px 10px');
+                    $('#whatsapp-data-bundle-offer-list tr td:nth-child(4)').css('padding', '4px 10px 4px 10px');
                 }
             });
-            portlet.append('<div id="payment-method" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 30px; border-top: solid 0.1px;">Payment Method: <input id="pay-by-airtime" type="radio" name="payment-method" value="pay-by-airtime" style="margin-left: 10px;margin-right: 10px;">Convert Airtime<input id="pay-by-telecash" type="radio" name="payment-method" value="pay-by-telecash" style="margin-left: 40px;margin-right: 10px;">Pay by Telecash</div>');
-            portlet.append('<div class="data-bundle-beneficiary-mobile" style="display: none;"><input id="data-bundle-beneficiary-mobile" type="text" placeholder="enter mobile number to topup" style="line-height: 19px;"></div>');
-            portlet.append('<div class="is-topping-up-own-phone" style="display: none;"><input id="is-topping-up-own-phone" type="checkbox" style="top: -4px;">  <span id="my-mobile-phone">topup my phone</span></div>');
-            portlet.append('<div class="data-bundle-confirmation-password" style="display: none;"><input id="data-bundle-confirmation-password" type="password" placeholder="enter your password to confirm"></div>');
+            // David 9
+            portlet.append('<div id="whatsapp-payment-method" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 30px; border-top: solid 0.1px;">Payment Method: <input id="whatsapp-pay-by-airtime" type="radio" name="whatsapp-payment-method" value="whatsapp-pay-by-airtime" style="margin-left: 10px;margin-right: 10px;">Convert Airtime<input id="whatsapp-pay-by-telecash" type="radio" name="whatsapp-payment-method" value="whatsapp-pay-by-telecash" style="margin-left: 40px;margin-right: 10px;">Pay by Telecash</div>');
+            portlet.append('<div class="whatsapp-data-bundle-beneficiary-mobile" style="display: none;"><input id="whatsapp-data-bundle-beneficiary-mobile" type="text" placeholder="enter mobile number to topup" style="line-height: 19px;"></div>');
+            portlet.append('<div class="whatsapp-is-topping-up-own-phone" style="display: none;"><input id="whatsapp-is-topping-up-own-phone" type="checkbox" style="top: -4px;">  <span class="my-mobile-phone">topup my phone</span></div>');
+            portlet.append('<div id="whatsapp-data-bundle-purchase-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="whatsapp-data-bundle-purchase-confirmation-message"/><input id="whatsapp-data-bundle-purchase-confirmed" type="radio" name="whatsapp-data-bundle-purchase-confirmation" value="whatsapp-data-bundle-purchase-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="whatsapp-data-bundle-purchase-cancelled" type="radio" name="whatsapp-data-bundle-purchase-confirmation" value="whatsapp-data-bundle-purchase-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
+            portlet.append('<div class="whatsapp-data-bundle-confirmation-password" style="margin-top: 0;display: none;"><input id="whatsapp-data-bundle-confirmation-password" type="password" placeholder="enter your password to confirm"></div>');
 
             var buttons = $('<ul class="standard-ul"></ul>')
-                .append($('<li class="standard-li"><button id="cancel-button" class="button" type="button" style="display: none;">Cancel</button></li>'))
-                .append($('<li class="standard-li"><button id="data-bundle-purchase-button" class="button" type="button">Buy</button></li>'));
+                .append($('<li class="standard-li"><button id="whatsapp-cancel-button" class="button" type="button" style="display: none;">Cancel</button></li>'))
+                .append($('<li class="standard-li"><button id="whatsapp-un-subscribe-button" class="button" type="button">UnSubscribe</button></li>'))
+                .append($('<li class="standard-li"><button id="whatsapp-data-bundle-purchase-button" class="button" type="button">Subscribe</button></li>'));
 
             portlet.append( $('<div class="button-pane clear-fix" style="border-left: 0px;border-right: 0px;">').append( buttons) );
 
             userSession.setProduct( undefined );
-            controller.dataBundleEventHandlers();
+            userSession.productType = "WHATSAPP";
+
+            controller.dataBundleEventHandlers( "whatsapp",
+                                                $('#whatsapp-data-bundle-purchase-button'),
+                                                $('#whatsapp-cancel-button'),
+                                                $('.whatsapp-radio-button'),
+                                                $('#whatsapp-payment-method'),
+                                                $("input[name='whatsapp-payment-method']"),
+                                                $('#whatsapp-pay-by-airtime'),
+                                                $('#whatsapp-pay-by-telecash'),
+                                                $('#whatsapp-data-bundle-beneficiary-mobile'),
+                                                $('#whatsapp-data-bundle-purchase-confirmation'),
+                                                $('#whatsapp-data-bundle-purchase-confirmation-message'),
+                                                $("input[name='whatsapp-data-bundle-purchase-confirmation']"),
+                                                $('#whatsapp-data-bundle-purchase-cancelled'),
+                                                $('.whatsapp-data-bundle-confirmation-password'),
+                                                $('#whatsapp-data-bundle-confirmation-password'),
+                                                $('#whatsapp-is-topping-up-own-phone'),
+                                                $('.whatsapp-is-topping-up-own-phone'),
+                                                $('.whatsapp-data-bundle-beneficiary-mobile'),
+                                                $('#whatsapp-un-subscribe-button'),
+                                                $('.whatsapp-data-bundle-purchase-status'),
+                                                $('#whatsapp-data-bundle-purchase-status'),
+                                                $('#whatsapp-data-bundle-purchase-status-icon'));
         }
 
-        $('#data-bundle-purchase-portlet-resize-icon').click(function(){
+        controller.dataBundlePurchaseResizeIconEventsHandler(
+            $('#whatsapp-data-bundle-purchase-portlet-resize-icon'),
+            $('#whatsapp-data-bundle-purchase-portlet'),
+            $('#whatsapp-data-bundle-listing-pane'));
+
+        console.log("user role : " + userSession.userRole );
+        if (userSession.userRole == "USER") {
+            console.log("maximizing whatsapp portlet");
+            viewer.maximizeDataBundlePortlet(
+                $('#whatapps-data-bundle-purchase-portlet-resize-icon'),
+                $('#whatapps-data-bundle-purchase-portlet'),
+                $('#whatsapp-data-bundle-listing-pane'));
+        } else {
+            console.log("minimizing whatsapp portlet");
+            viewer.minimizeDataBundlePortlet(
+                $('#whatapps-data-bundle-purchase-portlet-resize-icon'),
+                $('#whatapps-data-bundle-purchase-portlet'),
+                $('#whatsapp-data-bundle-listing-pane'));
+        }
+
+        return table;
+    },
+
+    facebookDataBundleOfferListingTable : function( dataSet, isInit, whatsAppTable, portlet, dataBundleOfferList  ) {
+
+        $('#facebook-data-bundle-purchase-portlet').css('display', 'block');
+
+        var table = undefined;
+
+        var isInit = false;
+        try {
+            isInit = $.fn.dataTable.isDataTable('#facebook-data-bundle-offer-listing')
+        } catch(e) {
+            console.log("Not initialised yet.");
+        }
+
+        if ( isInit ) {
+            return $('#facebook-data-bundle-offer-listing').dataTable();
+        } else {
+
+            var portlet = $('#facebook-data-bundle-offer-listing');
+            portlet.empty();
+//            portlet.append('<div class="data-bundle-purchase-status" style="padding-left: 14px;display: none;"><span id="data-bundle-purchase-status"></span></div>');
+            portlet.append('<div class="facebook-data-bundle-purchase-status" style="display: none;"><img id="facebook-data-bundle-purchase-status-icon" src="../img/nack.jpeg" class="nack">&nbsp;<span id="facebook-data-bundle-purchase-status"></span></div>');
+
+            portlet.append($('<table cellpadding="0" cellspacing="0" border="0" class="display" id="facebook-data-bundle-offer-list"></table>') );
+
+            table = $('#facebook-data-bundle-offer-list').dataTable({
+                "data": dataSet,
+                "aoColumns": [
+                    { "sWidth": "50%" },
+                    { "sWidth": "20%" },
+                    { "sWidth": "25%" },
+                    { "sWidth": "5%" }
+                ],
+                "bSort": false,
+                "bLengthChange": false,
+                "bPaginate" : false,
+                "info":     false,
+                "bFilter": false,
+                "columns": [
+                    { "title": "Account Name" },
+                    { "title": "Balance" },
+                    { "title": "Expiry Date" },
+                    { "title": "Select" }
+                ],
+
+                fnDrawCallback: function () {
+                    $("#facebook-data-bundle-offer-list thead").remove();
+                    $(".dataTable").css('border-bottom', '0px solid #111111');
+                    $('#facebook-data-bundle-offer-list').css('width', 'calc(100% - 32px)');
+                    $('#facebook-data-bundle-offer-list').css('margin-left', '18px');
+                    $('#facebook-data-bundle-offer-list').css('margin-right', '14px');
+                    $('#facebook-data-bundle-offer-list_info').css('padding-left', '28px');
+                    $('#facebook-data-bundle-offer-list_paginate').css('padding-right', '14px');
+                    $('#facebook-data-bundle-offer-list tr td:nth-child(1)').css('color','#6a7480');
+                    $('#facebook-data-bundle-offer-list tr td:nth-child(3)').css('color','#6a7480');
+                    $('#facebook-data-bundle-offer-list tr td:nth-child(3)').css('text-align','right');
+                    $('#facebook-data-bundle-offer-list tr td').css('padding', '8px 10px 4px 10px');
+                    $('#facebook-data-bundle-offer-list tr td:nth-child(4)').css('padding', '4px 10px 4px 10px');
+                }
+            });
+            // David 9
+            portlet.append('<div id="facebook-payment-method" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 30px; border-top: solid 0.1px;">Payment Method: <input id="whatsapp-pay-by-airtime" type="radio" name="facebook-payment-method" value="facebook-pay-by-airtime" style="margin-left: 10px;margin-right: 10px;">Convert Airtime<input id="facebook-pay-by-telecash" type="radio" name="facebook-payment-method" value="facebook-pay-by-telecash" style="margin-left: 40px;margin-right: 10px;">Pay by Telecash</div>');
+            portlet.append('<div class="facebook-data-bundle-beneficiary-mobile" style="display: none;"><input id="facebook-data-bundle-beneficiary-mobile" type="text" placeholder="enter mobile number to topup" style="line-height: 19px;"></div>');
+            portlet.append('<div class="facebook-is-topping-up-own-phone" style="display: none;"><input id="facebook-is-topping-up-own-phone" type="checkbox" style="top: -4px;">  <span class="my-mobile-phone">topup my phone</span></div>');
+            portlet.append('<div id="facebook-data-bundle-purchase-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="facebook-data-bundle-purchase-confirmation-message"/><input id="facebook-data-bundle-purchase-confirmed" type="radio" name="facebook-data-bundle-purchase-confirmation" value="facebook-data-bundle-purchase-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="facebook-data-bundle-purchase-cancelled" type="radio" name="facebook-data-bundle-purchase-confirmation" value="facebook-data-bundle-purchase-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
+            portlet.append('<div class="facebook-data-bundle-confirmation-password" style="margin-top: 0;display: none;"><input id="facebook-data-bundle-confirmation-password" type="password" placeholder="enter your password to confirm"></div>');
+
+            var buttons = $('<ul class="standard-ul"></ul>')
+                .append($('<li class="standard-li"><button id="facebook-cancel-button" class="button" type="button" style="display: none;">Cancel</button></li>'))
+                .append($('<li class="standard-li"><button id="facebook-un-subscribe-button" class="button" type="button">UnSubscribe</button></li>'))
+                .append($('<li class="standard-li"><button id="facebook-data-bundle-purchase-button" class="button" type="button">Subscribe</button></li>'));
+
+            portlet.append( $('<div class="button-pane clear-fix" style="border-left: 0px;border-right: 0px;">').append( buttons) );
+
+            userSession.setProduct( undefined );
+            userSession.productType = "FACEBOOK";
+            //controller.dataBundleEventHandlers( "facebook", $('#facebook-data-bundle-purchase-button'), $('#facebook-cancel-button'), $('.facebook-radio-button') );
+
+            controller.dataBundleEventHandlers( "facebook",
+                $('#facebook-data-bundle-purchase-button'),
+                $('#facebook-cancel-button'),
+                $('.facebook-radio-button'),
+                $('#facebook-payment-method'),
+                $("input[name='facebook-payment-method']"),
+                $('#facebook-pay-by-airtime'),
+                $('#facebook-pay-by-telecash'),
+                $('#facebook-data-bundle-beneficiary-mobile'),
+                $('#facebook-data-bundle-purchase-confirmation'),
+                $('#facebook-data-bundle-purchase-confirmation-message'),
+                $("input[name='facebook-data-bundle-purchase-confirmation']"),
+                $('#facebook-data-bundle-purchase-cancelled'),
+                $('.facebook-data-bundle-confirmation-password'),
+                $('#facebook-data-bundle-confirmation-password'),
+                $('#facebook-is-topping-up-own-phone'),
+                $('.facebook-is-topping-up-own-phone'),
+                $('.facebook-data-bundle-beneficiary-mobile'),
+                $('#facebook-un-subscribe-button'),
+                $('.facebook-data-bundle-purchase-status'),
+                $('#facebook-data-bundle-purchase-status'),
+                $('#facebook-data-bundle-purchase-status-icon'));
+
+            console.log("user role : " + userSession.userRole );
+            if (userSession.userRole == "USER") {
+                console.log("maximizing facebook portlet");
+                viewer.maximizeDataBundlePortlet(
+                    $('#facebook-data-bundle-purchase-portlet-resize-icon'),
+                    $('#facebook-data-bundle-purchase-portlet'),
+                    $('#facebook-data-bundle-listing-pane'));
+            } else {
+                console.log("minimizing facebook portlet");
+                viewer.minimizeDataBundlePortlet(
+                    $('#facebook-data-bundle-purchase-portlet-resize-icon'),
+                    $('#facebook-data-bundle-purchase-portlet'),
+                    $('#facebook-data-bundle-listing-pane'));
+            }
+        }
+
+        controller.dataBundlePurchaseResizeIconEventsHandler(
+            $('#facebook-data-bundle-purchase-portlet-resize-icon'),
+            $('#facebook-data-bundle-purchase-portlet'),
+            $('#facebook-data-bundle-listing-pane')
+        );
+
+        return table;
+    },
+
+    standardDataBundleOfferListingTable : function( dataSet, isInit, whatsAppTable, portlet, dataBundleOfferList  ) {
+
+        $('#standard-data-bundle-purchase-portlet').css('display', 'block');
+
+        var table = undefined;
+
+        var isInit = false;
+        try {
+            isInit = $.fn.dataTable.isDataTable('#standard-data-bundle-offer-listing')
+        } catch(e) {
+            console.log("Not initialised yet.");
+        }
+
+        if ( isInit ) {
+            return $('#standard-data-bundle-offer-listing').dataTable();
+        } else {
+
+            var portlet = $('#standard-data-bundle-offer-listing');
+            portlet.empty();
+//            portlet.append('<div class="data-bundle-purchase-status" style="padding-left: 14px;display: none;"><span id="data-bundle-purchase-status"></span></div>');
+            portlet.append('<div class="standard-data-bundle-purchase-status" style="display: none;"><img id="standard-data-bundle-purchase-status-icon" src="../img/nack.jpeg" class="nack">&nbsp;<span id="standard-data-bundle-purchase-status"></span></div>');
+
+            portlet.append($('<table cellpadding="0" cellspacing="0" border="0" class="display" id="standard-data-bundle-offer-list"></table>') );
+
+            table = $('#standard-data-bundle-offer-list').dataTable({
+                "data": dataSet,
+                "aoColumns": [
+                    { "sWidth": "50%" },
+                    { "sWidth": "20%" },
+                    { "sWidth": "25%" },
+                    { "sWidth": "5%" }
+                ],
+                "bSort": false,
+                "bLengthChange": false,
+                "bPaginate" : false,
+                "info":     false,
+                "bFilter": false,
+                "columns": [
+                    { "title": "Account Name" },
+                    { "title": "Balance" },
+                    { "title": "Expiry Date" },
+                    { "title": "Select" }
+                ],
+
+                fnDrawCallback: function () {
+                    $("#standard-data-bundle-offer-list thead").remove();
+                    $(".dataTable").css('border-bottom', '0px solid #111111');
+                    $('#standard-data-bundle-offer-list').css('width', 'calc(100% - 32px)');
+                    $('#standard-data-bundle-offer-list').css('margin-left', '18px');
+                    $('#standard-data-bundle-offer-list').css('margin-right', '14px');
+                    $('#standard-data-bundle-offer-list_info').css('padding-left', '28px');
+                    $('#standard-data-bundle-offer-list_paginate').css('padding-right', '14px');
+                    $('#standard-data-bundle-offer-list tr td:nth-child(1)').css('color','#6a7480');
+                    $('#standard-data-bundle-offer-list tr td:nth-child(3)').css('color','#6a7480');
+                    $('#standard-data-bundle-offer-list tr td:nth-child(3)').css('text-align','right');
+                    $('#standard-data-bundle-offer-list tr td').css('padding', '8px 10px 4px 10px');
+                    $('#standard-data-bundle-offer-list tr td:nth-child(4)').css('padding', '4px 10px 4px 10px');
+                }
+            });
+            // David 9
+            portlet.append('<div id="standard-payment-method" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 30px; border-top: solid 0.1px;">Payment Method: <input id="standard-pay-by-airtime" type="radio" name="standard-payment-method" value="standard-pay-by-airtime" style="margin-left: 10px;margin-right: 10px;">Convert Airtime<input id="standard-pay-by-telecash" type="radio" name="standard-payment-method" value="standard-pay-by-telecash" style="margin-left: 40px;margin-right: 10px;">Pay by Telecash</div>');
+            portlet.append('<div class="standard-data-bundle-beneficiary-mobile" style="display: none;"><input id="standard-data-bundle-beneficiary-mobile" type="text" placeholder="enter mobile number to topup" style="line-height: 19px;"></div>');
+            portlet.append('<div class="standard-is-topping-up-own-phone" style="display: none;"><input id="standard-is-topping-up-own-phone" type="checkbox" style="top: -4px;">  <span class="my-mobile-phone">topup my phone</span></div>');
+            portlet.append('<div id="standard-data-bundle-purchase-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="standard-data-bundle-purchase-confirmation-message"/><input id="standard-data-bundle-purchase-confirmed" type="radio" name="standard-data-bundle-purchase-confirmation" value="standard-data-bundle-purchase-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="standard-data-bundle-purchase-cancelled" type="radio" name="standard-data-bundle-purchase-confirmation" value="standard-data-bundle-purchase-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
+            portlet.append('<div class="standard-data-bundle-confirmation-password" style="margin-top: 0;display: none;"><input id="standard-data-bundle-confirmation-password" type="password" placeholder="enter your password to confirm"></div>');
+
+            var buttons = $('<ul class="standard-ul"></ul>')
+                .append($('<li class="standard-li"><button id="standard-cancel-button" class="button" type="button" style="display: none;">Cancel</button></li>'))
+                .append($('<li class="standard-li"><button id="standard-data-bundle-purchase-button" class="button" type="button">Buy</button></li>'));
+
+            portlet.append( $('<div class="button-pane clear-fix" style="border-left: 0px;border-right: 0px;">').append( buttons) );
+
+            userSession.setProduct( undefined );
+            userSession.productType = "STANDARD";
+
+            controller.dataBundleEventHandlers( "standard",
+                                                $('#standard-data-bundle-purchase-button'),
+                                                $('#standard-cancel-button'),
+                                                $('.standard-radio-button'),
+                                                $('#standard-payment-method'),
+                                                $("input[name='standard-payment-method']"),
+                                                $('#standard-pay-by-airtime'),
+                                                $('#standard-pay-by-telecash'),
+                                                $('#standard-data-bundle-beneficiary-mobile'),
+                                                $('#standard-data-bundle-purchase-confirmation'),
+                                                $('#standard-data-bundle-purchase-confirmation-message'),
+                                                $("input[name='standard-data-bundle-purchase-confirmation']"),
+                                                $('#standard-data-bundle-purchase-cancelled'),
+                                                $('.standard-data-bundle-confirmation-password'),
+                                                $('#standard-data-bundle-confirmation-password'),
+                                                $('#standard-is-topping-up-own-phone'),
+                                                $('.standard-is-topping-up-own-phone'),
+                                                $('.standard-data-bundle-beneficiary-mobile'),
+                                                $('#standard-un-subscribe-button'),
+                                                $('.standard-data-bundle-purchase-status'),
+                                                $('#standard-data-bundle-purchase-status'),
+                                                $('#standard-data-bundle-purchase-status-icon'));
+
+        }
+
+        controller.dataBundlePurchaseResizeIconEventsHandler(
+            $('#standard-data-bundle-purchase-portlet-resize-icon'),
+            $('#standard-data-bundle-purchase-portlet'),
+            $('#standard-data-bundle-listing-pane')
+        );
+
+        viewer.minimizeDataBundlePortlet(
+            $('#standard-data-bundle-purchase-portlet-resize-icon'),
+            $('#standard-data-bundle-purchase-portlet'),
+            $('#standard-data-bundle-listing-pane'));
+        return table;
+    },
+
+
+//    facebookDataBundleOfferListingTable : function( dataSet  ) {
+//
+//        var table = undefined;
+//
+//        var isInit = false;
+//        try {
+//            isInit = $.fn.dataTable.isDataTable('#data-bundle-offer-listing')
+//        } catch(e) {
+//            console.log("Not initialised yet.");
+//        }
+//
+//        if ( isInit ) {
+//            table = $('#data-bundle-offer-listing').dataTable();
+//        } else {
+//
+//            var portlet = $('#data-bundle-offer-listing');
+//            portlet.empty();
+////            portlet.append('<div class="data-bundle-purchase-status" style="padding-left: 14px;display: none;"><span id="data-bundle-purchase-status"></span></div>');
+//            portlet.append('<div class="data-bundle-purchase-status" style="display: none;"><img id="data-bundle-purchase-status-icon" src="../img/nack.jpeg" class="nack">&nbsp;<span id="data-bundle-purchase-status"></span></div>');
+//
+//            portlet.append($('<table cellpadding="0" cellspacing="0" border="0" class="display" id="data-bundle-offer-list"></table>'));
+//            table = $('#data-bundle-offer-list').dataTable({
+//                "data": dataSet,
+//                "aoColumns": [
+//                    { "sWidth": "50%" },
+//                    { "sWidth": "20%" },
+//                    { "sWidth": "25%" },
+//                    { "sWidth": "5%" }
+//                ],
+//                "bSort": false,
+//                "bLengthChange": false,
+//                "bPaginate" : false,
+//                "info":     false,
+//                "bFilter": false,
+//                "columns": [
+//                    { "title": "Account Name" },
+//                    { "title": "Balance" },
+//                    { "title": "Expiry Date" },
+//                    { "title": "Select" }
+//                ],
+//
+//                fnDrawCallback: function () {
+//                    $("#data-bundle-offer-list thead").remove();
+//                    $(".dataTable").css('border-bottom', '0px solid #111111');
+//                    $('#data-bundle-offer-list').css('width', 'calc(100% - 32px)');
+//                    $('#data-bundle-offer-list').css('margin-left', '18px');
+//                    $('#data-bundle-offer-list').css('margin-right', '14px');
+//                    $('#data-bundle-offer-list_info').css('padding-left', '28px');
+//                    $('#data-bundle-offer-list_paginate').css('padding-right', '14px');
+//                    $('#data-bundle-offer-list tr td:nth-child(1)').css('color','#6a7480');
+//                    $('#data-bundle-offer-list tr td:nth-child(3)').css('color','#6a7480');
+//                    $('#data-bundle-offer-list tr td:nth-child(3)').css('text-align','right');
+//                    $('#data-bundle-offer-list tr td').css('padding', '8px 10px 4px 10px');
+//                    $('#data-bundle-offer-list tr td:nth-child(4)').css('padding', '4px 10px 4px 10px');
+//                }
+//            });
+//            // David 9
+//            portlet.append('<div id="payment-method" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 30px; border-top: solid 0.1px;">Payment Method: <input id="pay-by-airtime" type="radio" name="payment-method" value="pay-by-airtime" style="margin-left: 10px;margin-right: 10px;">Convert Airtime<input id="pay-by-telecash" type="radio" name="payment-method" value="pay-by-telecash" style="margin-left: 40px;margin-right: 10px;">Pay by Telecash</div>');
+//            portlet.append('<div class="data-bundle-beneficiary-mobile" style="display: none;"><input id="data-bundle-beneficiary-mobile" type="text" placeholder="enter mobile number to topup" style="line-height: 19px;"></div>');
+//            portlet.append('<div class="is-topping-up-own-phone" style="display: none;"><input id="is-topping-up-own-phone" type="checkbox" style="top: -4px;">  <span id="my-mobile-phone">topup my phone</span></div>');
+//            portlet.append('<div id="data-bundle-purchase-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="data-bundle-purchase-confirmation-message"/><input id="data-bundle-purchase-confirmed" type="radio" name="data-bundle-purchase-confirmation" value="data-bundle-purchase-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="data-bundle-purchase-cancelled" type="radio" name="data-bundle-purchase-confirmation" value="data-bundle-purchase-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
+//            portlet.append('<div class="data-bundle-confirmation-password" style="margin-top: 0;display: none;"><input id="data-bundle-confirmation-password" type="password" placeholder="enter your password to confirm"></div>');
+//
+//            var buttons = $('<ul class="standard-ul"></ul>')
+//                .append($('<li class="standard-li"><button id="cancel-button" class="button" type="button" style="display: none;">Cancel</button></li>'))
+//                .append($('<li class="standard-li"><button id="data-bundle-purchase-button" class="button" type="button">Buy</button></li>'));
+//
+//            portlet.append( $('<div class="button-pane clear-fix" style="border-left: 0px;border-right: 0px;">').append( buttons) );
+//
+//            userSession.setProduct( undefined );
+//            controller.dataBundleEventHandlers();
+//        }
+//
+//        $('#data-bundle-purchase-portlet-resize-icon').click(function(){
+//
+//            if ( ! userSession.isUserLoggedOn() ) {
+//                viewer.loginPortletVisible();
+//            }
+//
+//            console.log("data bundle offers displayed? : " + $('#data-bundle-offer-listing').css('display') );
+//            if ( $('#data-bundle-offer-listing').css('display') == 'none' ) {
+//                console.log("no");
+//                viewer.maximizeDataBundlePortlet();
+//                viewer.minimizeSubscriberListingPortlet();
+//                viewer.minimizeAirtimeTransferPortlet();
+//                viewer.minimizeVoucherRechargePortlet();
+//            } else {
+//                console.log("yes");
+//                viewer.minimizeDataBundlePortlet();
+//            }
+//        });
+//
+//        return table;
+//    },
+
+//    standardDataBundleOfferListingTable : function( dataSet  ) {
+//
+//        var table = undefined;
+//
+//        var isInit = false;
+//        try {
+//            isInit = $.fn.dataTable.isDataTable('#data-bundle-offer-listing')
+//        } catch(e) {
+//            console.log("Not initialised yet.");
+//        }
+//
+//        if ( isInit ) {
+//            table = $('#data-bundle-offer-listing').dataTable();
+//        } else {
+//
+//            var portlet = $('#data-bundle-offer-listing');
+//            portlet.empty();
+////            portlet.append('<div class="data-bundle-purchase-status" style="padding-left: 14px;display: none;"><span id="data-bundle-purchase-status"></span></div>');
+//            portlet.append('<div class="data-bundle-purchase-status" style="display: none;"><img id="data-bundle-purchase-status-icon" src="../img/nack.jpeg" class="nack">&nbsp;<span id="data-bundle-purchase-status"></span></div>');
+//
+//            portlet.append($('<table cellpadding="0" cellspacing="0" border="0" class="display" id="data-bundle-offer-list"></table>'));
+//            table = $('#data-bundle-offer-list').dataTable({
+//                "data": dataSet,
+//                "aoColumns": [
+//                    { "sWidth": "50%" },
+//                    { "sWidth": "20%" },
+//                    { "sWidth": "25%" },
+//                    { "sWidth": "5%" }
+//                ],
+//                "bSort": false,
+//                "bLengthChange": false,
+//                "bPaginate" : false,
+//                "info":     false,
+//                "bFilter": false,
+//                "columns": [
+//                    { "title": "Account Name" },
+//                    { "title": "Balance" },
+//                    { "title": "Expiry Date" },
+//                    { "title": "Select" }
+//                ],
+//
+//                fnDrawCallback: function () {
+//                    $("#data-bundle-offer-list thead").remove();
+//                    $(".dataTable").css('border-bottom', '0px solid #111111');
+//                    $('#data-bundle-offer-list').css('width', 'calc(100% - 32px)');
+//                    $('#data-bundle-offer-list').css('margin-left', '18px');
+//                    $('#data-bundle-offer-list').css('margin-right', '14px');
+//                    $('#data-bundle-offer-list_info').css('padding-left', '28px');
+//                    $('#data-bundle-offer-list_paginate').css('padding-right', '14px');
+//                    $('#data-bundle-offer-list tr td:nth-child(1)').css('color','#6a7480');
+//                    $('#data-bundle-offer-list tr td:nth-child(3)').css('color','#6a7480');
+//                    $('#data-bundle-offer-list tr td:nth-child(3)').css('text-align','right');
+//                    $('#data-bundle-offer-list tr td').css('padding', '8px 10px 4px 10px');
+//                    $('#data-bundle-offer-list tr td:nth-child(4)').css('padding', '4px 10px 4px 10px');
+//                }
+//            });
+//            // David 9
+//            portlet.append('<div id="payment-method" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 30px; border-top: solid 0.1px;">Payment Method: <input id="pay-by-airtime" type="radio" name="payment-method" value="pay-by-airtime" style="margin-left: 10px;margin-right: 10px;">Convert Airtime<input id="pay-by-telecash" type="radio" name="payment-method" value="pay-by-telecash" style="margin-left: 40px;margin-right: 10px;">Pay by Telecash</div>');
+//            portlet.append('<div class="data-bundle-beneficiary-mobile" style="display: none;"><input id="data-bundle-beneficiary-mobile" type="text" placeholder="enter mobile number to topup" style="line-height: 19px;"></div>');
+//            portlet.append('<div class="is-topping-up-own-phone" style="display: none;"><input id="is-topping-up-own-phone" type="checkbox" style="top: -4px;">  <span id="my-mobile-phone">topup my phone</span></div>');
+//            portlet.append('<div id="data-bundle-purchase-confirmation" style="width: 100%; display: none;align-content: center;padding-top: 8px;padding-bottom: 8px;padding-left: 14px; border-top: solid 0.1px;"><span id="data-bundle-purchase-confirmation-message"/><input id="data-bundle-purchase-confirmed" type="radio" name="data-bundle-purchase-confirmation" value="data-bundle-purchase-confirmed" style="margin-left: 10px;margin-right: 10px;">Yes<input id="data-bundle-purchase-cancelled" type="radio" name="data-bundle-purchase-confirmation" value="data-bundle-purchase-cancelled" style="margin-left: 10px;margin-right: 10px;">No</div>');
+//            portlet.append('<div class="data-bundle-confirmation-password" style="margin-top: 0;display: none;"><input id="data-bundle-confirmation-password" type="password" placeholder="enter your password to confirm"></div>');
+//
+//            var buttons = $('<ul class="standard-ul"></ul>')
+//                .append($('<li class="standard-li"><button id="cancel-button" class="button" type="button" style="display: none;">Cancel</button></li>'))
+//                .append($('<li class="standard-li"><button id="data-bundle-purchase-button" class="button" type="button">Buy</button></li>'));
+//
+//            portlet.append( $('<div class="button-pane clear-fix" style="border-left: 0px;border-right: 0px;">').append( buttons) );
+//
+//            userSession.setProduct( undefined );
+//            controller.dataBundleEventHandlers();
+//        }
+//
+//        $('#data-bundle-purchase-portlet-resize-icon').click(function(){
+//
+//            if ( ! userSession.isUserLoggedOn() ) {
+//                viewer.loginPortletVisible();
+//            }
+//
+//            console.log("data bundle offers displayed? : " + $('#data-bundle-offer-listing').css('display') );
+//            if ( $('#data-bundle-offer-listing').css('display') == 'none' ) {
+//                console.log("no");
+//                viewer.maximizeDataBundlePortlet();
+//                viewer.minimizeSubscriberListingPortlet();
+//                viewer.minimizeAirtimeTransferPortlet();
+//                viewer.minimizeVoucherRechargePortlet();
+//            } else {
+//                console.log("yes");
+//                viewer.minimizeDataBundlePortlet();
+//            }
+//        });
+//
+//        return table;
+//    },
+
+    dataBundlePurchaseResizeIconEventsHandler : function( dataBundleReSizeIcon, dataBundlePortlet, dataBundleList ) {
+
+        dataBundleReSizeIcon.click(function(){
 
             if ( ! userSession.isUserLoggedOn() ) {
                 viewer.loginPortletVisible();
             }
 
-            if ( $('#data-bundle-offer-listing').css('display') == 'none' ) {
-                viewer.maximizeDataBundlePortlet();
+            console.log("data bundle offers displayed? : " + dataBundleList.css('display') );
+            if ( dataBundleList.css('display') == 'none' ) {
+                controller.minimizeAllDataBundlePortlets();
+                viewer.maximizeDataBundlePortlet( dataBundleReSizeIcon, dataBundlePortlet, dataBundleList  );
                 viewer.minimizeSubscriberListingPortlet();
                 viewer.minimizeAirtimeTransferPortlet();
                 viewer.minimizeVoucherRechargePortlet();
             } else {
-                viewer.minimizeDataBundlePortlet();
+                viewer.minimizeDataBundlePortlet(dataBundleReSizeIcon, dataBundlePortlet, dataBundleList);
             }
         });
+    },
 
-        return table;
+    minimizeAllDataBundlePortlets : function() {
+        viewer.minimizeDataBundlePortlet(
+            $('#whatapps-data-bundle-purchase-portlet-resize-icon'),
+            $('#whatapps-data-bundle-purchase-portlet'),
+            $('#whatsapp-data-bundle-listing-pane'));
+        viewer.minimizeDataBundlePortlet(
+            $('#facebook-data-bundle-purchase-portlet-resize-icon'),
+            $('#facebook-data-bundle-purchase-portlet'),
+            $('#facebook-data-bundle-listing-pane'));
+        viewer.minimizeDataBundlePortlet(
+            $('#standard-data-bundle-purchase-portlet-resize-icon'),
+            $('#standard-data-bundle-purchase-portlet'),
+            $('#standard-data-bundle-listing-pane'));
     },
 
     accountListingRefreshButtonHandler : function () {
@@ -2303,7 +3563,7 @@ var controller = {
     deleteSubscriber : function( mobileNumber ) {
 
         var url =  HTTP_URL +
-            "user-account-manager?service-command=deactivate-user" +
+            "/user-account-manager?service-command=deactivate-user" +
             "&mobile-number=" + mobileNumber;
 
         var promise = $.getJSON(url, function( data ) {
@@ -2338,11 +3598,16 @@ var controller = {
 
     resendActivationCode : function( mobileNumber ) {
 
+        viewer.progressBarVisible( true,
+            "Requesting security code for " + toShortMobileNumberFormat(mobileNumber ) );
+
         var url =  HTTP_URL +
-            "user-account-manager?service-command=reset-password" +
+            "/user-account-manager?service-command=reset-password" +
             "&mobile-number=" + mobileNumber;
 
         var promise = $.getJSON(url, function( data ) {
+
+            viewer.progressBarVisible( false );
 
             viewer.displayInfo(
                 $('.register-status'),
@@ -2361,6 +3626,8 @@ var controller = {
         });
 
         promise.fail(function(xhr, status, error) {
+
+            viewer.progressBarVisible( false );
 
             viewer.displayError( $('.register-status'),
                 $('#register-status'),
@@ -2400,12 +3667,12 @@ var controller = {
 
 //        content.append('<div class="register-status" style="display: none;"><img id="register-status-icon" src="../img/nack.jpeg" class="nack">&nbsp;<span id="register-status"></span></div>');
 
-
+            console.log("building an array from raw data.");
             var dataSet = controller.toTransactionHistoryArray( data );
 //            controller.subscriberMap( data );
             //        $('.service-command-panel').css('display','inline');
 //            alert("### : " + $('#registration-pane').val());
-
+            console.log("building jquery table model.");
             controller.transactionTable( dataSet );
         });
     },
@@ -2416,15 +3683,20 @@ var controller = {
 //        if ( $.fn.dataTable.isDataTable( '#transaction-table' ) ) {
 //            table = $('#transaction-table').dataTable();
 //        } else {
+        console.log("dataset size : " + dataSet.length );
+
+        if (dataSet.length < 1 ) {
+            return;
+        }
 
         var table = $('#transaction-table').dataTable({
                 "destroy": true,
                 "data": dataSet,
                 "aoColumns": [
                     { "sWidth": "20%" },
-                    { "sWidth": "40%" },
+                    { "sWidth": "45%" },
                     { "sWidth": "20%" },
-                    { "sWidth": "20%" }
+                    { "sWidth": "15%" }
                 ],
                 "bLengthChange": false,
                 "pagingType": "simple",
@@ -2433,12 +3705,13 @@ var controller = {
                     "infoEmpty": "0 entries"
                 },
                 "bFilter": false,
+                "aaSorting": [],
                 "pageLength" : 5,
                 "columns": [
                     { "title": "Transaction Date" },
                     { "title": "Narrative" },
                     { "title": "Transaction Value" },
-                    { "title": "Balance" }
+                    { "title": "Payment Method" }
                 ],
                 fnDrawCallback: function () {
                     $("#transaction-table thead").remove();
@@ -2459,13 +3732,29 @@ var controller = {
                 }
             });
 //        }
+
+        var buttons = $('<ul class="standard-ul"></ul>')
+        .append($('<li class="standard-li" style="padding-right: 10px;"><button id="account-listing-refresh-button" class="button" type="button">Refresh</button></li>'));
+
+        $('#transaction-list-portlet').css('margin', '14px 0 0');
+        $('#transaction-list-portlet').css('width', '100%');
+
         return table;
+    },
+
+    transactionListingRefreshButtonHandler : function () {
+
+        $('#account-listing-refresh-button').unbind();
+
+        $('#account-listing-refresh-button').click(function(){
+            viewer.accountListPortletVisible( true );
+        });
     },
 
     toAccountsArray : function( data ) {
 
         subscriberPackage = undefined;
-
+        console.log("accounts list sixe : " + length);
         var dataSet = [];
         $.each(data, function(index, account) {
 
@@ -2484,17 +3773,25 @@ var controller = {
         return dataSet;
     },
 
-    toDataBundleOfferArray : function( data ) {
+    toDataBundleOfferArray : function( dataBundlesArray,
+                                       data,
+                                       productType,
+                                       dataBundleSelectionButton ) {
 
         var dataSet = [];
         $.each(data, function(index, dataBundle) {
-            dataSet.push([ dataBundle.shortDescription,
-                           "expires after " + dataBundle.windowSize + " days",
-                           formatCurrencyOrData( dataBundle.debit, "money" ),
-                           "<div id='" + index + "' description='" + dataBundle.shortDescription + "'" +
-                            " amount='" + dataBundle.debit + "' class='radio-button'></div>"]);
 
-            dataBundles[ dataBundle.bundleType ] = dataBundle.shortDescription;
+            if ( productType == dataBundle.productType ) {
+
+                dataSet.push([dataBundle.shortDescription,
+                    (productType == "STANDARD" ? "expires after " : "renewed in ") +
+                    dataBundle.windowSize + " day" + (dataBundle.windowSize > 1 ? "s" : ""),
+                    formatCurrencyOrData(dataBundle.debit, "money"),
+                    "<div id='" + index + "' description='" + dataBundle.shortDescription + "'" +
+                    " amount='" + dataBundle.debit + "' class='" + dataBundleSelectionButton + "'></div>"]);
+
+                dataBundlesArray[dataBundle.bundleType] = dataBundle.shortDescription;
+            }
         });
 
         return dataSet;
@@ -2506,9 +3803,9 @@ var controller = {
 
             var productDescription = "";
             if ( item.transactionType == "DataBundlePurchase" ) {
-                productDescription = dataBundles[ item.productCode];
+                productDescription = item.narrative; // dataBundles[ item.productCode];
             } else if ( item.transactionType == "AirtimeTransfer" ) {
-                productDescription = formatCurrencyOrData(item.amount, "money") + " Airtime Transfer";
+                productDescription = formatCurrencyOrData(item.amount, "money") + " Transfer";
             } else {
                 productDescription = item.productCode;
             }
@@ -2517,20 +3814,20 @@ var controller = {
             var balance = "";
             if ( item.sourceId != userSession.getUserId() ) {
                 narrative = "From " + toShortMobileNumberFormat(item.sourceId);
-                balance = item.beneficiaryBalance;
+                //balance = item.beneficiaryBalance;
             } else if ( item.destinationId == userSession.getUserId()) {
                 narrative = "For my phone";
-                balance = item.sourceBalance;
+                //balance = item.sourceBalance;
             } else {
-                "For " + toShortMobileNumberFormat(item.destinationId);
-                balance = item.sourceBalance;
+                narrative = "For " + toShortMobileNumberFormat(item.destinationId);
+                //balance = item.sourceBalance;
             }
-
+            //balance = item.beneficiaryBalance;
             dataSet.push( [
                 controller.shortDate (item.transactionDate ),
                 productDescription,
                 narrative,
-                formatCurrencyOrData( balance, 'money' ) ] );
+                item.paymentMethod.toLowerCase()] );
         });
 
         return dataSet;
@@ -2564,11 +3861,14 @@ var controller = {
     },
 
     shortDate : function( date ) {
-        // 2014-10-23 16:41:16
-        // Oct 23, 2014 2:27:36 PM
-//        console.log( date + " d " + date.substring(8, 10) + " m " + date.substring(5, 7) + " y " + date.substring(2, 4));
 
-        return date.substring(4, 6) + " " + date.substring(0, 3)  + " " + date.substring(10, 12);
+        try {
+            var tokens = date.split(' ');
+            var timeTokens = tokens[3].split(':');
+            return tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + timeTokens[0] + ":" + timeTokens[1];
+        } catch(Error) {
+            return "****";
+        }
     },
 
     userSession : function ( user ) {

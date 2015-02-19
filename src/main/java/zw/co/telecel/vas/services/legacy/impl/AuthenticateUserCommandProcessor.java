@@ -64,9 +64,11 @@ public class AuthenticateUserCommandProcessor implements WebAccessCommandProcess
             if ("active".equalsIgnoreCase( user.getStatus())) {
 
                 if (password == null || ! password.equals(user.getPassword())) {
-
-                    response.setUserAction( UserAction.INVALID_PASSWORD );
+                    UserAction userAction = UserDao.updateWrongPasswordCounter(user, mobileNumber);
+                    response.setUserAction( userAction );
                 } else {
+                    user.setWrongPasswordCounter(-1);
+                    UserDao.updateWrongPasswordCounter(user, mobileNumber);
 
                     response.setUserAction( UserAction.GRANT_ACCESS );
                     String sessionId = mobileNumber + new PasswordGenerator().getRandomPassword();
@@ -87,7 +89,9 @@ public class AuthenticateUserCommandProcessor implements WebAccessCommandProcess
 
                     userSessions.put(sessionId, new UserSession(mobileNumber, sessionId));
                 }
-            } else {
+            } else if ("locked".equalsIgnoreCase( user.getStatus())) {
+                response.setUserAction( UserAction.ACCOUNT_LOCKED );
+            } else{
 
                 new ActivationMessageQueue( securityTokenSender ).queue( user );
 

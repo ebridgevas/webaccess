@@ -7,6 +7,8 @@ var userSession;
 //var HTTP_URL = "http://196.2.77.14/televas-httpbridge-1.0";
 var HTTP_URL;
 
+
+
 $(document).ready(function(){
 
     HTTP_URL = "http://196.2.77.14/televas-httpbridge-1.0";
@@ -26,11 +28,4 @@ $(document).ready(function(){
     controller.init();
     viewer.init();
 
-//    controller.registerUserIdValidationEventsHandlers();
-
-//    ebridgePortletManager.init();
-
-//    setTimeout( initTwitter(), 5000 );
-
 });
-

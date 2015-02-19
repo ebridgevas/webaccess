@@ -79,23 +79,44 @@ public class BillingPlatformInterfaceImpl implements BillingPlatformInterface {
 
     @Override
     public BalanceDTO[] dataBundlePurchase( String uuid, String mobileNumber, String productCode, String beneficiaryId,
-                                            String paymentMethod, String oneTimePassword)
+                                            String paymentMethod, String oneTimePassword,
+                                            String dataBundleServiceCommand )
             throws RemoteException, TransactionException  {
 
         DataBundleDTO dataBundle = configurationService.config().getDataBundles().get(productCode);
 
-        return "PREPAID".equalsIgnoreCase( subscribedPackage( mobileNumber ) ) ?
-                  prepaidDataBundlePurchase.dataBundlePurchase( uuid, mobileNumber, dataBundle, beneficiaryId,
-                                                                paymentMethod, oneTimePassword)
-                   : postpaidDataBundlePurchase.dataBundlePurchase( uuid, mobileNumber, dataBundle, mobileNumber,
-                                                                    paymentMethod, oneTimePassword);
+        if ( "PREPAID".equalsIgnoreCase( subscribedPackage( mobileNumber ) ) ) {
+
+            if ( ! "PREPAID".equalsIgnoreCase( subscribedPackage( beneficiaryId )  ) ) {
+                throw new TransactionException("This service is for prepaid subscribers only.");
+            }
+
+            return prepaidDataBundlePurchase.dataBundlePurchase(
+                    uuid, mobileNumber, dataBundle, beneficiaryId, paymentMethod, oneTimePassword,
+                    dataBundleServiceCommand);
+        } else {
+
+            if ( mobileNumber.equals( beneficiaryId ) ) {
+                return postpaidDataBundlePurchase.dataBundlePurchase(
+                            uuid, mobileNumber, dataBundle, mobileNumber, paymentMethod, oneTimePassword, null);
+            } else {
+                throw new TransactionException("You can only buy postpaid bundle for own use.");
+            }
+
+        }
     }
 
     @Override
-    public BalanceDTO[] transfer( String uuid, String mobileNumber, String beneficiaryId, BigDecimal amount )
+    public BalanceDTO[] transfer(   String uuid,
+                                    String mobileNumber,
+                                    String beneficiaryId,
+                                    BigDecimal amount,
+                                    String paymentMethod,
+                                    String oneTimePassword )
             throws RemoteException, BalanceTransferReversalFailedException, TransactionException {
 
-        if ( ! "PREPAID".equalsIgnoreCase( subscribedPackage(mobileNumber) ) )
+        if ( ! "PREPAID".equalsIgnoreCase( subscribedPackage(mobileNumber) )
+                && "AIRTIME".equalsIgnoreCase( paymentMethod ) )
             throw new TransactionException(
                     "Mobile number 0" + mobileNumber.substring(3) + " is not on prepaid package");
 
@@ -103,7 +124,8 @@ public class BillingPlatformInterfaceImpl implements BillingPlatformInterface {
             throw new TransactionException(
                     "Mobile number 0" + beneficiaryId.substring(3) + " is not on prepaid package");
 
-        return prepaidBalanceTransfer.transfer( uuid, mobileNumber, beneficiaryId, amount );
+        return prepaidBalanceTransfer.transfer(
+                uuid, mobileNumber, beneficiaryId, amount, paymentMethod, oneTimePassword );
     }
 
     @Override
